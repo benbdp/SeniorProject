@@ -6,7 +6,7 @@ import itertools
 kernel1 = np.ones((4, 4), np.uint8)
 kernel2 = np.ones((9, 9), np.uint8)
 
-cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProjectCar/Lane_Detection/Lane_Images/lanelines.mov')
+cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/BlueLaneVideo.mov')
 
 num = 0
 try:
