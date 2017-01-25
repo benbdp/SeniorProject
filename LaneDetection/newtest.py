@@ -6,7 +6,7 @@ import itertools
 kernel1 = np.ones((4, 4), np.uint8)
 kernel2 = np.ones((9, 9), np.uint8)
 
-cap = cv2.VideoCapture('C:/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/lanelines.mov')
+cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/lanelines.mov')
 
 num = 0
 try:
@@ -14,24 +14,25 @@ try:
         num += 1
         #print(num)
         ret, frame = cap.read()
+        cv2.imshow('frame',frame)
         #print(ret)
         blur = cv2.GaussianBlur(frame, (5, 5), 3)
-        # cv2.imshow('blur',blur)
+        cv2.imshow('blur',blur)
         hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
         lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
         upper_blue = np.array([130, 255, 255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
         cv2.imshow('mask', mask)
         res = cv2.bitwise_and(frame, frame, mask=mask)  # Bitwise-AND mask and original image
-        # cv2.imshow('res',res)   # Show result
+        cv2.imshow('res',res)   # Show result
         dilation = cv2.dilate(mask, kernel1, iterations=1)
-        cv2.imshow('dilate',dilation)
+        #cv2.imshow('dilate',dilation)
         erosion = cv2.erode(dilation, kernel1, iterations=1)
-        cv2.imshow('erosion', erosion)
+        #cv2.imshow('erosion', erosion)
         edged = cv2.Canny(erosion, 50, 150)  # Detect edges with Canny
-        cv2.imshow('canny', edged)
+        #cv2.imshow('canny', edged)
         closing = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel2)
-        cv2.imshow('edgded', closing)
+        #cv2.imshow('edgded', closing)
         edges = cv2.Canny(erosion, 50, 150)
         cv2.imshow('final',edges)
         lines = cv2.HoughLines(edges, 1, math.pi / 180.0, 80, np.array([]), 0, 0)
