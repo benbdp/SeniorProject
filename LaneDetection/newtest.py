@@ -37,8 +37,21 @@ try:
         cv2.imshow('final',edges)
         lines = cv2.HoughLines(edges, 1, math.pi / 180.0, 80, np.array([]), 0, 0)
         a,b,c = lines.shape
+        print('a',a)
+        right_lines = []
+        left_lines = []
         for i in range(a):
             rho = lines[i][0][0]
+            print ('rho',rho)
+            if rho > 0:
+                right_lines.append()
+                print('right_lines', right_lines)
+            elif rho < 0:
+                left_lines.append()
+                print('left_lines',left_lines)
+
+
+
             if rho > 0:
                 theta = lines[i][0][1]
                 a = math.cos(theta)

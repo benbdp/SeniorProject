@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 import math
 
-cap = cv2.VideoCapture(0)
-while(1):
+cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/BlueLaneVideo.mov')
+while True:
     # Take each frame
     _, frame = cap.read()
     # Convert BGR to HSV
