@@ -136,11 +136,6 @@ try:
         #print('left_x1',left_x1)
         #print('left_x2',left_x2)
 
-
-
-
-
-
         # Draw the right and left lines on image
         if draw_right:
             cv2.line(frame, (right_x1, y1), (right_x2, y2), [255, 0, 0], 2)
@@ -163,26 +158,19 @@ try:
         #print(centerimgx)
         cv2.line(frame,(centerimgx,0),(centerimgx,426),[0, 0, 0], 2)
 
-
         cv2.line(frame, (centerimgx, y1), (centerx2, y2), [0, 0, 0], 2)
 
         opp = centerimgx-centerx2
 
         adj = height - y2
 
-
         errorangle = math.atan(opp/adj)
 
         angle = math.degrees(errorangle)
-
-
-
         print(angle)
 
         #print('centerx2',centerx2)
         #print('y2',y2)
-
-
         cv2.imshow('lines', frame)
 
 
