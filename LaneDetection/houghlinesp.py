@@ -10,12 +10,12 @@ import math
 kernel1 = np.ones((4, 4), np.uint8)
 kernel2 = np.ones((9, 9), np.uint8)
 
-cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/BlueLaneVideo.mov')
+cap = cv2.VideoCapture('C:/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/BlueLaneVideo.mov')
 trap_bottom_width = 0.85  # width of bottom edge of trapezoid, expressed as percentage of image width
 trap_top_width = 0.07  # ditto for top edge of trapezoid
 trap_height = 0.4  #
 
-try
+try:
     while True:
         ret, frame = cap.read()
         cv2.imshow('frame',frame)
@@ -36,12 +36,12 @@ try
         # cv2.imshow('canny', edged)
         closing = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel2)
         # cv2.imshow('edgded', closing)
-        print(frame.shape[0])
+        #print(frame.shape[0])
         #print(frame.shape)
         minLineLength = 50
         lines = cv2.HoughLinesP(image=edged, rho=0.02, theta=np.pi / 500, threshold=5, lines=np.array([]), minLineLength=minLineLength, maxLineGap=100)
         a, b, c = lines.shape
-        print(a)
+        #print(a)
         right_lines = []
         left_lines = []
         slope_threshold = 2
@@ -50,8 +50,8 @@ try
         draw_right = True
         draw_left = True
 
-        for i in range(a):
-            cv2.line(frame, (lines[i][0][0], lines[i][0][1]),(lines[i][0][2], lines[i][0][3]), (0, 255, 0), 3)
+        #for i in range(a):
+         #   cv2.line(frame, (lines[i][0][0], lines[i][0][1]),(lines[i][0][2], lines[i][0][3]), (0, 255, 0), 3)
 
         for line in lines:
             x1, y1, x2, y2 = line[0]
@@ -133,10 +133,10 @@ try
         left_x1 = int(left_x1)
         left_x2 = int(left_x2)
 
-        #print('right_x1',right_x1)
-        #print('right_x2',right_x2)
-        #print('left_x1',left_x1)
-        #print('left_x2',left_x2)
+        print('right_x1',right_x1)
+        print('right_x2',right_x2)
+        print('left_x1',left_x1)
+        print('left_x2',left_x2)
 
 
 
@@ -149,7 +149,24 @@ try
         if draw_left:
             cv2.line(frame, (left_x1, y1), (left_x2, y2), [255, 0, 0], 2)
 
-        #cv2.line(frame,(centerx2,y2),(centerx1,y1),[255, 0, 0], 2)
+
+
+        centerx1 = (left_x1 + right_x1) / 2
+        centerx2 = (left_x2 + right_x2) / 2
+
+        centerx1 = int(centerx1)
+        centerx2 = int(centerx2)
+        cv2.line(frame, (centerx1, y1),(centerx2, y2), [0, 0, 0], 2)
+
+        height,width,channels = frame.shape
+        #print(height)
+        centerimgx = width/2
+        centerimgx = int(centerimgx)
+        #print(centerimgx)
+        cv2.line(frame,(centerimgx,0),(centerimgx,426),[0, 0, 0], 2)
+
+
+        steeringerror =
 
         cv2.imshow('lines', frame)
 
