@@ -1,7 +1,3 @@
-import cv2
-import numpy as np
-
-
 import numpy as np
 import cv2
 import math
@@ -11,9 +7,9 @@ kernel1 = np.ones((4, 4), np.uint8)
 kernel2 = np.ones((9, 9), np.uint8)
 
 cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/BlueLaneVideo.mov')
-trap_bottom_width = 0.85  # width of bottom edge of trapezoid, expressed as percentage of image width
-trap_top_width = 0.07  # ditto for top edge of trapezoid
-trap_height = 0.4  #
+trap_bottom_width = 0.85
+trap_top_width = 0.07
+trap_height = 0.4
 
 try:
     while True:
@@ -26,154 +22,112 @@ try:
         upper_blue = np.array([130, 255, 255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
         cv2.imshow('mask', mask)
-        res = cv2.bitwise_and(frame, frame, mask=mask)  # Bitwise-AND mask and original image
+        res = cv2.bitwise_and(frame, frame, mask=mask)
         cv2.imshow('res', res)  # Show result
         dilation = cv2.dilate(mask, kernel1, iterations=3)
         cv2.imshow('dilate',dilation)
         erosion = cv2.erode(dilation, kernel1, iterations=1)
         cv2.imshow('erosion', erosion)
-        edged = cv2.Canny(erosion, 50, 150)  # Detect edges with Canny
-        # cv2.imshow('canny', edged)
+        edged = cv2.Canny(erosion, 50, 150)
         closing = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel2)
-        # cv2.imshow('edgded', closing)
         minLineLength = 50
         lines = cv2.HoughLinesP(image=edged, rho=0.02, theta=np.pi / 500, threshold=5, lines=np.array([]), minLineLength=minLineLength, maxLineGap=100)
         a, b, c = lines.shape
-        #print(a)
         right_lines = []
         left_lines = []
-        slope_threshold = 2
+        slopethreshold = 2
         slopes = []
-        newlines = []
+        editedlines = []
         draw_right = True
         draw_left = True
 
-        #for i in range(a):
-         #   cv2.line(frame, (lines[i][0][0], lines[i][0][1]),(lines[i][0][2], lines[i][0][3]), (0, 255, 0), 3)
+        for i in range(a):
+            cv2.line(frame, (lines[i][0][0], lines[i][0][1]),(lines[i][0][2], lines[i][0][3]), (0, 255, 0), 3)
 
         for line in lines:
             x1, y1, x2, y2 = line[0]
-            if x2 - x1 == 0.:  # corner case, avoiding division by 0
-                slope = 999.  # practically infinite slope
-            else:
-                slope = (y2 - y1) / (x2 - x1)
-
-                # Filter lines based on slope
-            if abs(slope) > slope_threshold:
+            slope = (y2 - y1) / (x2 - x1)
+            if abs(slope) > slopethreshold:
                 slopes.append(slope)
-                newlines.append(line)
+                editedlines.append(line)
 
-        lines = newlines
+        lines = editedlines
 
-        right_lines = []
-        left_lines = []
+        rightlanelines = []
+        leftlanelines = []
+
         for i, line in enumerate(lines):
             x1, y1, x2, y2 = line[0]
-            img_x_center = frame.shape[1] / 2  # x coordinate of center of image
-            if slopes[i] > 0 and x1 > img_x_center and x2 > img_x_center:
-                right_lines.append(line)
-            elif slopes[i] < 0 and x1 < img_x_center and x2 < img_x_center:
-                left_lines.append(line)
+            imgcenterx = frame.shape[1] / 2
+            if slopes[i] > 0 and x1 > imgcenterx and x2 > imgcenterx:
+                rightlanelines.append(line)
+            elif slopes[i] < 0 and x1 < imgcenterx and x2 < imgcenterx:
+                leftlanelines.append(line)
 
-        right_lines_x = []
-        right_lines_y = []
+        rightlanelinesx = []
+        rightlanelinesy = []
 
-        for line in right_lines:
+        for line in rightlanelines:
             x1, y1, x2, y2 = line[0]
 
-            right_lines_x.append(x1)
-            right_lines_x.append(x2)
+            rightlanelinesx.append(x1)
+            rightlanelinesx.append(x2)
 
-            right_lines_y.append(y1)
-            right_lines_y.append(y2)
+            rightlanelinesy.append(y1)
+            rightlanelinesy.append(y2)
 
-        if len(right_lines_x) > 0:
-            right_m, right_b = np.polyfit(right_lines_x, right_lines_y, 1)  # y = m*x + b
-        else:
-            right_m, right_b = 1, 1
-            draw_right = False
+        if len(rightlanelinesx) > 0:
+            rightslope, rightintercept = np.polyfit(rightlanelinesx, rightlanelinesy, 1)  # y = m*x + b
 
-        # Left lane lines
-        left_lines_x = []
-        left_lines_y = []
+        leftlanelinesx = []
+        leftlanelinesy = []
 
-        for line in left_lines:
+        for line in leftlanelines:
             x1, y1, x2, y2 = line[0]
 
-            left_lines_x.append(x1)
-            left_lines_x.append(x2)
+            leftlanelinesx.append(x1)
+            leftlanelinesx.append(x2)
 
-            left_lines_y.append(y1)
-            left_lines_y.append(y2)
+            leftlanelinesy.append(y1)
+            leftlanelinesy.append(y2)
 
-        if len(left_lines_x) > 0:
-            left_m, left_b = np.polyfit(left_lines_x, left_lines_y, 1)  # y = m*x + b
-        else:
-            left_m, left_b = 1, 1
-            draw_left = False
+        if len(leftlanelinesx) > 0:
+            leftslope, leftintercept = np.polyfit(leftlanelinesx, leftlanelinesy, 1)  # y = m*x + b
 
-        # Find 2 end points for right and left lines, used for drawing the line
-        # y = m*x + b --> x = (y - b)/m
-        y1 = frame.shape[0]
-        y2 = frame.shape[0] * (0.2)
+        height, width, channels = frame.shape
+        y1 = height
+        y2 = height * (0.3)
 
-        right_x1 = (y1 - right_b) / right_m
-        right_x2 = (y2 - right_b) / right_m
+        rightx1 = (y1 - rightintercept) / rightslope
+        rightx2 = (y2 - rightintercept) / rightslope
 
-        left_x1 = (y1 - left_b) / left_m
-        left_x2 = (y2 - left_b) / left_m
+        leftx1 = (y1 - leftintercept) / leftslope
+        leftx2 = (y2 - leftintercept) / leftslope
 
-        # Convert calculated end points from float to int
         y1 = int(y1)
         y2 = int(y2)
-        right_x1 = int(right_x1)
-        right_x2 = int(right_x2)
-        left_x1 = int(left_x1)
-        left_x2 = int(left_x2)
+        rightx1 = int(rightx1)
+        rightx2 = int(rightx2)
+        leftx1 = int(leftx1)
+        leftx2 = int(leftx2)
 
-        #print('right_x1',right_x1)
-        #print('right_x2',right_x2)
-        #print('left_x1',left_x1)
-        #print('left_x2',left_x2)
+        cv2.line(frame, (rightx1, y1), (rightx2, y2), [255, 0, 0], 2)
+        cv2.line(frame, (leftx1, y1), (leftx2, y2), [255, 0, 0], 2)
 
-        # Draw the right and left lines on image
-        if draw_right:
-            cv2.line(frame, (right_x1, y1), (right_x2, y2), [255, 0, 0], 2)
-        if draw_left:
-            cv2.line(frame, (left_x1, y1), (left_x2, y2), [255, 0, 0], 2)
+        centerlanex1 = (leftx1 + rightx1) / 2
+        centerlanex2 = (leftx2 + rightx2) / 2
 
-
-
-        centerx1 = (left_x1 + right_x1) / 2
-        centerx2 = (left_x2 + right_x2) / 2
-
-        centerx1 = int(centerx1)
-        centerx2 = int(centerx2)
-
-
-        height,width,channels = frame.shape
-        #print(height)
-        centerimgx = width/2
-        centerimgx = int(centerimgx)
-        #print(centerimgx)
-        cv2.line(frame,(centerimgx,0),(centerimgx,426),[0, 0, 0], 2)
-
-        cv2.line(frame, (centerimgx, y1), (centerx2, y2), [0, 0, 0], 2)
-
-        opp = centerimgx-centerx2
-
+        centerlanex1 = int(centerlanex1)
+        centerlanex2 = int(centerlanex2)
+        imgcenterx = int(imgcenterx)
+        cv2.line(frame,(imgcenterx,0),(imgcenterx,426),[0, 0, 0], 2)
+        cv2.line(frame, (imgcenterx, y1), (centerlanex2, y2), [0, 0, 0], 2)
+        opp = imgcenterx-centerlanex2
         adj = height - y2
-
-        errorangle = math.atan(opp/adj)
-
-        angle = math.degrees(errorangle)
+        steeringangle = math.atan(opp/adj)
+        angle = math.degrees(steeringangle)
         print(angle)
-
-        #print('centerx2',centerx2)
-        #print('y2',y2)
         cv2.imshow('lines', frame)
-
-
         cv2.waitKey(5)
 except KeyboardInterrupt:
         pass
