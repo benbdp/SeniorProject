@@ -37,6 +37,13 @@ if ret == True:
 
 retval, cameraMatrix, distCoeff, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
 
+print('retval',retval)
+print('cameraMatrix',cameraMatrix)
+print('distCoeff',distCoeff)
+print('rvecs',rvecs)
+print('tvecs',tvecs)
+
+
 # camera intrinsic parameters
 ay = cameraMatrix[1, 1]
 u0 = cameraMatrix[0, 2]
