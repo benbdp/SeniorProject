@@ -20,7 +20,7 @@ for fname in images:
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
     # Find the chess board corners
-    ret, corners = cv2.findChessboardCorners(gray, (7,6),None)
+    ret, corners = cv2.findChessboardCorners(gray, (9,6),None)
 
     # If found, add object points, image points (after refining them)
     if ret == True:
@@ -30,26 +30,16 @@ for fname in images:
         imgpoints.append(corners2)
 
         # Draw and display the corners
-        img = cv2.drawChessboardCorners(img, (7,6), corners2,ret)
+        img = cv2.drawChessboardCorners(img, (9,6), corners2,ret)
         cv2.imshow('img',img)
         cv2.waitKey(500)
-
-cv2.destroyAllWindows()
+        cv2.destroyAllWindows()
 
 
     retval, CameraMatrix, distCoeff, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
 
-print('ret',retval)
-print ('mtx',CameraMatrix)
-print('dist',distCoeff)
-print('rvecs',rvecs)
-print('tvecs',tvecs)
-
-
-
-
-
-# calibrate webcam and save output
-np.savez(('/Users/Benjamin/PycharmProjects/SeniorProjectCar/Camera_Calibration/Camera_Calibration_Images/webcam_calibration_ouput'), ret=retval, mtx=CameraMatrix, dist=distCoeff, rvecs=rvecs, tvecs=tvecs)
-np.savez(('/Users/Benjamin/PycharmProjects/SeniorProjectCar/Camera_Calibration/Camera_Calibration_Images/image_object_points'),objpoints=objpoints,imgpoints=imgpoints)
-
+    print('ret',retval)
+    print ('mtx',CameraMatrix)
+    print('dist',distCoeff)
+    print('rvecs',rvecs)
+    print('tvecs',tvecs)
