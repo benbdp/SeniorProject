@@ -6,7 +6,7 @@ import math
 kernel1 = np.ones((4, 4), np.uint8)
 kernel2 = np.ones((9, 9), np.uint8)
 
-cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/BlueLaneVideo.mov')
+cap = cv2.VideoCapture('C:/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/BlueLaneVideo.mov')
 trap_bottom_width = 0.85
 trap_top_width = 0.07
 trap_height = 0.4
@@ -41,8 +41,8 @@ try:
         draw_right = True
         draw_left = True
 
-        for i in range(a):
-            cv2.line(frame, (lines[i][0][0], lines[i][0][1]),(lines[i][0][2], lines[i][0][3]), (0, 255, 0), 3)
+        #for i in range(a):
+           # cv2.line(frame, (lines[i][0][0], lines[i][0][1]),(lines[i][0][2], lines[i][0][3]), (0, 255, 0), 3)
 
         for line in lines:
             x1, y1, x2, y2 = line[0]
@@ -111,8 +111,8 @@ try:
         leftx1 = int(leftx1)
         leftx2 = int(leftx2)
 
-        cv2.line(frame, (rightx1, y1), (rightx2, y2), [255, 0, 0], 2)
-        cv2.line(frame, (leftx1, y1), (leftx2, y2), [255, 0, 0], 2)
+        cv2.line(frame, (rightx1, y1), (rightx2, y2), [0, 0, 255], 2)
+        cv2.line(frame, (leftx1, y1), (leftx2, y2), [0, 0, 255], 2)
 
         centerlanex1 = (leftx1 + rightx1) / 2
         centerlanex2 = (leftx2 + rightx2) / 2
@@ -126,7 +126,7 @@ try:
         adj = height - y2
         steeringangle = math.atan(opp/adj)
         angle = math.degrees(steeringangle)
-        print(angle)
+        print('steering angle:',angle)
         cv2.imshow('lines', frame)
         cv2.waitKey(5)
 except KeyboardInterrupt:

@@ -1,25 +1,55 @@
 import cv2
 import numpy as np
 import glob
+import os
 
-a = np.load('/Users/Benjamin/PycharmProjects/SeniorProjectCar/Camera_Calibration/Camera_Calibration_Images/image_object_points.npz')
-b = np.load('/Users/Benjamin/PycharmProjects/SeniorProjectCar/Camera_Calibration/Camera_Calibration_Images/webcam_calibration_ouput.npz')
+# termination criteria
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+
+# 6x9 chess board, prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)
+object_point = np.zeros((6*9, 3), np.float32)
+object_point[:, :2] = np.mgrid[0:9, 0:6].T.reshape(-1, 2)
+
+# 3d point in real world space
+object_points = []
+# 2d points in image plane
+image_points = []
+h, w = 0, 0
+
+path = "/Users/Benjamin/PycharmProjects/SeniorProjectCar/Camera_Calibration/Camera_Calibration_Images"
+images = glob.glob(os.path.join(path, '*.jpg'))
+
+for file_name in images:
+    image = cv2.imread(file_name)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    height,width,channels = gray.shape[:2]
+
+    # find chess board corners
+    ret, corners = cv2.findChessboardCorners(gray, (9, 6), None)
+
+    # add object points, image points
+    if ret:
+        object_points.append(object_point)
+        cv2.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
+        image_points.append(corners)
+
+        # draw and display the corners
+        cv2.drawChessboardCorners(image, (9, 6), corners, ret)
+        cv2.imshow('image', image)
+        cv2.waitKey(500)
+
+# calibration
+retval, cameraMatrix, distCoeffs, rvecs, tvecs = cv2.calibrateCamera(object_points, image_points, (w, h), None, None)
 
 
-images = glob.glob('/Users/Benjamin/PycharmProjects/SeniorProjectCar/Camera_Calibration/Camera_Calibration_Images/*.jpg')
-num = 0
-tot_frames = 13
-while num < tot_frames:
-    for fname in images:
-        # read image
-        img = cv2.imread(fname)
-        h, w = img.shape[:2]
-        newcamera,roi=cv2.getOptimalNewCameraMatrix(b['mtx'],b['dist'],(w,h),1,(w,h))
-        newimg = cv2.undistort(img, b['mtx'], b['dist'], None, newcamera)
-        cv2.imwrite("/Users/Benjamin/PycharmProjects/SeniorProjectCar/Camera_Calibration/Undistort_Images/image%04i.jpg" % num, newimg)
-        num += 1
-        cv2.imshow('img',newimg)
-        cv2.waitKey()
-        cv2.destroyAllWindows()
+img = cv2.imread('left12.jpg')
+h,  w = img.shape[:2]
+newcameramtx, roi=cv2.getOptimalNewCameraMatrix(cameraMatrix,distCoeffs,(w,h),1,(w,h))
+# undistort
+dst = cv2.undistort(img, cameraMatrix, distCoeffs, None, newcameramtx)
 
-
+# crop the image
+x,y,w,h = roi
+dst = dst[y:y+h, x:x+w]
+cv2.imshow('calibresult.png',dst)
+cv2.waitKey()
