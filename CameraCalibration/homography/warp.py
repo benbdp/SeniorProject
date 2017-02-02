@@ -2,41 +2,15 @@ import cv2
 import numpy as np
 import matplotlib as plt
 
-img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/bluelane.jpg')
+src_img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/bluelane.jpg')
+cv2.imshow('src_img',src_img)
 
+src_pts = np.float32([[190,75],[470,70],[-10,380],[560,400]]) #src
+dst_pts = np.float32([[0,0],[640,0],[0,426],[640,426]]) #dst
 
-x1 =190
-y1 =75
-cv2.circle(img, (x1, y1), 3, (0, 255, 0), -1)
+M = cv2.getPerspectiveTransform(src_pts,dst_pts)
+dst_img = cv2.warpPerspective(src_img,M,(640,426))
 
-x1 =470
-y1 =70
-cv2.circle(img, (x1, y1), 3, (0, 255, 0), -1)
-
-x1 = -10
-y1 =380
-cv2.circle(img, (x1, y1), 3, (0, 255, 0), -1)
-
-x1 =550
-y1 =400
-cv2.circle(img, (x1, y1), 3, (0, 255, 0), -1)
-
-#cv2.imshow('points',img)
-cv2.imshow('img',img)
-height,width,ch = img.shape
-print(width,height)
-
-
-
-pts1 = np.float32([[190,75],[470,70],[-10,380],[560,400]]) #src
-pts2 = np.float32([[0,0],[640,0],[0,426],[640,426]]) #dst
-
-
-
-
-M = cv2.getPerspectiveTransform(pts1,pts2)
-dst = cv2.warpPerspective(img,M,(640,426))
-#cv2.imshow('img',img)
-cv2.imshow('dst',dst)
+#cv2.imshow('dst',dst_img)
 cv2.waitKey()
 cv2.destroyAllWindows()
