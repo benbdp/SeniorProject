@@ -12,19 +12,15 @@ kernel2 = np.ones((9, 9), np.uint8)
 trap_bottom_width = 0.85
 trap_top_width = 0.07
 trap_height = 0.4
-
-frame = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/CameraCalibration/bluelane.png')
+src_img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/CameraCalibration/undistort.png')
 while True:
-    h, w = frame.shape[:2]
-    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
-    undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
-    x, y, w, h = roi
-    undistort = undistort[y:y + h, x:x + w]
-    cv2.imshow('undistort', undistort)
+    cv2.imshow('src_img', src_img)
     src_pts = np.float32([[343, 386], [857, 386], [0, 558], [1256, 585]])  # src
-    dst_pts = np.float32([[0, 0], [342, 0], [0, 440], [344, 460]])  # dst
+    dst_pts = np.float32([[0, 0], [513, 0], [0, 660], [516, 690]])  # dst
     M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-    dst_img = cv2.warpPerspective(undistort, M, (460, 344))
+    dst_img = cv2.warpPerspective(src_img, M, (516, 690))
+
+    cv2.imshow('dst', dst_img)
     cv2.imshow('preview',dst_img)
 
     blur = cv2.GaussianBlur(dst_img, (5, 5), 3)
@@ -34,11 +30,11 @@ while True:
     upper_blue = np.array([130, 255, 255])
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
     cv2.imshow('mask', mask)
-    dilation = cv2.dilate(mask, kernel1, iterations=3)
+    dilation = cv2.dilate(mask, kernel1, iterations=5)
     cv2.imshow('dilate', dilation)
-    erosion = cv2.erode(dilation, kernel1, iterations=1)
-    cv2.imshow('erosion', erosion)
-    edged = cv2.Canny(erosion, 50, 150)
+    #erosion = cv2.erode(dilation, kernel1, iterations=1)
+    #cv2.imshow('erosion', erosion)
+    edged = cv2.Canny(dilation, 50, 150)
     closing = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel2)
     cv2.imshow('edged',edged)
     minLineLength = 50
@@ -112,7 +108,7 @@ while True:
         print('leftslope',leftslope)
         print('leftintercept', leftintercept)
 
-    height, width, channels = frame.shape
+    height, width, channels = dst_img.shape
     y1 = height
     y2 = height * (0.1)
 

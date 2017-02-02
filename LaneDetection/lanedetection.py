@@ -14,7 +14,7 @@ trap_top_width = 0.07
 trap_height = 0.4
 
 try:
-    vidStream = cv2.VideoCapture(1) # index of your camera
+    vidStream = cv2.VideoCapture(0) # index of your camera
 except:
     print ("problem opening input stream")
     sys.exit(1)
@@ -47,39 +47,31 @@ while True:
     edged = cv2.Canny(erosion, 50, 150)
     closing = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel2)
     cv2.imshow('edged',edged)
-    minLineLength = 50
-    lines = cv2.HoughLinesP(image=edged, rho=0.02, theta=np.pi / 500, threshold=5, lines=np.array([]),minLineLength=minLineLength, maxLineGap=100)
+    lines = cv2.HoughLinesP(image=edged, rho=0.02, theta=np.pi / 500, threshold=5, lines=np.array([]), minLineLength=50, maxLineGap=100)
     a, b, c = lines.shape
-    right_lines = []
-    left_lines = []
-    slopethreshold = 2
-    slopes = []
-    editedlines = []
-    draw_right = True
-    draw_left = True
+    print(a)
 
-    # for i in range(a):
-    # cv2.line(frame, (lines[i][0][0], lines[i][0][1]),(lines[i][0][2], lines[i][0][3]), (0, 255, 0), 3)
-
-    for line in lines:
-        x1, y1, x2, y2 = line[0]
-        slope = (y2 - y1) / (x2 - x1)
-        if abs(slope) > slopethreshold:
-            slopes.append(slope)
-            editedlines.append(line)
-
-    lines = editedlines
+    for i in range(a):
+        cv2.line(dst_img, (lines[i][0][0], lines[i][0][1]), (lines[i][0][2], lines[i][0][3]), (0, 255, 0), 3)
+    cv2.imshow('frame', dst_img)
 
     rightlanelines = []
     leftlanelines = []
 
     for i, line in enumerate(lines):
         x1, y1, x2, y2 = line[0]
-        imgcenterx = frame.shape[1] / 2
-        if slopes[i] > 0 and x1 > imgcenterx and x2 > imgcenterx:
-            rightlanelines.append(line)
-        elif slopes[i] < 0 and x1 < imgcenterx and x2 < imgcenterx:
+        print('x1', x1)
+        print('x2', x2)
+        imgcenterx = dst_img.shape[1] / 2
+
+        print('imgcenterx', imgcenterx)
+        if x1 < imgcenterx and x2 < imgcenterx:
             leftlanelines.append(line)
+        elif x1 > imgcenterx and x2 > imgcenterx:
+            rightlanelines.append(line)
+
+    print('rightlanelines', rightlanelines)
+    print('leftlanelines', leftlanelines)
 
     rightlanelinesx = []
     rightlanelinesy = []
@@ -93,9 +85,14 @@ while True:
         rightlanelinesy.append(y1)
         rightlanelinesy.append(y2)
 
+        print('rightlanelinesx', rightlanelinesx)
+        print('rightlanelinesy', rightlanelinesy)
+
     if len(rightlanelinesx) > 0:
         rightslope, rightintercept = np.polyfit(rightlanelinesx, rightlanelinesy, 1)  # y = m*x + b
 
+        print('rightslope', rightslope)
+        print('rightintercept', rightintercept)
     leftlanelinesx = []
     leftlanelinesy = []
 
@@ -108,12 +105,18 @@ while True:
         leftlanelinesy.append(y1)
         leftlanelinesy.append(y2)
 
+    print('leftlanelinesx', leftlanelinesx)
+    print('leftlanelinesy', leftlanelinesy)
+
     if len(leftlanelinesx) > 0:
         leftslope, leftintercept = np.polyfit(leftlanelinesx, leftlanelinesy, 1)  # y = m*x + b
 
-    height, width, channels = frame.shape
+        print('leftslope', leftslope)
+        print('leftintercept', leftintercept)
+
+    height, width, channels = dst_img.shape
     y1 = height
-    y2 = height * (0.3)
+    y2 = height * (0.1)
 
     rightx1 = (y1 - rightintercept) / rightslope
     rightx2 = (y2 - rightintercept) / rightslope
@@ -128,8 +131,8 @@ while True:
     leftx1 = int(leftx1)
     leftx2 = int(leftx2)
 
-    cv2.line(frame, (rightx1, y1), (rightx2, y2), [0, 0, 255], 2)
-    cv2.line(frame, (leftx1, y1), (leftx2, y2), [0, 0, 255], 2)
+    cv2.line(dst_img, (rightx1, y1), (rightx2, y2), [0, 0, 255], 2)
+    cv2.line(dst_img, (leftx1, y1), (leftx2, y2), [0, 0, 255], 2)
 
     centerlanex1 = (leftx1 + rightx1) / 2
     centerlanex2 = (leftx2 + rightx2) / 2
@@ -137,14 +140,15 @@ while True:
     centerlanex1 = int(centerlanex1)
     centerlanex2 = int(centerlanex2)
     imgcenterx = int(imgcenterx)
-    cv2.line(frame, (imgcenterx, 0), (imgcenterx, 426), [0, 0, 0], 2)
-    cv2.line(frame, (imgcenterx, y1), (centerlanex2, y2), [0, 0, 0], 2)
+    cv2.line(dst_img, (imgcenterx, 0), (imgcenterx, 100), [0, 0, 0], 2)
+    cv2.line(dst_img, (imgcenterx, y1), (centerlanex2, y2), [0, 0, 0], 2)
     opp = imgcenterx - centerlanex2
     adj = height - y2
     steeringangle = math.atan(opp / adj)
     angle = math.degrees(steeringangle)
     print('steering angle:', angle)
-    cv2.imshow('lines', frame)
+    cv2.imshow('lines', dst_img)
+
     cv2.waitKey(5)
 
 
