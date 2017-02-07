@@ -11,6 +11,7 @@ kernel1 = np.ones((4, 4), np.uint8)
 kernel2 = np.ones((9, 9), np.uint8)
 
 cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Movie on 2-2-17 at 1.58 AM.mov')
+
 trap_bottom_width = 0.85
 trap_top_width = 0.07
 trap_height = 0.4
@@ -19,15 +20,18 @@ try:
     while True:
         ret, frame = cap.read()
         h, w = frame.shape[:2]
+        print(h,w)
         newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
         undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
         x, y, w, h = roi
         undistort = undistort[y:y + h, x:x + w]
         cv2.imshow('undistort', undistort)
         src_pts = np.float32([[343, 386], [857, 386], [0, 558], [1256, 585]])  # src
-        dst_pts = np.float32([[0, 0], [342, 0], [0, 440], [344, 460]])  # dst
+
+        dst_pts = np.float32([[0, 0], [513, 0], [0, 660], [516, 690]])  # dst
+
         M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-        dst_img = cv2.warpPerspective(undistort, M, (460, 344))
+        dst_img = cv2.warpPerspective(frame, M, (516, 690))
         cv2.imshow('preview', dst_img)
 
 

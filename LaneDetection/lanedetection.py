@@ -14,7 +14,7 @@ trap_top_width = 0.07
 trap_height = 0.4
 
 try:
-    vidStream = cv2.VideoCapture(0) # index of your camera
+    vidStream = cv2.VideoCapture(1) # index of your camera
 except:
     print ("problem opening input stream")
     sys.exit(1)
@@ -27,10 +27,13 @@ while True:
     x, y, w, h = roi
     undistort = undistort[y:y + h, x:x + w]
     cv2.imshow('undistort', undistort)
+
     src_pts = np.float32([[343, 386], [857, 386], [0, 558], [1256, 585]])  # src
-    dst_pts = np.float32([[0, 0], [342, 0], [0, 440], [344, 460]])  # dst
+
+    dst_pts = np.float32([[0, 0], [513, 0], [0, 660], [516, 690]])  # dst
+
     M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-    dst_img = cv2.warpPerspective(undistort, M, (460, 344))
+    dst_img = cv2.warpPerspective(frame, M, (516, 690))
     cv2.imshow('preview',dst_img)
 
     blur = cv2.GaussianBlur(dst_img, (5, 5), 3)
