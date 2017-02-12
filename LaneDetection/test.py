@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 
+cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Movie on 2-2-17 at 1.58 AM.mov')
+
+
 def blur(img):
     return cv2.GaussianBlur(img, (5, 5), 3)
 
@@ -29,3 +32,10 @@ def undistort(img,mtx,dist):
 
 def houghtransform(img,rho,theta,threshold,min_len,max_gap):
     return cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), min_len, max_gap)
+
+try:
+    while True:
+        ret, frame = cap.read()
+
+except KeyboardInterrupt:
+        pass
