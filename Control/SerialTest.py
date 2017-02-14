@@ -3,6 +3,31 @@
 import time
 import cv2
 #import RPi.GPIO as GPIO
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+
+
+
+
+camera = PiCamera()
+camera.resolution = (640,480)
+
+camera.framerate = 32
+
+rawCapture = PiRGBArray(camera, size=(640,480))
+
+time.sleep(0.1)
+
+for frame in camera.capture_continuous(rawCapture,format='bgr',use_video_port=True):
+    image = frame.array
+
+    cv2.imshow('frame',image)
+    key = cv2.waitKey(1) & 0xFF
+    rawCapture.truncate(0)
+
+    if key == ord('q'):
+        break
+
 distance = 5
 distance_limit = 10
 motor_speed = 0
@@ -98,18 +123,7 @@ while True:
         motor_speed = 100
         # ser.write('m%d'%motor_speed)
         print('m%d' % motor_speed)
-        num = 1
-
-    elif (right_distance < distance_limit) and (left_distance < distance_limit):
-        motor_speed = 0
-        # ser.write('m%d'%0)
-        print('m%d' % motor_speed)
-        num = 0
-
     else:
         motor_speed=0
         print('m%d' % motor_speed)
         num = 0
-
-    while num == 1:
-        print()

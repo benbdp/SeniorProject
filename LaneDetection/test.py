@@ -3,9 +3,10 @@ import numpy as np
 
 cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Movie on 2-2-17 at 1.58 AM.mov')
 
+kernel_size = 3
 
-def blur(img):
-    return cv2.GaussianBlur(img, (5, 5), 3)
+def blur(img,kernel_size):
+    return cv2.GaussianBlur(img, (kernel_size, kernel_size), 1)
 
 def hsv(img):
     return cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -36,6 +37,7 @@ def houghtransform(img,rho,theta,threshold,min_len,max_gap):
 try:
     while True:
         ret, frame = cap.read()
-
+        cv2.imshow('frame',frame)
+        cv2.waitKey(5)
 except KeyboardInterrupt:
         pass
