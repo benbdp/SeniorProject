@@ -3,30 +3,7 @@
 import time
 import cv2
 #import RPi.GPIO as GPIO
-from picamera.array import PiRGBArray
-from picamera import PiCamera
 
-
-
-
-camera = PiCamera()
-camera.resolution = (640,480)
-
-camera.framerate = 32
-
-rawCapture = PiRGBArray(camera, size=(640,480))
-
-time.sleep(0.1)
-
-for frame in camera.capture_continuous(rawCapture,format='bgr',use_video_port=True):
-    image = frame.array
-
-    cv2.imshow('frame',image)
-    key = cv2.waitKey(1) & 0xFF
-    rawCapture.truncate(0)
-
-    if key == ord('q'):
-        break
 
 distance = 5
 distance_limit = 10
@@ -89,21 +66,8 @@ while True:
     time.sleep(0.1) # sampling rate
 
 
-    #distance1 = ultrasonicleft()
-    #distance2 = ultrasonicright()
-    #if distance1 > 0 and distance1 < 10:
-     #   print("Blocked")
-     #   GPIO.output(18, GPIO.LOW)
-    #else:
-      #  print("Distance-Left : %.1f cm" % distance1)
-      #  GPIO.output(18, GPIO.HIGH)
-
-   # if distance2 > 0 and distance2 < 10:
-      #  print("Blocked")
-      #  GPIO.output(16, GPIO.LOW)
-    #else:
-      #  print("Distance-Right : %.1f cm" % distance2)
-     #   GPIO.output(16, GPIO.HIGH)
+    #distance_left = ultrasonicleft()
+    #distance_right = ultrasonicright()
 
     #
     #

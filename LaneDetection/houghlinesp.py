@@ -112,6 +112,13 @@ try:
         leftx2 = int(leftx2)
 
         cv2.line(frame, (rightx1, y1), (rightx2, y2), [0, 0, 255], 2)
+
+        print('rightx1',rightx1)
+        print('rightx2', rightx2)
+        print('leftx1', leftx1)
+        print('leftx2', leftx2)
+        print('y1',y1)
+        print('y2',y2)
         cv2.line(frame, (leftx1, y1), (leftx2, y2), [0, 0, 255], 2)
 
         centerlanex1 = (leftx1 + rightx1) / 2
