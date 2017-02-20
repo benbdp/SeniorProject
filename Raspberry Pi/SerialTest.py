@@ -61,7 +61,6 @@ def ultrasonicright():
 
     return right_distance
 
-
 while True:
     time.sleep(0.01) # sampling rate
     left_distance = ultrasonicleft()
