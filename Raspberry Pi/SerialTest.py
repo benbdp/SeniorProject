@@ -85,9 +85,10 @@ while True:
 
     if (right_distance > distance_limit) and (left_distance > distance_limit):
         motor_speed = 100
-        # ser.write('m%d'%motor_speed)
+        ser.write('m%d'%motor_speed)
         print('m%d' % motor_speed)
     else:
         motor_speed=0
+        ser.write('m%d' % motor_speed)
         print('m%d' % motor_speed)
         num = 0
