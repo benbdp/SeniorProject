@@ -66,12 +66,12 @@ while True:
     left_distance = ultrasonicleft()
     right_distance = ultrasonicright()
     if (right_distance > distance_limit) and (left_distance > distance_limit):
-        motor_speed = (bytes(100, 'UTF-8'))
-        ser.write(motor_speed+(bytes("m", 'UTF-8')))
+        motor_speed = (bytes(100, 'ASCII'))
+        ser.write(motor_speed+(bytes("m", 'ASCII')))
         #print(motor_speed+"m,")
-        print(motor_speed + (bytes("m", 'UTF-8')))
+        print(motor_speed + (bytes("m", 'ASCII')))
     else:
-        motor_speed = (bytes(0, 'UTF-8'))
-        ser.write(motor_speed+(bytes("m", 'UTF-8')))
+        motor_speed = (bytes(0, 'ASCII'))
+        ser.write(motor_speed+(bytes("m", 'ASCII')))
         #print(motor_speed+"m,")
-        print(motor_speed+(bytes("m", 'UTF-8')))
+        print(motor_speed+(bytes("m", 'ASCII')))
