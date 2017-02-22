@@ -60,18 +60,22 @@ def ultrasonicright():
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
-
-while True:
-    time.sleep(0.01) # sampling rate
-    left_distance = ultrasonicleft()
-    right_distance = ultrasonicright()
-    if (right_distance > distance_limit) and (left_distance > distance_limit):
-        motor_speed = (bytes(100, 'ASCII'))
-        ser.write(motor_speed+(bytes("m", 'ASCII')))
-        #print(motor_speed+"m,")
-        print(motor_speed + (bytes("m", 'ASCII')))
-    else:
-        motor_speed = (bytes(0, 'ASCII'))
-        ser.write(motor_speed+(bytes("m", 'ASCII')))
-        #print(motor_speed+"m,")
-        print(motor_speed+(bytes("m", 'ASCII')))
+try:
+    while True:
+        ser.isOpen()
+        time.sleep(0.01) # sampling rate
+        left_distance = ultrasonicleft()
+        right_distance = ultrasonicright()
+        if (right_distance > distance_limit) and (left_distance > distance_limit):
+            motor_speed = (bytes(100, 'ascii'))
+            ser.write(motor_speed+(bytes("m", 'ascii')))
+            #print(motor_speed+"m,")
+            print(motor_speed + (bytes("m", 'ascii')))
+        else:
+            motor_speed = (bytes(0, 'ascii'))
+            ser.write(motor_speed+(bytes("m", 'ascii')))
+            #print(motor_speed+"m,")
+            print(motor_speed+(bytes("m", 'ascii')))
+except KeyboardInterrupt:
+    ser.close()
+    pass

@@ -1,4 +1,2 @@
-import serial
-ser = serial.Serial('/dev/ttyACM0', 9600)
-ser.write('3')
-
+motor_speed = str(0)
+print(motor_speed + (str('m,')))
