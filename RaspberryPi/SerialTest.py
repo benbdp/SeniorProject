@@ -70,13 +70,12 @@ try:
             motor_speed = str(100)
             msg = motor_speed + str('m')
             print([ord(c) for c in msg])
-            #print(motor_speed+"m,")
-            #print(motor_speed + ord('m'))
+            ser.write([ord(c) for c in msg])
         else:
             motor_speed = str(0)
             msg = motor_speed + str('m')
             print([ord(c) for c in msg])
-            #print(motor_speed+"m,")
+            ser.write([ord(c) for c in msg])
 except KeyboardInterrupt:
     print("Usser Stopped")
     ser.close()
