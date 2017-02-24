@@ -72,7 +72,7 @@ try:
             #print(motor_speed+"m,")
             print(motor_speed + ord('m'))
         else:
-            motor_speed = int(100)
+            motor_speed = int(0)
             ser.write(motor_speed)
             #print(motor_speed+"m,")
             print(motor_speed)
