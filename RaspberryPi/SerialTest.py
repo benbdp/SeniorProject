@@ -70,12 +70,12 @@ try:
             #motor_speed = (bytes(100, 'ascii'))
             #ser.write(motor_speed+(bytes("m", 'ascii')))
             #print(motor_speed+"m,")
-            print(motor_speed + (bytes("m", 'ascii')))
+            #print(motor_speed + (bytes("m", 'ascii')))
         else:
             #motor_speed = (bytes(0, 'ascii'))
             #ser.write(motor_speed+(bytes("m", 'ascii')))
             #print(motor_speed+"m,")
-            print(motor_speed+(bytes("m", 'ascii')))
+            #print(motor_speed+(bytes("m", 'ascii')))
 except KeyboardInterrupt:
     #ser.close()
     pass
