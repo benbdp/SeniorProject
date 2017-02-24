@@ -67,15 +67,15 @@ try:
         right_distance = ultrasonicright()
         print(right_distance)
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            motor_speed = (bytes(100, 'ascii'))
+            motor_speed = ord(100)
             #ser.write(motor_speed+(bytes("m", 'ascii')))
             #print(motor_speed+"m,")
-            print(motor_speed + (bytes("m", 'ascii')))
+            print(motor_speed + ord(m))
         else:
-            motor_speed = (bytes(0, 'ascii'))
+            motor_speed = ord(100)
             #ser.write(motor_speed+(bytes("m", 'ascii')))
             #print(motor_speed+"m,")
-            print(motor_speed+(bytes("m", 'ascii')))
+            print(motor_speed+ord('m'))
 except KeyboardInterrupt:
     print("Usser Stopped")
     #ser.close()
