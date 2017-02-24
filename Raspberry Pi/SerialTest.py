@@ -12,16 +12,14 @@ motor_speed = 0
 #left_distance = int(input('enter left_distance: '))
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-TRIGGERRIGHT = 21
-ECHORIGHT = 20
+TRIGGERRIGHT = 25
+ECHORIGHT = 24
 GPIO.setup(TRIGGERRIGHT, GPIO.OUT)
 GPIO.setup(ECHORIGHT, GPIO.IN)
-TRIGGERLEFT = 14
-ECHOLEFT = 15
+TRIGGERLEFT = 18
+ECHOLEFT = 23
 GPIO.setup(TRIGGERLEFT, GPIO.OUT)
 GPIO.setup(ECHOLEFT, GPIO.IN)
-GPIO.setup(16, GPIO.OUT)
-GPIO.setup(18, GPIO.OUT)
 
 
 def ultrasonicleft():
