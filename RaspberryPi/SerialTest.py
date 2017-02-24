@@ -66,12 +66,12 @@ try:
         print(left_distance)
         right_distance = ultrasonicright()
         print(right_distance)
-        if (right_distance > distance_limit) and (left_distance > distance_limit):
+        #if (right_distance > distance_limit) and (left_distance > distance_limit):
             #motor_speed = (bytes(100, 'ascii'))
             #ser.write(motor_speed+(bytes("m", 'ascii')))
             #print(motor_speed+"m,")
             #print(motor_speed + (bytes("m", 'ascii')))
-        else:
+        #else:
             #motor_speed = (bytes(0, 'ascii'))
             #ser.write(motor_speed+(bytes("m", 'ascii')))
             #print(motor_speed+"m,")
