@@ -69,13 +69,13 @@ try:
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             motor_speed = str(100)
             msg = motor_speed + str('m')
-            print(ord(c) for c in msg)
+            print([ord(c) for c in msg])
             #print(motor_speed+"m,")
             #print(motor_speed + ord('m'))
         else:
             motor_speed = str(0)
             msg = motor_speed + str('m')
-            print(ord(c) for c in msg)
+            print([ord(c) for c in msg])
             #print(motor_speed+"m,")
 except KeyboardInterrupt:
     print("Usser Stopped")
