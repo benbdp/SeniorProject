@@ -77,5 +77,6 @@ try:
             #print(motor_speed+"m,")
             #print(motor_speed+(bytes("m", 'ascii')))
 except KeyboardInterrupt:
+    print("Usser Stopped")
     #ser.close()
     pass
