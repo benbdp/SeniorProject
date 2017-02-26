@@ -17,5 +17,6 @@ camera.capture(rawCapture, format="bgr")
 image = rawCapture.array
 # display the image on screen and wait for a keypress
 
-entry = str(input('enter s or d: '))
-print entry
+cv2.imshow('img',image)
+cv2.waitKey()
+cv2.destroyAllWindows()
