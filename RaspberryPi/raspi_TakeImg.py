@@ -20,7 +20,7 @@ image = rawCapture.array
 while num < maxFrames:
     cv2.imshow("Image", image)
     cv2.waitKey()
-    if input() =='s':
+    if input() == str('s'):
         cv2.imwrite("path/image%04i.jpg" % num, image)
         num += 1
         print("image%02i.jpg" % num)
