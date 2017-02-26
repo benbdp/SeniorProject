@@ -20,8 +20,6 @@ image = rawCapture.array
 
 while True:
         try:
-            number1 = float(input("Enter the first number: "))
-            number2 = float(input("Enter the second number: "))
+            entry = str(input("Enter s or d: "))
         except:
-            print "That is not a number!"
             continue
