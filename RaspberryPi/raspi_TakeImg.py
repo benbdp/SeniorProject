@@ -18,17 +18,14 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # grab the raw NumPy array representing the image, then initialize the timestamp
     # and occupied/unoccupied text
     image = frame.array
-    entry = int(input("Enter 1 to save or 2 to retake: "))
+
     # show the frame
     cv2.imshow("Frame", image)
-    if entry == 1:
-        print "save"
-    if entry == 2:
-        print "retake"
+    key = cv2.waitKey(1) & 0xFF
 
     # clear the stream in preparation for the next frame
     rawCapture.truncate(0)
 
-    # if the `9` key was pressed, break from the loop
-    if entry == 9:
+    # if the `q` key was pressed, break from the loop
+    if key == ord("q"):
         break
