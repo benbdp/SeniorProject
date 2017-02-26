@@ -17,14 +17,5 @@ camera.capture(rawCapture, format="bgr")
 image = rawCapture.array
 # display the image on screen and wait for a keypress
 
-while num < maxFrames:
-    cv2.imshow("Image", image)
-    cv2.waitKey()
-    entry = str(input('enter s or d: '))
-    if entry == 's':
-        cv2.imwrite("path/image%04i.jpg" % num, image)
-        num += 1
-        print("image%02i.jpg" % num)
-
-    else:
-        pass
+entry = str(input('enter s or d: '))
+print entry
