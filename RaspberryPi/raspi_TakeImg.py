@@ -18,12 +18,10 @@ image = rawCapture.array
 # display the image on screen and wait for a keypress
 
 
-entry = str(input("enter s or d: "))
-
 while True:
-
-    if entry == str('s'):
-        print "hi"
-
-    else:
-        print "bye"
+        try:
+            number1 = float(input("Enter the first number: "))
+            number2 = float(input("Enter the second number: "))
+        except:
+            print "That is not a number!"
+            continue
