@@ -18,8 +18,9 @@ image = rawCapture.array
 # display the image on screen and wait for a keypress
 
 
+entry = str(input("enter s or d: "))
+
 while True:
-    entry = str(input("enter s or d: "))
 
     if entry == str('s'):
         print "hi"
