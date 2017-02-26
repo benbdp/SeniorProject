@@ -19,7 +19,9 @@ image = rawCapture.array
 
 
 while True:
-        try:
-            entry = str(input("Enter s or d: "))
-        except:
-            continue
+    entry = int(input("Enter 1 to save or 2 to retake: "))
+    cv2.imshow('img',image)
+    if entry == 1:
+        print "save"
+    if entry == 2:
+        print "retake"
