@@ -27,7 +27,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     entry = int(input("Enter 1 to save: "))
 
     if (entry == int(1)):
-        cv2.imwrite("/home/pi/Cal_Imgsimage%04i.jpg" % num, image)
+        cv2.imwrite("/home/pi/Cal_Imgs/image%04i.jpg" % num, image)
         num = num + 1
 
     # clear the stream in preparation for the next frame
