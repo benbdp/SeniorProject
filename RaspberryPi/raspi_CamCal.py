@@ -12,8 +12,8 @@ objp[:,:2] = np.mgrid[0:9,0:6].T.reshape(-1,2)
 # Arrays to store object points and image points from all the images.
 objpoints = [] # 3d point in real world space
 imgpoints = [] # 2d points in image plane.
-path = "/Users/Benjamin/PycharmProjects/SeniorProject/CameraCalibration/CameraCal/"
-images = glob.glob(os.path.join(path, '*.png'))
+path = "/home/pi/Cal_Imgs"
+images = glob.glob(os.path.join(path, '*.jpg'))
 
 for fname in images:
     img = cv2.imread(fname)
@@ -35,7 +35,7 @@ for fname in images:
         cv2.imshow('img',img)
         cv2.waitKey(500)
 
-retval, cameramatrix, distortioncoeff, rotationvector, translationvector = cv2.calibrateCamera(objpoints, imgpoints, (1280,720), None, None)
+retval, cameramatrix, distortioncoeff, rotationvector, translationvector = cv2.calibrateCamera(objpoints, imgpoints, (640,480), None, None)
 
 print('matrix',cameramatrix)
 print('dist',distortioncoeff)
