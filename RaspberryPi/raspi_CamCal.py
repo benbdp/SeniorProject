@@ -14,8 +14,9 @@ objpoints = [] # 3d point in real world space
 imgpoints = [] # 2d points in image plane.
 path = "/home/pi/Cal_Imgs"
 images = glob.glob(os.path.join(path, '*.jpg'))
-
+num = 1
 for fname in images:
+    print num
     img = cv2.imread(fname)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     print(gray.shape[::-1])
@@ -33,7 +34,8 @@ for fname in images:
         # Draw and display the corners
         img = cv2.drawChessboardCorners(img, (9,6), corners2,ret)
         cv2.imshow('img',img)
-        cv2.waitKey(1000)
+        cv2.waitKey(10000)
+        num = num + 1
 
 retval, cameramatrix, distortioncoeff, rotationvector, translationvector = cv2.calibrateCamera(objpoints, imgpoints, (640,480), None, None)
 
