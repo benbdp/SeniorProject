@@ -30,6 +30,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.imwrite("/home/pi/Cal_Imgs/image%04i.jpg" % num, image)
         num = num + 1
     else:
+        time.sleep(3)
         pass
 
     # clear the stream in preparation for the next frame
