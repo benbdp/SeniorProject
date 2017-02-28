@@ -22,11 +22,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
     # show the frame
     cv2.imshow("Frame", image)
-    cv2.waitKey(1)
+    cv2.waitKey(1000)
 
     entry = int(input("Enter 1 to save: "))
 
-    if (entry == int(500)):
+    if (entry == int(1)):
         cv2.imwrite("/home/pi/Cal_Imgs/image%04i.jpg" % num, image)
         num = num + 1
     else:
