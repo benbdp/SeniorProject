@@ -21,7 +21,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
     # show the frame
     cv2.imshow("Frame", image)
-    cv2.waitkey()
+    cv2.waitKey()
 
     # clear the stream in preparation for the next frame
     rawCapture.truncate(0)
