@@ -90,8 +90,8 @@ class PID:
 	def getDerivator(self):
 		return self.Derivator
 
-
-p = PID(3.0,0.4,1.2)
+PID()
+p = PID(1,0,0)
 p.setPoint(0.0)
 while True:
     pid = p.update(int(input("enter val: ")))
