@@ -1,44 +1,19 @@
-# import the necessary packages
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-import time
 import cv2
+import picamera
+import picamera.array
 
-# initialize the camera and grab a reference to the raw camera capture
-camera = PiCamera()
-rawCapture = PiRGBArray(camera)
+with picamera.PiCamera() as camera:
+    with picamera.array.PiRGBArray(camera) as stream:
+        camera.resolution = (320, 240)
 
-# allow the camera to warmup
-time.sleep(0.1)
+        while True:
+            camera.capture(stream, 'bgr', use_video_port=True)
+            # stream.array now contains the image data in BGR order
+            cv2.imshow('frame', stream.array)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+            # reset the stream before the next capture
+            stream.seek(0)
+            stream.truncate()
 
-# grab an image from the camera
-camera.capture(rawCapture, format="bgr")
-image = rawCapture.array
-
-# display the image on screen and wait for a keypress
-cv2.imshow("Image", image)
-cv2.waitKey(0)
-
-
-
-time.sleep(0.1)
-
-# grab an image from the camera
-camera.capture(rawCapture, format="bgr")
-image = rawCapture.array
-
-# display the image on screen and wait for a keypress
-cv2.imshow("Image", image)
-cv2.waitKey(0)
-
-
-
-time.sleep(0.1)
-
-# grab an image from the camera
-camera.capture(rawCapture, format="bgr")
-image = rawCapture.array
-
-# display the image on screen and wait for a keypress
-cv2.imshow("Image", image)
-cv2.waitKey(0)
+        cv2.destroyAllWindows()
