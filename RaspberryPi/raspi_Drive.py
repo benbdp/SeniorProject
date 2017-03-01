@@ -87,12 +87,6 @@ try:
             servo_angle = str(97)
             print motor_speed + str('m,')
             ser.write (motor_speed + str('m,') + servo_angle + str('s,'))
-            camera.capture(rawCapture, format="bgr")
-            image = rawCapture.array
-
-            # display the image on screen and wait for a keypress
-            cv2.imshow("Image", image)
-            cv2.waitKey(5)
 
 
 
