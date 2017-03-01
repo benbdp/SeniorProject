@@ -19,6 +19,8 @@ image = rawCapture.array
 cv2.imshow("Image", image)
 cv2.waitKey(0)
 
+
+
 time.sleep(0.1)
 
 # grab an image from the camera
@@ -28,6 +30,8 @@ image = rawCapture.array
 # display the image on screen and wait for a keypress
 cv2.imshow("Image", image)
 cv2.waitKey(0)
+
+
 
 time.sleep(0.1)
 
