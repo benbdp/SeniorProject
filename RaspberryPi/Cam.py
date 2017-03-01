@@ -72,7 +72,7 @@ with picamera.PiCamera() as camera:
         with picamera.array.PiRGBArray(camera) as stream:
             camera.capture(stream, 'bgr', use_video_port=True)
             hsv = cv2.cvtColor(stream.array, cv2.COLOR_BGR2HSV)
-            cv2.imshow('frame', hsv)
+            #cv2.imshow('frame', hsv)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
@@ -80,18 +80,16 @@ with picamera.PiCamera() as camera:
         #print(left_distance)
         right_distance = ultrasonicright()
         #print(right_distance)
-
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             motor_speed = str(60)
             servo_angle = str(97)
             #print motor_speed + str('m,')
             ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
-
-
         else:
             motor_speed = str(0)
             #print motor_speed + str('m,')
             ser.write(motor_speed + str('m,'))
+    # Protocol if user stops program
     cv2.destroyAllWindows()
     print "User Stopped!"
     motor_speed = str(0)
