@@ -29,13 +29,12 @@ camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
-dist_coeff = np.matrix( [0.1936,-0.5185,-0.0012,-8.6415,0.3824])
-#print dist_coeff
-
 camera_matrix = np.matrix([[  494.1907, 0.0, 0.0], [0.0 , 492.6565, 0.0], [ 319.8568, 242.5021, 1.0]])
 
 print camera_matrix
 
+dist_coeff = np.matrix( [0.1936,-0.5185,-0.0012,-8.6415,0.3824])
+print dist_coeff
 
 
 def ultrasonicleft():
