@@ -75,8 +75,6 @@ with picamera.PiCamera() as camera:
             print(h, w)
             newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
             undistort = cv2.undistort(stream.array, mtx, dist, None, newcameramtx)
-            x, y, w, h = roi
-            undistort = undistort[y:y + h, x:x + w]
             cv2.imshow('undistort', undistort)
             #hsv = cv2.cvtColor(stream.array, cv2.COLOR_BGR2HSV)
             #cv2.imshow('frame', hsv)
