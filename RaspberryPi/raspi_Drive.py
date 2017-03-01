@@ -87,7 +87,7 @@ try:
         print(right_distance)
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             motor_speed = str(70)
-            servo_angle = str(120)
+            servo_angle = str(97)
             print motor_speed + str('m,')
             ser.write (motor_speed + str('m,') + servo_angle + str('s,'))
 
@@ -127,6 +127,7 @@ try:
 
 
 
+
         else:
             motor_speed = str(0)
             print motor_speed + str('m,')
@@ -134,5 +135,7 @@ try:
 
 except KeyboardInterrupt:
     print "User Stopped"
-    ser.close()
+    motor_speed = str(0)
+    print motor_speed + str('m,')
+    ser.write(motor_speed + str('m,'))
     pass
