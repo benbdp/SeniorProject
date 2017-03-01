@@ -1,5 +1,5 @@
-#import serial
-#ser = serial.Serial('/dev/ttyACM0', 9600)
+import serial
+ser = serial.Serial('/dev/ttyACM0', 9600)
 import time
 import cv2
 import RPi.GPIO as GPIO
@@ -76,10 +76,10 @@ def ultrasonicright():
 
     return right_distance
 
-
+ser.isOpen()
 try:
     while True:
-        #ser.isOpen()
+
         time.sleep(0.01) # sampling rate
         left_distance = ultrasonicleft()
         print(left_distance)
@@ -88,7 +88,7 @@ try:
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             motor_speed = str(100)
             print motor_speed + str('m,')
-            #ser.write (motor_speed + str('m,'))
+            ser.write (motor_speed + str('m,'))
 
             # Camera stuff
             #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -129,8 +129,8 @@ try:
         else:
             motor_speed = str(0)
             print motor_speed + str('m,')
-            #ser.write(motor_speed + str('m,'))
+            ser.write(motor_speed + str('m,'))
 except KeyboardInterrupt:
     print "User Stopped"
-    #ser.close()
+    ser.close()
     pass
