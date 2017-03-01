@@ -11,11 +11,27 @@ rawCapture = PiRGBArray(camera)
 # allow the camera to warmup
 time.sleep(0.1)
 
-while True:
-    # grab an image from the camera
-    camera.capture(rawCapture, format="bgr")
-    image = rawCapture.array
+# grab an image from the camera
+camera.capture(rawCapture, format="bgr")
+image = rawCapture.array
 
-    # display the image on screen and wait for a keypress
-    cv2.imshow("Image", image)
-    cv2.waitKey(0)
+# display the image on screen and wait for a keypress
+cv2.imshow("Image", image)
+cv2.waitKey(0)
+
+# grab an image from the camera
+camera.capture(rawCapture, format="bgr")
+image = rawCapture.array
+
+# display the image on screen and wait for a keypress
+cv2.imshow("Image", image)
+cv2.waitKey(0)
+
+
+# grab an image from the camera
+camera.capture(rawCapture, format="bgr")
+image = rawCapture.array
+
+# display the image on screen and wait for a keypress
+cv2.imshow("Image", image)
+cv2.waitKey(0)
