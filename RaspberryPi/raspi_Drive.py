@@ -83,6 +83,9 @@ with picamera.PiCamera() as camera:
                 servo_angle = str(97)
                 print motor_speed + str('m,')
                 ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
+                blur = cv2.GaussianBlur(stream.array, (5, 5), 3)
+                cv2.imshow('blur', blur)
+
 
             else:
                 motor_speed = str(0)
