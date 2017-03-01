@@ -86,7 +86,7 @@ try:
         right_distance = ultrasonicright()
         print(right_distance)
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            motor_speed = str(70)
+            motor_speed = str(60)
             servo_angle = str(97)
             print motor_speed + str('m,')
             ser.write (motor_speed + str('m,') + servo_angle + str('s,'))
