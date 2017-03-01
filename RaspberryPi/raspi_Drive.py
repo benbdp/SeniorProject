@@ -76,8 +76,12 @@ with picamera.PiCamera() as camera:
             newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
             undist = cv2.undistort(frame, mtx, dist, None, newcameramtx)
             hsv = cv2.cvtColor(undist, cv2.COLOR_BGR2HSV)
-            cv2.imshow('frame', hsv)
-            print hsv.shape
+            #cv2.imshow('frame', hsv)
+            #print hsv.shape
+            lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
+            upper_blue = np.array([130, 255, 255])
+            mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
+            cv2.imshow('mask', mask)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
