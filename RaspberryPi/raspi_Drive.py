@@ -75,8 +75,7 @@ with picamera.PiCamera() as camera:
         camera.resolution = (320, 240)
 
 
-try:
-    while True:
+    try:
         while True:
             camera.capture(stream, 'bgr', use_video_port=True)
             # stream.array now contains the image data in BGR order
@@ -86,17 +85,17 @@ try:
             # reset the stream before the next capture
             stream.seek(0)
             stream.truncate()
-        #ser.isOpen()
+            #ser.isOpen()
         #time.sleep(0) # sampling rate
-        left_distance = ultrasonicleft()
-        print(left_distance)
-        right_distance = ultrasonicright()
-        print(right_distance)
-        if (right_distance > distance_limit) and (left_distance > distance_limit):
-            motor_speed = str(60)
-            servo_angle = str(97)
-            print motor_speed + str('m,')
-            ser.write (motor_speed + str('m,') + servo_angle + str('s,'))
+            left_distance = ultrasonicleft()
+            print(left_distance)
+            right_distance = ultrasonicright()
+            print(right_distance)
+            if (right_distance > distance_limit) and (left_distance > distance_limit):
+                motor_speed = str(60)
+                servo_angle = str(97)
+                print motor_speed + str('m,')
+                ser.write (motor_speed + str('m,') + servo_angle + str('s,'))
 
 
 
@@ -119,14 +118,14 @@ try:
 
 
 
-        else:
-            motor_speed = str(0)
-            print motor_speed + str('m,')
-            ser.write(motor_speed + str('m,'))
+            else:
+                motor_speed = str(0)
+                print motor_speed + str('m,')
+                ser.write(motor_speed + str('m,'))
 
-except KeyboardInterrupt:
-    print "User Stopped"
-    motor_speed = str(0)
-    ser.write(motor_speed + str('m,') + str(97) + str('s,'))
-    cv2.destroyAllWindows()
-    pass
+    except KeyboardInterrupt:
+        print "User Stopped"
+        motor_speed = str(0)
+        ser.write(motor_speed + str('m,') + str(97) + str('s,'))
+        cv2.destroyAllWindows()
+        pass
