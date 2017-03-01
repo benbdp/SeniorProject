@@ -73,10 +73,28 @@ def ultrasonicright():
 
     return right_distance
 
+def capturePiCam():
+    with picamera.PiCamera() as camera:
+        cap=picamera.array.PiRGBArray(camera)
+        camera.resolution = (640, 480)
+        camera.start_preview()
+        time.sleep(3)
+        camera.capture(cap,format="bgr")
+        global img
+        img =cap.array
+
+#- display on OpenCV window -
+def displayAtOpenCV():
+    cv2.namedWindow('imageWindow', cv2.WINDOW_AUTOSIZE)
+    cv2.imshow('imageWindow',img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
 
 try:
     while True:
-
+        capturePiCam()
+        displayAtOpenCV()
         #ser.isOpen()
         #time.sleep(0) # sampling rate
         left_distance = ultrasonicleft()
