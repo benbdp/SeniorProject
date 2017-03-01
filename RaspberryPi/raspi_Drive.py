@@ -69,6 +69,8 @@ with picamera.PiCamera() as camera:
             camera.capture(stream, 'bgr', use_video_port=True)
             # stream.array now contains the image data in BGR order
             cv2.imshow('frame', stream.array)
+            blur = cv2.GaussianBlur(stream.array, (5, 5), 3)
+            cv2.imshow('blur', blur)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
             # reset the stream before the next capture
@@ -83,8 +85,6 @@ with picamera.PiCamera() as camera:
                 servo_angle = str(97)
                 print motor_speed + str('m,')
                 ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
-                blur = cv2.GaussianBlur(stream.array, (5, 5), 3)
-                cv2.imshow('blur', blur)
 
 
             else:
