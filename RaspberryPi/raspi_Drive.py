@@ -28,9 +28,9 @@ camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
-camera_matrix = np.matrix([[493.6946,0,0],[0,492.0863,0],[321.4467,245.3485]])
+camera_matrix = np.matrix [[493.6946,0,0],[0,492.0863,0],[321.4467,245.3485]]
 print camera_matrix
-dist_coeff = np.matrix([0.1936,-0.5185,-0.0012,-8.6415,0.3824])
+dist_coeff = np.matrix [0.1936,-0.5185,-0.0012,-8.6415,0.3824]
 print dist_coeff
 
 
