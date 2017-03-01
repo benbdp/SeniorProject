@@ -69,26 +69,22 @@ def ultrasonicright():
 
     return right_distance
 
-def capturePiCam():
-    with picamera.PiCamera() as camera:
-        cap=picamera.array.PiRGBArray(camera)
-        camera.resolution = (640, 480)
-        camera.capture(cap,format="bgr")
-        global img
-        img = cap.array
 
-#- display on OpenCV window -
-def displayAtOpenCV():
-    cv2.namedWindow('imageWindow', cv2.WINDOW_AUTOSIZE)
-    cv2.imshow('imageWindow',img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+with picamera.PiCamera() as camera:
+    with picamera.array.PiRGBArray(camera) as stream:
+        camera.resolution = (320, 240)
 
 
 try:
     while True:
-        capturePiCam()
-        displayAtOpenCV()
+        camera.capture(stream, 'bgr', use_video_port=True)
+        # stream.array now contains the image data in BGR order
+        cv2.imshow('frame', stream.array)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+        # reset the stream before the next capture
+        stream.seek(0)
+        stream.truncate()
         #ser.isOpen()
         #time.sleep(0) # sampling rate
         left_distance = ultrasonicleft()
@@ -131,4 +127,5 @@ except KeyboardInterrupt:
     print "User Stopped"
     motor_speed = str(0)
     ser.write(motor_speed + str('m,') + str(97) + str('s,'))
+    cv2.destroyAllWindows()
     pass
