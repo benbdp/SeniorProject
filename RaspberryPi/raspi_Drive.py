@@ -90,7 +90,7 @@ try:
 
             # Camera stuff
             frame = camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
-            image = frame.array
+            image = frame
             cv2.imshow("Frame", image)
             cv2.waitKey(1)
             rawCapture.truncate(0)
