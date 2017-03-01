@@ -8,10 +8,7 @@ from picamera import PiCamera
 from threading import Thread
 import numpy as np
 
-
-distance = 5
 distance_limit = 25
-motor_speed = 0
 #right_distance = int(input('enter right_distance: '))
 #left_distance = int(input('enter left_distance: '))
 GPIO.setwarnings(False)
@@ -33,10 +30,10 @@ time.sleep(0.1)
 
 camera_matrix = np.matrix([[  494.1907, 0.0, 0.0], [0.0 , 492.6565, 0.0], [ 319.8568, 242.5021, 1.0]])
 
-print camera_matrix
+#print camera_matrix
 
 dist_coeff = np.matrix( [0.1936,-0.5185,-0.0012,-8.6415,0.3824])
-print dist_coeff
+#print dist_coeff
 
 
 def ultrasonicleft():
