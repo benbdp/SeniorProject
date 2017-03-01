@@ -19,6 +19,8 @@ image = rawCapture.array
 cv2.imshow("Image", image)
 cv2.waitKey(0)
 
+time.sleep(0.1)
+
 # grab an image from the camera
 camera.capture(rawCapture, format="bgr")
 image = rawCapture.array
@@ -27,6 +29,7 @@ image = rawCapture.array
 cv2.imshow("Image", image)
 cv2.waitKey(0)
 
+time.sleep(0.1)
 
 # grab an image from the camera
 camera.capture(rawCapture, format="bgr")
