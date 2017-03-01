@@ -8,8 +8,9 @@ with picamera.PiCamera() as camera:
     camera.resolution = (640, 480)
     camera.framerate = 60
     time.sleep(2) # AGC warm-up time
-    with picamera.array.PiRGBArray(camera) as stream:
-        camera.capture(stream, 'bgr', use_video_port=True)
-        hsv = cv2.cvtColor(stream.array, cv2.COLOR_BGR2HSV)
-        cv2.imshow('frame', hsv)
-        cv2.waitKey(1)
+    while True:
+        with picamera.array.PiRGBArray(camera) as stream:
+            camera.capture(stream, 'bgr', use_video_port=True)
+            hsv = cv2.cvtColor(stream.array, cv2.COLOR_BGR2HSV)
+            cv2.imshow('frame', hsv)
+            cv2.waitKey(1)
