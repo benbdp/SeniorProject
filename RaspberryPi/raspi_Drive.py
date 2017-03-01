@@ -10,7 +10,7 @@ import numpy as np
 
 
 distance = 5
-distance_limit = 10
+distance_limit = 25
 motor_speed = 0
 #right_distance = int(input('enter right_distance: '))
 #left_distance = int(input('enter left_distance: '))
@@ -80,7 +80,7 @@ def ultrasonicright():
 try:
     while True:
         #ser.isOpen()
-        time.sleep(0.01) # sampling rate
+        #time.sleep(0) # sampling rate
         left_distance = ultrasonicleft()
         print(left_distance)
         right_distance = ultrasonicright()
