@@ -71,16 +71,12 @@ with picamera.PiCamera() as camera:
     while True:
         with picamera.array.PiRGBArray(camera) as stream:
             camera.capture(stream, 'bgr', use_video_port=True)
-            h, w = stream.array.shape[:2]
-            print(h, w)
+            frame = stream.array
+            h, w = stream.shape[:2]
             newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
-            undistort = cv2.undistort(stream.array, mtx, dist, None, newcameramtx)
-            x, y, w, h = roi
-            undistort = undistort[y:y + h, x:x + w]
-            print undistort.shape
-            cv2.imshow('undistort', undistort)
-            #hsv = cv2.cvtColor(stream.array, cv2.COLOR_BGR2HSV)
-            #cv2.imshow('frame', hsv)
+            undist = cv2.undistort(frame, mtx, dist, None, newcameramtx)
+            hsv = cv2.cvtColor(undist, cv2.COLOR_BGR2HSV)
+            cv2.imshow('frame', hsv)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
