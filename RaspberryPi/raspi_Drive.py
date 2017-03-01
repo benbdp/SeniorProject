@@ -29,10 +29,13 @@ camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 camera_matrix = np.matrix ([[493.6946,0,0],[0,492.0863,0],[321.4467,245.3485]])
-print camera_matrix
+#print camera_matrix
 dist_coeff = np.matrix( [0.1936,-0.5185,-0.0012,-8.6415,0.3824])
-print dist_coeff
+#print dist_coeff
 
+mtx = np.matrix([[  1.09737118e+03, 0.00000000e+00, 6.29382303e+02], [  0.00000000e+00, 1.10083151e+03, 3.71037449e+02], [  0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
+
+print mtx
 
 
 
