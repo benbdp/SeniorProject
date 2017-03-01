@@ -10,6 +10,7 @@ import RPi.GPIO as GPIO
 
 distance_limit = 25
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 TRIGGERRIGHT = 18
 ECHORIGHT = 23
 GPIO.setup(TRIGGERRIGHT, GPIO.OUT)
@@ -65,7 +66,7 @@ def ultrasonicright():
 
 with picamera.PiCamera() as camera:
     camera.resolution = (640, 480)
-    camera.framerate = 60
+    camera.framerate = 100
     time.sleep(2) # AGC warm-up time
     while True:
         with picamera.array.PiRGBArray(camera) as stream:
@@ -76,8 +77,8 @@ with picamera.PiCamera() as camera:
                 break
 
         left_distance = ultrasonicleft()
-        print(left_distance)
+        #print(left_distance)
         right_distance = ultrasonicright()
-        print(right_distance)
+        #print(right_distance)
     cv2.destroyAllWindows()
     print "User Stopped!"
