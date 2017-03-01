@@ -74,6 +74,7 @@ def ultrasonicright():
 
     return right_distance
 
+
 try:
     while True:
         #ser.isOpen()
@@ -88,12 +89,11 @@ try:
             #ser.write (motor_speed + str('m,'))
 
             # Camera stuff
-
-            stream = camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
-
-            cv2.imshow('frame',stream)
-
-
+            frame = camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
+            image = frame.array
+            cv2.imshow("Frame", image)
+            cv2.waitKey(1)
+            rawCapture.truncate(0)
 
 
             #if turn_angle < 0:
