@@ -75,8 +75,6 @@ with picamera.PiCamera() as camera:
             print(h, w)
             newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
             undistort = cv2.undistort(stream.array, mtx, dist, None, newcameramtx)
-            x, y, w, h = roi
-            undistort = undistort[y:y + h, x:x + w]
             cv2.imshow('undistort', undistort)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
