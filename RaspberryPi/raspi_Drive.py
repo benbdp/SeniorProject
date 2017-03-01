@@ -76,9 +76,7 @@ def ultrasonicright():
 
 try:
     while True:
-        camera.capture(rawCapture, format="bgr")
-        image = rawCapture.array
-        cv2.imshow("Image", image)
+
         #ser.isOpen()
         #time.sleep(0) # sampling rate
         left_distance = ultrasonicleft()
