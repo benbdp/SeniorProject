@@ -72,7 +72,7 @@ with picamera.PiCamera() as camera:
         with picamera.array.PiRGBArray(camera) as stream:
             camera.capture(stream, 'bgr', use_video_port=True)
             frame = stream.array
-            h, w = stream.shape[:2]
+            h, w = frame.shape[:2]
             newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
             undist = cv2.undistort(frame, mtx, dist, None, newcameramtx)
             hsv = cv2.cvtColor(undist, cv2.COLOR_BGR2HSV)
