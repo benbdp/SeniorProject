@@ -66,7 +66,7 @@ def ultrasonicright():
 
 with picamera.PiCamera() as camera:
     camera.resolution = (640, 480)
-    camera.framerate = 150
+    camera.framerate = 120
     time.sleep(2) # AGC warm-up time
     while True:
         with picamera.array.PiRGBArray(camera) as stream:
