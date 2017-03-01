@@ -1,5 +1,5 @@
 import serial
-ser = serial.Serial('/dev/ttyAMA0', 9600)
+ser = serial.Serial('/dev/ttyAMA0', 9600, timeout = 1)
 import time
 import cv2
 import RPi.GPIO as GPIO
