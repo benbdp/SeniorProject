@@ -87,8 +87,9 @@ try:
         print(right_distance)
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             motor_speed = str(70)
+            servo_angle = str(90)
             print motor_speed + str('m,')
-            ser.write (motor_speed + str('m,'))
+            ser.write (motor_speed + str('m,') + servo_angle + str('s,'))
 
             # Camera stuff
             #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -130,6 +131,7 @@ try:
             motor_speed = str(0)
             print motor_speed + str('m,')
             ser.write(motor_speed + str('m,'))
+
 except KeyboardInterrupt:
     print "User Stopped"
     ser.close()
