@@ -5,8 +5,8 @@ import cv2
 import numpy as np
 import time
 import RPi.GPIO as GPIO
-#import serial
-#ser = serial.Serial('/dev/ttyACM0', 9600)
+import serial
+ser = serial.Serial('/dev/ttyACM0', 9600)
 
 distance_limit = 25
 GPIO.setmode(GPIO.BCM)
@@ -84,13 +84,15 @@ with picamera.PiCamera() as camera:
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             motor_speed = str(60)
             servo_angle = str(97)
-            print motor_speed + str('m,')
-            #ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
+            #print motor_speed + str('m,')
+            ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
 
 
         else:
             motor_speed = str(0)
-            print motor_speed + str('m,')
-            #ser.write(motor_speed + str('m,'))
+            #print motor_speed + str('m,')
+            ser.write(motor_speed + str('m,'))
     cv2.destroyAllWindows()
     print "User Stopped!"
+    motor_speed = str(0)
+    ser.write( str(0) + str('m,') + str(97) + str('s,'))
