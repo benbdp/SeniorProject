@@ -63,7 +63,7 @@ def ultrasonicright():
 
 with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
-        camera.resolution = (640, 480)
+        camera.resolution = (320, 240)
 
         while True:
             camera.capture(stream, 'bgr', use_video_port=True)
