@@ -1,11 +1,12 @@
-import serial
-ser = serial.Serial('/dev/ttyACM0', 9600)
+#import serial
+#ser = serial.Serial('/dev/ttyACM0', 9600)
 import time
 import cv2
 import RPi.GPIO as GPIO
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread
+import numpy as np
 
 
 distance = 5
@@ -24,9 +25,15 @@ ECHOLEFT = 23
 GPIO.setup(TRIGGERLEFT, GPIO.OUT)
 GPIO.setup(ECHOLEFT, GPIO.IN)
 camera = PiCamera()
-camera.resolution = (320, 240)
+camera.resolution = (640, 480)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(320, 240))
+rawCapture = PiRGBArray(camera, size=(640, 480))
+camera_matrix = np.matrix([[493.6946,0,0],[0,492.0863,0],[321.4467,245.3485]])
+print camera_matrix
+dist_coeff = np.matrix([0.1936,-0.5185,-0.0012,-8.6415,0.3824])
+print dist_coeff
+
+
 
 
 def ultrasonicleft():
@@ -68,7 +75,7 @@ def ultrasonicright():
 
 try:
     while True:
-        ser.isOpen()
+        #ser.isOpen()
         time.sleep(0.01) # sampling rate
         left_distance = ultrasonicleft()
         print(left_distance)
@@ -77,7 +84,7 @@ try:
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             motor_speed = str(100)
             print motor_speed + str('m,')
-            ser.write (motor_speed + str('m,'))
+            #ser.write (motor_speed + str('m,'))
 
             # Camera stuff
 
@@ -109,8 +116,8 @@ try:
         else:
             motor_speed = str(0)
             print motor_speed + str('m,')
-            ser.write(motor_speed + str('m,'))
+            #ser.write(motor_speed + str('m,'))
 except KeyboardInterrupt:
     print "User Stopped"
-    ser.close()
+    #ser.close()
     pass
