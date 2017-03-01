@@ -90,6 +90,8 @@ try:
             servo_angle = str(97)
             print motor_speed + str('m,')
             ser.write (motor_speed + str('m,') + servo_angle + str('s,'))
+            time.sleep(2)
+            ser.write(motor_speed + str('m,') + str(110) + str('s,'))
 
             # Camera stuff
             #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
