@@ -86,8 +86,8 @@ with picamera.PiCamera() as camera:
 
 
 
-            lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
-            upper_blue = np.array([130, 255, 255])
+            #lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
+            #upper_blue = np.array([130, 255, 255])
             #mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
             #cv2.imshow('mask', mask)
             if cv2.waitKey(1) & 0xFF == ord('q'):
