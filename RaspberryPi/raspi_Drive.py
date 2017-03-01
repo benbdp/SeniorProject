@@ -16,12 +16,12 @@ motor_speed = 0
 #left_distance = int(input('enter left_distance: '))
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-TRIGGERRIGHT = 25
-ECHORIGHT = 24
+TRIGGERRIGHT = 18
+ECHORIGHT = 23
 GPIO.setup(TRIGGERRIGHT, GPIO.OUT)
 GPIO.setup(ECHORIGHT, GPIO.IN)
-TRIGGERLEFT = 18
-ECHOLEFT = 23
+TRIGGERLEFT = 24
+ECHOLEFT = 25
 GPIO.setup(TRIGGERLEFT, GPIO.OUT)
 GPIO.setup(ECHOLEFT, GPIO.IN)
 camera = PiCamera()
