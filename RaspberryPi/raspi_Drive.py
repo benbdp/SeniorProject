@@ -76,10 +76,10 @@ def ultrasonicright():
 
     return right_distance
 
-ser.isOpen()
+
 try:
     while True:
-
+        ser.isOpen()
         time.sleep(0.01) # sampling rate
         left_distance = ultrasonicleft()
         print(left_distance)
