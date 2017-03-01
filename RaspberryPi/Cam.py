@@ -6,7 +6,7 @@ import numpy as np
 
 with picamera.PiCamera() as camera:
     camera.resolution = (640, 480)
-    camera.framerate = 32
+    camera.framerate = 60
     time.sleep(2) # AGC warm-up time
     start = time.time()
     for i in range(24):
