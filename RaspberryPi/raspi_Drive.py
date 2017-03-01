@@ -77,6 +77,7 @@ with picamera.PiCamera() as camera:
             undist = cv2.undistort(frame, mtx, dist, None, newcameramtx)
             hsv = cv2.cvtColor(undist, cv2.COLOR_BGR2HSV)
             cv2.imshow('frame', hsv)
+            print hsv.shape
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
