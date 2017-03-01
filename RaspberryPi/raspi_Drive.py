@@ -22,6 +22,8 @@ ECHOLEFT = 25
 GPIO.setup(TRIGGERLEFT, GPIO.OUT)
 GPIO.setup(ECHOLEFT, GPIO.IN)
 
+mtx = np.matrix([[  494.1907, 0.0, 0.0], [0.0 , 492.6565, 0.0], [ 319.8568, 242.5021, 1.0]])
+dist = np.matrix( [0.1936,-0.5185,-0.0012,-8.6415,0.3824])
 
 
 def ultrasonicleft():
@@ -69,8 +71,13 @@ with picamera.PiCamera() as camera:
             camera.capture(stream, 'bgr', use_video_port=True)
             # stream.array now contains the image data in BGR order
             cv2.imshow('frame', stream.array)
-            blur = cv2.GaussianBlur(stream.array, (5, 5), 3)
-            cv2.imshow('blur', blur)
+            h, w = stream.array.shape[:2]
+            print(h, w)
+            newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+            undistort = cv2.undistort(stream.array, mtx, dist, None, newcameramtx)
+            x, y, w, h = roi
+            undistort = undistort[y:y + h, x:x + w]
+            cv2.imshow('undistort', undistort)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
             # reset the stream before the next capture
