@@ -28,6 +28,8 @@ camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
+time.sleep(0.1)
+
 
 camera_matrix = np.matrix([[  494.1907, 0.0, 0.0], [0.0 , 492.6565, 0.0], [ 319.8568, 242.5021, 1.0]])
 
@@ -89,11 +91,21 @@ try:
             #ser.write (motor_speed + str('m,'))
 
             # Camera stuff
-            frame = camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
-            image = frame
-            cv2.imshow("Frame", image)
-            cv2.waitKey(1)
-            rawCapture.truncate(0)
+            for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+                # grab the raw NumPy array representing the image, then initialize the timestamp
+                # and occupied/unoccupied text
+                image = frame.array
+
+                # show the frame
+                cv2.imshow("Frame", image)
+                key = cv2.waitKey(1) & 0xFF
+
+                # clear the stream in preparation for the next frame
+                rawCapture.truncate(0)
+
+                # if the `q` key was pressed, break from the loop
+                if key == ord("q"):
+                    break
 
 
             #if turn_angle < 0:
