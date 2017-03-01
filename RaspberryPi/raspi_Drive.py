@@ -73,11 +73,9 @@ def capturePiCam():
     with picamera.PiCamera() as camera:
         cap=picamera.array.PiRGBArray(camera)
         camera.resolution = (640, 480)
-        camera.start_preview()
-        time.sleep(3)
         camera.capture(cap,format="bgr")
         global img
-        img =cap.array
+        img = cap.array
 
 #- display on OpenCV window -
 def displayAtOpenCV():
