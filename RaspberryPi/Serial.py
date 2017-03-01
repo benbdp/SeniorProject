@@ -1,5 +1,5 @@
 import serial
-ser = serial.Serial('/dev/ttyAMA0', 9600, timeout=1)
+ser = serial.Serial('/dev/ttyA0', 9600, timeout=1)
 #ser.open()
 
 ser.write('testing')
