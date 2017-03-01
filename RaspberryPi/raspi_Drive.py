@@ -137,6 +137,5 @@ try:
 except KeyboardInterrupt:
     print "User Stopped"
     motor_speed = str(0)
-    print motor_speed + str('m,')
-    ser.write(motor_speed + str('m,'))
+    ser.write(motor_speed + str('m,') + str(97) + str('s,'))
     pass
