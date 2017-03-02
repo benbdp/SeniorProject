@@ -76,7 +76,7 @@ with picamera.PiCamera() as camera:
             newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
             undist = cv2.undistort(frame, mtx, dist, None, newcameramtx)
             hsv = cv2.cvtColor(undist, cv2.COLOR_BGR2HSV)
-            #cv2.imshow('frame', hsv)
+            cv2.imshow('frame', frame)
             #print hsv.shape
 
             # Warping Image
@@ -90,11 +90,11 @@ with picamera.PiCamera() as camera:
             #upper_blue = np.array([130, 255, 255])
             #mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
             #cv2.imshow('mask', mask)
-            #if cv2.waitKey(1) & 0xFF == ord('q'):
-             #   break
-            entry = int(input("enter 1"))
-            if (entry == int(1)):
+            if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+            #entry = int(input("enter 1"))
+            #if (entry == int(1)):
+             #   break
 
         left_distance = ultrasonicleft()
         #print(left_distance)
