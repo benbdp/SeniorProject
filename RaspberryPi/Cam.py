@@ -35,3 +35,4 @@ undist = cv2.undistort(image, mtx, dist, None, newcameramtx)
 # display the image on screen and wait for a keypress
 cv2.imshow("Image", undist)
 cv2.waitKey(0)
+cv2.imwrite("/home/pi/Desktop", warp.jpg)
