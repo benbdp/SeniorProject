@@ -1,14 +1,10 @@
-import picamera
-import picamera.array
-import time
+
 import cv2
 import numpy as np
 import time
-import RPi.GPIO as GPIO
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
-GPIO.setup(ECHOLEFT, GPIO.IN)
 
 mtx = np.matrix([[486.7350296, 0., 319.86577798],
  [0., 485.14619589, 242.13957787],
