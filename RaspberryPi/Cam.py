@@ -5,19 +5,9 @@ import cv2
 import numpy as np
 import time
 import RPi.GPIO as GPIO
-import serial
-ser = serial.Serial('/dev/ttyACM0', 9600)
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
-distance_limit = 25
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-TRIGGERRIGHT = 18
-ECHORIGHT = 23
-GPIO.setup(TRIGGERRIGHT, GPIO.OUT)
-GPIO.setup(ECHORIGHT, GPIO.IN)
-TRIGGERLEFT = 24
-ECHOLEFT = 25
-GPIO.setup(TRIGGERLEFT, GPIO.OUT)
 GPIO.setup(ECHOLEFT, GPIO.IN)
 
 mtx = np.matrix([[486.7350296, 0., 319.86577798],
@@ -27,70 +17,25 @@ mtx = np.matrix([[486.7350296, 0., 319.86577798],
 dist = np.matrix([[1.72030848e-01,  -4.89793474e-01,  -1.64310264e-03,   4.26229958e-04, 3.80932152e-01]])
 #print dist
 
-def ultrasonicleft():
-    GPIO.output(TRIGGERLEFT, False)
-    time.sleep(0.5)
-    GPIO.output(TRIGGERLEFT, True)
-    time.sleep(0.00001)
-    GPIO.output(TRIGGERLEFT, False)
 
-    while GPIO.input(ECHOLEFT) == 0:
-        start1 = time.time()
+# initialize the camera and grab a reference to the raw camera capture
+camera = PiCamera()
+camera.resolution = (640, 480)
+rawCapture = PiRGBArray(camera, size=(640, 480))
 
-    while GPIO.input(ECHOLEFT) == 1:
-        stop1 = time.time()
+# allow the camera to warmup
+time.sleep(0.1)
 
-    elapsed1 = stop1 - start1
-    left_distance = (elapsed1 * 34300) / 2
+# grab an image from the camera
+camera.capture(rawCapture, format="bgr")
+image = rawCapture.array
 
 
-    return left_distance
+h, w = image.shape[:2]
+print h,w
+newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+undist = cv2.undistort(image, mtx, dist, None, newcameramtx)
 
-def ultrasonicright():
-    GPIO.output(TRIGGERRIGHT, False)
-    time.sleep(0.5)
-    GPIO.output(TRIGGERRIGHT, True)
-    time.sleep(0.00001)
-    GPIO.output(TRIGGERRIGHT, False)
-
-    while GPIO.input(ECHORIGHT) == 0:
-        start1 = time.time()
-
-    while GPIO.input(ECHORIGHT) == 1:
-        stop1 = time.time()
-
-    elapsed1 = stop1 - start1
-    right_distance = (elapsed1 * 34300) / 2
-
-    return right_distance
-
-with picamera.PiCamera() as camera:
-    camera.resolution = (640, 480)
-    camera.framerate = 120
-    time.sleep(2) # AGC warm-up time
-    while True:
-        with picamera.array.PiRGBArray(camera) as stream:
-            camera.capture(stream, 'bgr', use_video_port=True)
-            hsv = cv2.cvtColor(stream.array, cv2.COLOR_BGR2HSV)
-            #cv2.imshow('frame', hsv)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        left_distance = ultrasonicleft()
-        #print(left_distance)
-        right_distance = ultrasonicright()
-        #print(right_distance)
-        if (right_distance > distance_limit) and (left_distance > distance_limit):
-            motor_speed = str(60)
-            servo_angle = str(97)
-            #print motor_speed + str('m,')
-            ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
-        else:
-            motor_speed = str(0)
-            #print motor_speed + str('m,')
-            ser.write(motor_speed + str('m,'))
-    # Protocol if user stops program
-    cv2.destroyAllWindows()
-    print "User Stopped!"
-    motor_speed = str(0)
-    ser.write( str(0) + str('m,') + str(97) + str('s,'))
+# display the image on screen and wait for a keypress
+cv2.imshow("Image", undist)
+cv2.waitKey(0)
