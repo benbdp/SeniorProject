@@ -39,7 +39,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
  # clear the stream in preparation for the next frame
  rawCapture.truncate(0)
-
  # if the `q` key was pressed, break from the loop
  if key == ord("q"):
   break
