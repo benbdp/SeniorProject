@@ -16,40 +16,36 @@ object_points = []
 image_points = []
 h, w = 0, 0
 
-path = "/Users/Benjamin/PycharmProjects/SeniorProjectCar/Camera_Calibration/Camera_Calibration_Images"
+path = "/Users/Benjamin/Downloads/Cal_Imgs/"
 images = glob.glob(os.path.join(path, '*.jpg'))
+for fname in images:
+    img = cv2.imread(fname)
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    print(gray.shape[::-1])
 
-for file_name in images:
-    image = cv2.imread(file_name)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    height,width,channels = gray.shape[:2]
+    # Find the chess board corners
+    ret, corners = cv2.findChessboardCorners(gray, (9,6),None)
+    print(ret)
+    # If found, add object points, image points (after refining them)
+    if ret == True:
+        objpoints.append(objp)
 
-    # find chess board corners
-    ret, corners = cv2.findChessboardCorners(gray, (9, 6), None)
+        corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
+        imgpoints.append(corners2)
 
-    # add object points, image points
-    if ret:
-        object_points.append(object_point)
-        cv2.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
-        image_points.append(corners)
+        # Draw and display the corners
+        img = cv2.drawChessboardCorners(img, (9,6), corners2,ret)
+        cv2.imshow('img',img)
+        cv2.waitKey(1000)
 
-        # draw and display the corners
-        cv2.drawChessboardCorners(image, (9, 6), corners, ret)
-        cv2.imshow('image', image)
-        cv2.waitKey(500)
+retval, cameramatrix, distortioncoeff, rotationvector, translationvector = cv2.calibrateCamera(objpoints, imgpoints, (640,480), None, None)
 
-# calibration
-retval, cameraMatrix, distCoeffs, rvecs, tvecs = cv2.calibrateCamera(object_points, image_points, (w, h), None, None)
-
-
-img = cv2.imread('left12.jpg')
+img = cv2.imread('/Users/Benjamin/Downloads/Cal_Imgs/image0001.jpg')
 h,  w = img.shape[:2]
 newcameramtx, roi=cv2.getOptimalNewCameraMatrix(cameraMatrix,distCoeffs,(w,h),1,(w,h))
 # undistort
 dst = cv2.undistort(img, cameraMatrix, distCoeffs, None, newcameramtx)
 
-# crop the image
-x,y,w,h = roi
-dst = dst[y:y+h, x:x+w]
+
 cv2.imshow('calibresult.png',dst)
 cv2.waitKey()

@@ -12,8 +12,8 @@ objp[:,:2] = np.mgrid[0:9,0:6].T.reshape(-1,2)
 # Arrays to store object points and image points from all the images.
 objpoints = [] # 3d point in real world space
 imgpoints = [] # 2d points in image plane.
-path = "/Users/Benjamin/PycharmProjects/SeniorProject/CameraCalibration/CameraCal/"
-images = glob.glob(os.path.join(path, '*.png'))
+path = "/Users/Benjamin/Downloads/Cal_Imgs"
+images = glob.glob(os.path.join(path, '*.jpg'))
 
 for fname in images:
     img = cv2.imread(fname)
@@ -33,12 +33,12 @@ for fname in images:
         # Draw and display the corners
         img = cv2.drawChessboardCorners(img, (9,6), corners2,ret)
         cv2.imshow('img',img)
-        cv2.waitKey(500)
+        cv2.waitKey(1000)
 
-retval, cameramatrix, distortioncoeff, rotationvector, translationvector = cv2.calibrateCamera(objpoints, imgpoints, (1280,720), None, None)
+retval, cameramatrix, distortioncoeff, rotationvector, translationvector = cv2.calibrateCamera(objpoints, imgpoints, (640,480), None, None)
 
-print('matrix',cameramatrix)
-print('dist',distortioncoeff)
+print 'matrix',cameramatrix
+print'dist',distortioncoeff
 
 mean_error = 0
 for i in range(len(objpoints)):
@@ -47,3 +47,14 @@ for i in range(len(objpoints)):
     mean_error += error
 
 print ("mean error: ", mean_error/len(objpoints))
+
+
+img = cv2.imread('/Users/Benjamin/Downloads/Cal_Imgs/image0001.jpg')
+h,  w = img.shape[:2]
+newcameramtx, roi=cv2.getOptimalNewCameraMatrix(cameramatrix,distortioncoeff,(w,h),1,(w,h))
+# undistort
+dst = cv2.undistort(img, cameramatrix, distortioncoeff, None, newcameramtx)
+
+
+cv2.imshow('calibresult.png',dst)
+cv2.waitKey()
