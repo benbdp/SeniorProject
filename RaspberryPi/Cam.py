@@ -64,7 +64,7 @@ def ultrasonicright():
 num = 20
 print num
 try:
-    vidStream = cv2.VideoCapture(0) # index of your camera
+    webcam = cv2.VideoCapture(src=0).start # index of your camera
     time.sleep(2)
 except:
     print ("problem opening input stream")
@@ -76,23 +76,23 @@ try:
     while num > 0:
         num = num - 1
         print num
-        ret, frame = vidStream.read()
+        ret, frame = webcam.read()
         print ret
         print frame.shape
         cv2.imshow('undistort', frame)
-        left_distance = ultrasonicleft()
+        #left_distance = ultrasonicleft()
         # print(left_distance)
-        right_distance = ultrasonicright()
+        #right_distance = ultrasonicright()
         # print(right_distance)
-        if (right_distance > distance_limit) and (left_distance > distance_limit):
-            motor_speed = str(60)
-            servo_angle = str(97)
+        #if (right_distance > distance_limit) and (left_distance > distance_limit):
+         #   motor_speed = str(60)
+          #  servo_angle = str(97)
             # print motor_speed + str('m,')
             # ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
-        else:
-            motor_speed = str(0)
+        #else:
+         #   motor_speed = str(0)
             # print motor_speed + str('m,')
-            ser.write(motor_speed + str('m,'))
+          #  ser.write(motor_speed + str('m,'))
         cv2.waitKey(1)
 except:
     cv2.destroyAllWindows()
