@@ -74,6 +74,7 @@ except:
 
 try:
     while num > 0:
+        print num
         num = num - 1
         ret, frame = webcam.read()
         cv2.imshow('undistort', frame)
