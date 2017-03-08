@@ -52,12 +52,12 @@ def ultrasonicright():
     GPIO.output(TRIGGERRIGHT, False)
 
     while GPIO.input(ECHORIGHT) == 0:
-        start1 = time.time()
+        start2 = time.time()
 
     while GPIO.input(ECHORIGHT) == 1:
-        stop1 = time.time()
+        stop2 = time.time()
 
-    elapsed1 = stop1 - start1
+    elapsed1 = stop2 - start2
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
@@ -70,11 +70,13 @@ except:
 
 
 num = 100
+print num
 try:
     while num > 0:
         num = num - 1
         print num
         ret, frame = vidStream.read()
+        print ret
         print frame.shape
         cv2.imshow('undistort', frame)
         left_distance = ultrasonicleft()
