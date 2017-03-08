@@ -77,6 +77,7 @@ try:
         cv2.imshow('frame', frame)
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         cv2.imshow('hsv', hsv)
+        cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
         key = cv2.waitKey(1) & 0xFF
 
         # if the `q` key was pressed, break from the loop
