@@ -77,7 +77,7 @@ with picamera.PiCamera() as camera:
             #undist = cv2.undistort(frame, mtx, dist, None, newcameramtx)
             #hsv = cv2.cvtColor(undist, cv2.COLOR_BGR2HSV)
             cv2.imshow('frame', frame)
-            cv2.waitKey(1)
+            cv2.waitKey(10)
         left_distance = ultrasonicleft()
         #print(left_distance)
         right_distance = ultrasonicright()
