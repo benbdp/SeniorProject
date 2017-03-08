@@ -61,7 +61,7 @@ def ultrasonicright():
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
-num = 20
+num = 100
 print num
 try:
     webcam = cv2.VideoCapture(0) # index of your camera
@@ -73,7 +73,7 @@ except:
 
 
 try:
-    while num > 100:
+    while num > 0:
         num = num - 1
         print num
         ret, frame = webcam.read()
