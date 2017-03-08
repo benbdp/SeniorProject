@@ -78,7 +78,7 @@ except:
 try:
     while True:
         ret, frame = webcam.read()
-        cv2.imshow('frame', frame)
+        #cv2.imshow('frame', frame)
         h, w = frame.shape[:2]
         newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
         undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
@@ -90,7 +90,7 @@ try:
 
         M = cv2.getPerspectiveTransform(src_pts, dst_pts)
         dst_img = cv2.warpPerspective(frame, M, (558, 430))
-        cv2.imshow('dst', dst_img)
+        #cv2.imshow('dst', dst_img)
         hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)
         cv2.imshow("hsv",hsv)
 
