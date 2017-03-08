@@ -6,7 +6,7 @@ import numpy as np
 import time
 import RPi.GPIO as GPIO
 import serial
-ser = serial.Serial('/dev/ttyACM1', 9600)
+ser = serial.Serial('/dev/ttyACM0', 9600)
 
 distance_limit = 25
 GPIO.setmode(GPIO.BCM)
