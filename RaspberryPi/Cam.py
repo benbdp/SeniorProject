@@ -61,10 +61,11 @@ def ultrasonicright():
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
-num = 100
+num = 20
 print num
 try:
     vidStream = cv2.VideoCapture(0) # index of your camera
+    time.sleep(2)
 except:
     print ("problem opening input stream")
     sys.exit(1)
