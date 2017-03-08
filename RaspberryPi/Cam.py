@@ -62,8 +62,6 @@ def ultrasonicright():
 
     return right_distance
 
-left_distance = ultrasonicleft()
-right_distance = ultrasonicright()
 num = 100
 try:
     webcam = cv2.VideoCapture(0) # index of your camera
