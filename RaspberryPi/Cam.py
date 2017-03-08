@@ -82,8 +82,17 @@ try:
         h, w = frame.shape[:2]
         newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
         undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
-        cv2.imshow('undistort', undistort)
-        cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
+        #cv2.imshow('undistort', undistort)
+
+        src_pts = np.float32([[142, 338], [522, 338], [20, 480], [635, 480]])  # src
+
+        dst_pts = np.float32([[0, 0], [558, 0], [0, 430], [558, 430]])  # dst
+
+        M = cv2.getPerspectiveTransform(src_pts, dst_pts)
+        dst_img = cv2.warpPerspective(frame, M, (558, 430))
+        cv2.imshow('dst', dst_img)
+
+        #cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
         key = cv2.waitKey(1) & 0xFF
 
         # if the `q` key was pressed, break from the loop
