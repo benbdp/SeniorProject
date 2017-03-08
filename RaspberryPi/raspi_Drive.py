@@ -67,7 +67,7 @@ def ultrasonicright():
 with picamera.PiCamera() as camera:
     camera.resolution = (640, 480)
     camera.framerate = 120
-    time.sleep(4) # AGC warm-up time
+    time.sleep(1) # AGC warm-up time
     while True:
         with picamera.array.PiRGBArray(camera) as stream:
             camera.capture(stream, 'bgr', use_video_port=True)
@@ -77,12 +77,13 @@ with picamera.PiCamera() as camera:
             #undist = cv2.undistort(frame, mtx, dist, None, newcameramtx)
             #hsv = cv2.cvtColor(undist, cv2.COLOR_BGR2HSV)
             cv2.imshow('frame', frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            cv2.waitKey(1)
         left_distance = ultrasonicleft()
         #print(left_distance)
         right_distance = ultrasonicright()
         #print(right_distance)
+        if (int(input())==int(1)):
+            break
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             motor_speed = str(60)
             servo_angle = str(97)

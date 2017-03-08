@@ -16,7 +16,7 @@ dist = np.matrix([[1.72030848e-01,  -4.89793474e-01,  -1.64310264e-03,   4.26229
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
 camera.resolution = (640, 480)
-camera.framerate = 32
+camera.framerate = 120
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
 # allow the camera to warmup
