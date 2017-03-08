@@ -61,8 +61,10 @@ def ultrasonicright():
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
+
+left_distance = ultrasonicleft()
+right_distance = ultrasonicright()
 num = 100
-print num
 try:
     webcam = cv2.VideoCapture(0) # index of your camera
     time.sleep(2)
@@ -75,25 +77,20 @@ except:
 try:
     while num > 0:
         num = num - 1
-        print num
         ret, frame = webcam.read()
-        print ret
-        print frame.shape
         cv2.imshow('undistort', frame)
-        #left_distance = ultrasonicleft()
-        # print(left_distance)
-        #right_distance = ultrasonicright()
-        # print(right_distance)
-        #if (right_distance > distance_limit) and (left_distance > distance_limit):
-         #   motor_speed = str(60)
+        cv2.waitKey(2)
+        print(left_distance)
+        print(right_distance)
+        if (right_distance > distance_limit) and (left_distance > distance_limit):
+            motor_speed = str(60)
           #  servo_angle = str(97)
-            # print motor_speed + str('m,')
+            print motor_speed + str('m,')
             # ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
-        #else:
-         #   motor_speed = str(0)
-            # print motor_speed + str('m,')
+        else:
+            motor_speed = str(0)
+            print motor_speed + str('m,')
           #  ser.write(motor_speed + str('m,'))
-        cv2.waitKey(3)
 except:
     cv2.destroyAllWindows()
     print "User Stopped!"
