@@ -14,5 +14,6 @@ num = 100
 while num > 0:
     num = num - 1
     ret, frame = vidStream.read()
+    print frame.shape
     cv2.imshow('undistort', frame)
     cv2.waitKey(3)
