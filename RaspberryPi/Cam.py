@@ -12,5 +12,5 @@ while True:
     ret, frame = vidStream.read()
     cv2.imshow('undistort', frame)
     cv2.waitKey(1)
-    if (int(input())==int(1)):
+    if (int(input("Enter 1: "))==int(1)):
         break
