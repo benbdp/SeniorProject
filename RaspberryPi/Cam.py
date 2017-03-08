@@ -73,6 +73,7 @@ num = 100
 try:
     while num > 0:
         num = num - 1
+        print num
         ret, frame = vidStream.read()
         print frame.shape
         cv2.imshow('undistort', frame)
