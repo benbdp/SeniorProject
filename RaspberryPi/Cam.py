@@ -93,7 +93,7 @@ try:
          #   motor_speed = str(0)
             # print motor_speed + str('m,')
           #  ser.write(motor_speed + str('m,'))
-        cv2.waitKey(1)
+        cv2.waitKey(3)
 except:
     cv2.destroyAllWindows()
     print "User Stopped!"
