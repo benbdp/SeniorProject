@@ -8,9 +8,11 @@ except:
     print ("problem opening input stream")
     sys.exit(1)
 
-while True:
+
+num = 15
+
+while num > 0:
+    num = num - 1
     ret, frame = vidStream.read()
     cv2.imshow('undistort', frame)
-    cv2.waitKey(1)
-    if (int(input("Enter 1: "))==int(1)):
-        break
+    cv2.waitKey(3)
