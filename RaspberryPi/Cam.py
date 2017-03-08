@@ -64,7 +64,7 @@ def ultrasonicright():
 num = 20
 print num
 try:
-    webcam = cv2.VideoCapture(src=0).start # index of your camera
+    webcam = cv2.VideoCapture(src=1).start # index of your camera
     time.sleep(2)
 except:
     print ("problem opening input stream")
