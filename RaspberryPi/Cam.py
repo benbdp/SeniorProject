@@ -62,7 +62,7 @@ def ultrasonicright():
 
     return right_distance
 
-num = 100
+num = 200
 try:
     webcam = cv2.VideoCapture(0) # index of your camera
     time.sleep(2)
