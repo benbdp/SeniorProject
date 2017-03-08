@@ -75,6 +75,8 @@ try:
     while True:
         ret, frame = webcam.read()
         cv2.imshow('frame', frame)
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        cv2.imshow('hsv', hsv)
         key = cv2.waitKey(1) & 0xFF
 
         # if the `q` key was pressed, break from the loop
