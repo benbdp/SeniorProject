@@ -80,6 +80,8 @@ try:
         ret, frame = webcam.read()
         cv2.imshow('undistort', frame)
         cv2.waitKey(2)
+        left_distance = ultrasonicleft()
+        right_distance = ultrasonicright()
         print(left_distance)
         print(right_distance)
         if (right_distance > distance_limit) and (left_distance > distance_limit):
