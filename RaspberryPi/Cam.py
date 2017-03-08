@@ -92,7 +92,12 @@ try:
         dst_img = cv2.warpPerspective(frame, M, (558, 430))
         #cv2.imshow('dst', dst_img)
         hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)
-        cv2.imshow("hsv",hsv)
+        #cv2.imshow("hsv",hsv)
+
+        lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
+        upper_blue = np.array([130, 255, 255])
+        mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
+        cv2.imshow('mask', mask)
 
 
         #cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
