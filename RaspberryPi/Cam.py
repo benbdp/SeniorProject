@@ -9,7 +9,7 @@ except:
     sys.exit(1)
 
 
-num = 15
+num = 100
 
 while num > 0:
     num = num - 1
