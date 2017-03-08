@@ -89,8 +89,11 @@ try:
         dst_pts = np.float32([[0, 0], [558, 0], [0, 430], [558, 430]])  # dst
 
         M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-        dst_img = cv2.warpPerspective(frame, M, (430, 558))
+        dst_img = cv2.warpPerspective(frame, M, (558, 430))
         cv2.imshow('dst', dst_img)
+        hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)
+        cv2.imshow("hsv",hsv)
+
 
         #cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
         key = cv2.waitKey(1) & 0xFF
