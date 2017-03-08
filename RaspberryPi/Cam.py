@@ -62,7 +62,6 @@ def ultrasonicright():
 
     return right_distance
 
-num = 200
 try:
     webcam = cv2.VideoCapture(0) # index of your camera
     time.sleep(2)
@@ -73,12 +72,14 @@ except:
 
 
 try:
-    while num > 0:
-        print num
-        num = num - 1
+    while True:
         ret, frame = webcam.read()
-        cv2.imshow('undistort', frame)
-        cv2.waitKey(2)
+        cv2.imshow('frame', frame)
+        key = cv2.waitKey(1) & 0xFF
+
+        # if the `q` key was pressed, break from the loop
+        if key == ord("q"):
+            break
         #left_distance = ultrasonicleft()
         #right_distance = ultrasonicright()
         #print(left_distance)
