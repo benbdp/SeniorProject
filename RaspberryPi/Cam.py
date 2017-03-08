@@ -62,6 +62,10 @@ def ultrasonicright():
 
     return right_distance
 
+mtx = np.matrix([[  1.09737118e+03, 0.00000000e+00, 6.29382303e+02], [  0.00000000e+00, 1.10083151e+03, 3.71037449e+02], [  0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
+dist = np.matrix([[  1.37334519e-01, -1.20441566e+00, 2.19553714e-03, -4.06071434e-04, 2.18048197e+00]])
+
+
 try:
     webcam = cv2.VideoCapture(0) # index of your camera
     time.sleep(2)
@@ -75,9 +79,11 @@ try:
     while True:
         ret, frame = webcam.read()
         cv2.imshow('frame', frame)
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        cv2.imshow('hsv', hsv)
-        cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
+        h, w = frame.shape[:2]
+        newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+        undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
+        cv2.imshow('undistort', undistort)
+        cv2.imwrite("/home/pi/Desktop/warp.jpg",undistort)
         key = cv2.waitKey(1) & 0xFF
 
         # if the `q` key was pressed, break from the loop
