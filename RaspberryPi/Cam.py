@@ -89,7 +89,7 @@ try:
         dst_pts = np.float32([[0, 0], [558, 0], [0, 430], [558, 430]])  # dst
 
         M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-        dst_img = cv2.warpPerspective(frame, M, (558, 430))
+        dst_img = cv2.warpPerspective(frame, M, (430, 558))
         cv2.imshow('dst', dst_img)
 
         #cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
