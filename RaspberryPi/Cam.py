@@ -92,7 +92,7 @@ try:
         dst_img = cv2.warpPerspective(frame, M, (558, 430))
         #cv2.imshow('dst', dst_img)
         hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)
-        #cv2.imshow("hsv",hsv)
+        cv2.imshow("hsv",hsv)
 
         lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
         upper_blue = np.array([130, 255, 255])
