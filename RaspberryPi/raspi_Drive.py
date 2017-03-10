@@ -106,6 +106,7 @@ def laneDetection(img):
     cv2.circle(img,(x0,center_y),5,(0,0,255),-1)
 
 
+    cv2.imshow("frame",img)
     return cv2.line(img,(cols-1,righty0),(0,lefty0),(0,242,255),3), \
            cv2.line(img, (center_x, 0), (center_x, height), (255, 0, 0), 2), \
            cv2.line(img, (0, center_y), (width, center_y), (255, 0, 0), 2)
