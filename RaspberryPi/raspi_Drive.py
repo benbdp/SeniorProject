@@ -82,52 +82,7 @@ def laneDetection(img):
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
     cv2.imshow('erode',erode)
-    im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    #print contours[0]
-    cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
 
-    rows, cols = img.shape[:2]
-    vx0, vy0, x0, y0 = cv2.fitLine(contours[0], cv2.DIST_L2, 0, 0.01, 0.01)
-    lefty0 = int((-x0 * vy0 / vx0) + y0)
-    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
-
-    x_00 = float(cols-1)
-    y_00 = float(righty0)
-    x_01 = float(0)
-    y_01 = float(lefty0)
-
-    slope0 = float((y_01 - y_00)/(x_01-x_00))
-    yint0 = y_01 - (slope0 *x_01)
-
-    x0 = (center_y-yint0)/slope0
-
-    x0 = int(x0)
-
-    cv2.circle(img,(x0,center_y),5,(0,0,255),-1)
-
-    vx1, vy1, x1, y1 = cv2.fitLine(contours[1], cv2.DIST_L2, 0, 0.01, 0.01)
-    lefty1 = int((-x1 * vy1 / vx1) + y1)
-    righty1 = int(((cols - x1) * vy1 / vx1) + y1)
-
-    x_10 = float(cols - 1)
-    y_10 = float(righty1)
-    x_11 = float(0)
-    y_11 = float(lefty1)
-    slope1 = float((y_11 - y_10) / (x_11 - x_10))
-    yint1 = y_11 - (slope1 * x_11)
-    x1 = (center_y - yint1) / slope1
-    x1 = int(x1)
-    cv2.circle(img, (x1, center_y), 5, (0, 0, 255), -1)
-    center = (x0 + x1)/2
-    cv2.circle(img, (center, center_y), 5, (0, 0, 255), -1)
-    angle = float(math.atan2((center - center_x),center_y))
-    angle = math.degrees(angle)
-    print "turn angle:", angle
-
-    return cv2.line(img,(cols-1,righty0),(0,lefty0),(0,242,255),3), \
-           cv2.line(img, (cols - 1, righty1), (0, lefty1), (0, 242, 255), 3), \
-           cv2.line(img, (center_x, 0), (center_x, height), (255, 0, 0), 2), \
-           cv2.line(img, (0, center_y), (width, center_y), (255, 0, 0), 2)
 
 mtx = np.matrix([[  1.09737118e+03, 0.00000000e+00, 6.29382303e+02], [  0.00000000e+00, 1.10083151e+03, 3.71037449e+02], [  0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
 dist = np.matrix([[  1.37334519e-01, -1.20441566e+00, 2.19553714e-03, -4.06071434e-04, 2.18048197e+00]])
