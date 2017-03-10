@@ -157,8 +157,16 @@ try:
 
         M = cv2.getPerspectiveTransform(src_pts, dst_pts)
         dst_img = cv2.warpPerspective(frame, M, (558, 430))
+
+        blur = cv2.GaussianBlur(dst_img, (5, 5), 3)
+        hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
+        cv2.imshow('hsv', hsv)
+        lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
+        upper_blue = np.array([130, 255, 255])
+        mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
+        cv2.imshow('mask', mask)
         #cv2.imshow('dst', dst_img)
-        laneDetection(dst_img)
+        #laneDetection(dst_img)
 
         #cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
         key = cv2.waitKey() & 0xFF
