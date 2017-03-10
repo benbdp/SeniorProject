@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 
-img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Photo on 3-2-17 at 2.28 PM.jpg')
+img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Screen Shot 2017-02-02 at 2.06.46 PM.png')
 #print kernal
 
 #def blur(img,kernel_size):
@@ -102,58 +102,48 @@ def laneDetection(img):
     cv2.imshow('erode',erode)
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     #print contours[0]
-
-
-
     cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
 
-
-
-
-
+    rows, cols = img.shape[:2]
     vx0, vy0, x0, y0 = cv2.fitLine(contours[0], cv2.DIST_L2, 0, 0.01, 0.01)
-    print vy0
-    print vx0
-    print x0
-    print y0
-    steeringangle = math.atan(vy0 / vx0)
-    angle = math.degrees(steeringangle)
-    print "angle:",angle
-    print "slope:", vy0/vx0
-
-
-    cv2.circle(img,(x0,y0),5,255,-1)
-
     lefty0 = int((-x0 * vy0 / vx0) + y0)
-    righty0 = int(((img.shape[1] - x0) * vy0 / vx0) + y0)
-    slope0 = (float(0) - float((img.shape[1] - 1))) / (float(righty0) - float(lefty0))
-    #print slope0
+    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
 
+    x_00 = float(cols-1)
+    y_00 = float(righty0)
+    x_01 = float(0)
+    y_01 = float(lefty0)
 
+    slope0 = float((y_01 - y_00)/(x_01-x_00))
+    yint0 = y_01 - (slope0 *x_01)
+
+    x0 = (center_y-yint0)/slope0
+
+    x0 = int(x0)
+
+    cv2.circle(img,(x0,center_y),5,(0,0,255),-1)
 
     vx1, vy1, x1, y1 = cv2.fitLine(contours[1], cv2.DIST_L2, 0, 0.01, 0.01)
     lefty1 = int((-x1 * vy1 / vx1) + y1)
-    righty1 = int(((img.shape[1] - x1) * vy1 / vx1) + y1)
-    slope1 = (float(0) - float((img.shape[1] - 1))) / (float(righty1) - float(lefty1))
-    #print slope1
+    righty1 = int(((cols - x1) * vy1 / vx1) + y1)
 
-    print vy1
-    print vx1
-    print x1
-    print y1
-    steeringangle = math.atan(vy1 / vx1)
-    angle = math.degrees(steeringangle)
-    print "angle:", angle
-    print "slope:", vy1 / vx1
+    x_10 = float(cols - 1)
+    y_10 = float(righty1)
+    x_11 = float(0)
+    y_11 = float(lefty1)
+    slope1 = float((y_11 - y_10) / (x_11 - x_10))
+    yint1 = y_11 - (slope1 * x_11)
+    x1 = (center_y - yint1) / slope1
+    x1 = int(x1)
+    cv2.circle(img, (x1, center_y), 5, (0, 0, 255), -1)
+    center = (x0 + x1)/2
+    cv2.circle(img, (center, center_y), 5, (0, 0, 255), -1)
+    angle = float(math.atan2((center - center_x),center_y))
+    angle = math.degrees(angle)
+    print "turn angle:", angle
 
-
-    #print (img.shape[1] - 1,righty1)
-    #print (0, lefty1)
-
-    #cv2.circle(img,(76,260),5,255,-1)
-
-    return cv2.line(img, (img.shape[1] - 1, righty0), (0, lefty0), (0, 0, 255), 2), \
-           cv2.line(img, (img.shape[1] - 1, righty1), (0, lefty1), (0, 0, 255), 2),\
+    return cv2.line(img,(cols-1,righty0),(0,lefty0),(0,242,255),3), \
+           cv2.line(img, (cols - 1, righty1), (0, lefty1), (0, 242, 255), 3), \
            cv2.line(img, (center_x, 0), (center_x, height), (255, 0, 0), 2), \
            cv2.line(img, (0, center_y), (width, center_y), (255, 0, 0), 2)
 
