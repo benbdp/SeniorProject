@@ -165,6 +165,10 @@ try:
         upper_blue = np.array([130, 255, 255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
         cv2.imshow('mask', mask)
+
+        dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
+        erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
+        cv2.imshow('erode', erode)
         #cv2.imshow('dst', dst_img)
         #laneDetection(dst_img)
 
