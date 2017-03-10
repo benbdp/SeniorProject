@@ -75,8 +75,8 @@ def laneDetection(img):
     blur = cv2.GaussianBlur(img,(5,5), 3)
     hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
     cv2.imshow('hsv',hsv)
-    lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
-    upper_blue = np.array([130, 255, 255])
+    lower_blue = np.array([80, 10, 225])  # define range of blue color in HSV
+    upper_blue = np.array([95, 25, 240])
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
     cv2.imshow('mask',mask)
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
@@ -141,8 +141,7 @@ except:
     sys.exit(1)
 
 
-num = 0
-maxFrames = 5
+
 try:
     while True:
         ret, frame = webcam.read()
@@ -159,22 +158,22 @@ try:
         M = cv2.getPerspectiveTransform(src_pts, dst_pts)
         dst_img = cv2.warpPerspective(frame, M, (558, 430))
 
-        blur = cv2.GaussianBlur(dst_img, (5, 5), 3)
-        hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
-        cv2.imshow('hsv', hsv)
+        #blur = cv2.GaussianBlur(dst_img, (5, 5), 3)
+        #hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
+        #cv2.imshow('hsv', hsv)
 
-        cv2.imwrite("/home/pi/Desktop/image%04i.jpg" % num,hsv)
-        num += 1
-        lower_blue = np.array([80, 10, 225])  # define range of blue color in HSV
-        upper_blue = np.array([95, 25, 240])
-        mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
-        cv2.imshow('mask', mask)
+        #cv2.imwrite("/home/pi/Desktop/image%04i.jpg" % num,hsv)
+        #num += 1
+        #lower_blue = np.array([80, 10, 225])  # define range of blue color in HSV
+        #upper_blue = np.array([95, 25, 240])
+        #mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
+        #cv2.imshow('mask', mask)
 
-        dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
-        erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
-        cv2.imshow('erode', erode)
+        #dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
+        #erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
+        #cv2.imshow('erode', erode)
         #cv2.imshow('dst', dst_img)
-        #laneDetection(dst_img)
+        laneDetection(dst_img)
 
         #cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
         key = cv2.waitKey() & 0xFF
