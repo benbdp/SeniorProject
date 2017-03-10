@@ -165,8 +165,8 @@ try:
 
         cv2.imwrite("/home/pi/Desktop/image%04i.jpg" % num,hsv)
         num += 1
-        lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
-        upper_blue = np.array([130, 255, 255])
+        lower_blue = np.array([80, 55, 185])  # define range of blue color in HSV
+        upper_blue = np.array([110, 85, 235])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
         cv2.imshow('mask', mask)
 
