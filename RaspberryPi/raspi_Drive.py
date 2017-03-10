@@ -141,7 +141,8 @@ except:
     sys.exit(1)
 
 
-
+num = 0
+maxFrames = 5
 try:
     while True:
         ret, frame = webcam.read()
@@ -161,6 +162,9 @@ try:
         blur = cv2.GaussianBlur(dst_img, (5, 5), 3)
         hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
         cv2.imshow('hsv', hsv)
+
+        cv2.imwrite("/home/pi/Desktop/image%04i.jpg" % num,hsv)
+        num += 1
         lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
         upper_blue = np.array([130, 255, 255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
