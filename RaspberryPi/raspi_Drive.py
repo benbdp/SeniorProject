@@ -145,7 +145,7 @@ except:
 try:
     while True:
         ret, frame = webcam.read()
-        #cv2.imshow('frame', frame)
+        cv2.imshow('frame', frame)
         h, w = frame.shape[:2]
         newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
         undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
