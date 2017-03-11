@@ -102,26 +102,34 @@ def laneDetection(img):
     cv2.imshow('erode',erode)
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     #print contours[0]
-    cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
 
-    rows, cols = img.shape[:2]
-    vx0, vy0, x0, y0 = cv2.fitLine(contours[0], cv2.DIST_L2, 0, 0.01, 0.01)
-    lefty0 = int((-x0 * vy0 / vx0) + y0)
-    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
+    newcontours = []
+    for cnt in contours:
+        area = cv2.contourArea(cnt)
+        if area > 16000:
+            newcontours.append(cnt)
 
-    x_00 = float(cols-1)
-    y_00 = float(righty0)
-    x_01 = float(0)
-    y_01 = float(lefty0)
+    cv2.drawContours(img, newcontours, -1, (0, 255, 0), 3)
+    print newcontours
 
-    slope0 = float((y_01 - y_00)/(x_01-x_00))
-    yint0 = y_01 - (slope0 *x_01)
+    for x in newcontours:
+        rows, cols = img.shape[:2]
+        vx0, vy0, x0, y0 = cv2.fitLine(x, cv2.DIST_L2, 0, 0.01, 0.01)
+        lefty0 = int((-x0 * vy0 / vx0) + y0)
+        righty0 = int(((cols - x0) * vy0 / vx0) + y0)
 
-    x0 = (center_y-yint0)/slope0
+        x_00 = float(cols-1)
+        y_00 = float(righty0)
+        x_01 = float(0)
+        y_01 = float(lefty0)
 
-    x0 = int(x0)
+        slope0 = float((y_01 - y_00)/(x_01-x_00))
+        yint0 = y_01 - (slope0 *x_01)
 
-    cv2.circle(img,(x0,center_y),5,(0,0,255),-1)
+        x0 = (center_y-yint0)/slope0
+        x0 = int(x0)
+
+
 
     vx1, vy1, x1, y1 = cv2.fitLine(contours[1], cv2.DIST_L2, 0, 0.01, 0.01)
     lefty1 = int((-x1 * vy1 / vx1) + y1)
