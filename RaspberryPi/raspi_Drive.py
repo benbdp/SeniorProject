@@ -131,6 +131,7 @@ def laneDetection(img):
     angle = float(math.atan2((center - center_x),center_y))
     angle = math.degrees(angle)
     print "turn angle:", angle
+    cv2.imshow("final",img)
 
     return cv2.line(img,(cols-1,righty0),(0,lefty0),(0,242,255),3), \
            cv2.line(img, (cols - 1, righty1), (0, lefty1), (0, 242, 255), 3), \
