@@ -1,11 +1,10 @@
-import picamera
-import picamera.array
-import time
 import cv2
 import numpy as np
 import time
 import RPi.GPIO as GPIO
 import serial
+import sys
+import math
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
 distance_limit = 25
@@ -54,47 +53,130 @@ def ultrasonicright():
     GPIO.output(TRIGGERRIGHT, False)
 
     while GPIO.input(ECHORIGHT) == 0:
-        start1 = time.time()
+        start2 = time.time()
 
     while GPIO.input(ECHORIGHT) == 1:
-        stop1 = time.time()
+        stop2 = time.time()
 
-    elapsed1 = stop1 - start1
+    elapsed1 = stop2 - start2
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
 
-with picamera.PiCamera() as camera:
-    camera.resolution = (640, 480)
-    camera.framerate = 120
-    time.sleep(1) # AGC warm-up time
+
+def laneDetection(img):
+    height, width, channels = img.shape
+    #print height
+    center_y = height / 2
+    print center_y
+    #print width
+    center_x = width / 2
+    #print center_x
+    blur = cv2.GaussianBlur(img,(5,5), 3)
+    hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
+    cv2.imshow('hsv',hsv)
+    lower_blue = np.array([80, 10, 225])  # define range of blue color in HSV
+    upper_blue = np.array([95, 25, 240])
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
+    cv2.imshow('mask',mask)
+    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
+    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
+    cv2.imshow('erode',erode)
+    im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    #print contours[0]
+    cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
+
+    rows, cols = img.shape[:2]
+    vx0, vy0, x0, y0 = cv2.fitLine(contours[0], cv2.DIST_L2, 0, 0.01, 0.01)
+    lefty0 = int((-x0 * vy0 / vx0) + y0)
+    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
+
+    x_00 = float(cols-1)
+    y_00 = float(righty0)
+    x_01 = float(0)
+    y_01 = float(lefty0)
+
+    slope0 = float((y_01 - y_00)/(x_01-x_00))
+    yint0 = y_01 - (slope0 *x_01)
+
+    x0 = (center_y-yint0)/slope0
+
+    x0 = int(x0)
+
+    cv2.circle(img,(x0,center_y),5,(0,0,255),-1)
+
+    cv2.imshow("frame",img)
+    return cv2.line(img,(cols-1,righty0),(0,lefty0),(0,242,255),3), \
+           cv2.line(img, (center_x, 0), (center_x, height), (255, 0, 0), 2), \
+           cv2.line(img, (0, center_y), (width, center_y), (255, 0, 0), 2)
+
+mtx = np.matrix([[  1.09737118e+03, 0.00000000e+00, 6.29382303e+02], [  0.00000000e+00, 1.10083151e+03, 3.71037449e+02], [  0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
+dist = np.matrix([[  1.37334519e-01, -1.20441566e+00, 2.19553714e-03, -4.06071434e-04, 2.18048197e+00]])
+
+
+try:
+    webcam = cv2.VideoCapture(0) # index of your camera
+    time.sleep(2)
+except:
+    print ("problem opening input stream")
+    sys.exit(1)
+
+
+
+try:
     while True:
-        with picamera.array.PiRGBArray(camera) as stream:
-            camera.capture(stream, 'bgr', use_video_port=True)
-            frame = stream.array
-            #h, w = frame.shape[:2]
-            #newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
-            #undist = cv2.undistort(frame, mtx, dist, None, newcameramtx)
-            #hsv = cv2.cvtColor(undist, cv2.COLOR_BGR2HSV)
-            cv2.imshow('frame', frame)
-            cv2.waitKey(10)
-        left_distance = ultrasonicleft()
-        #print(left_distance)
-        right_distance = ultrasonicright()
-        #print(right_distance)
-        if (int(input())==int(1)):
+        ret, frame = webcam.read()
+        cv2.imshow('frame', frame)
+        h, w = frame.shape[:2]
+        newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+        undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
+        #cv2.imshow('undistort', undistort)
+
+        src_pts = np.float32([[142, 338], [522, 338], [20, 480], [635, 480]])  # src
+
+        dst_pts = np.float32([[0, 0], [558, 0], [0, 430], [558, 430]])  # dst
+
+        M = cv2.getPerspectiveTransform(src_pts, dst_pts)
+        dst_img = cv2.warpPerspective(frame, M, (558, 430))
+
+        #blur = cv2.GaussianBlur(dst_img, (5, 5), 3)
+        #hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
+        #cv2.imshow('hsv', hsv)
+
+        #cv2.imwrite("/home/pi/Desktop/image%04i.jpg" % num,hsv)
+        #num += 1
+        #lower_blue = np.array([80, 10, 225])  # define range of blue color in HSV
+        #upper_blue = np.array([95, 25, 240])
+        #mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
+        #cv2.imshow('mask', mask)
+
+        #dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
+        #erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
+        #cv2.imshow('erode', erode)
+        #cv2.imshow('dst', dst_img)
+        laneDetection(dst_img)
+
+        #cv2.imwrite("/home/pi/Desktop/warp.jpg",frame)
+        key = cv2.waitKey() & 0xFF
+
+        # if the `q` key was pressed, break from the loop
+        if key == ord("q"):
             break
-        if (right_distance > distance_limit) and (left_distance > distance_limit):
-            motor_speed = str(60)
-            servo_angle = str(97)
+        #left_distance = ultrasonicleft()
+        #right_distance = ultrasonicright()
+        #print(left_distance)
+        #print(right_distance)
+        #if (right_distance > distance_limit) and (left_distance > distance_limit):
+            #motor_speed = str(60)
+            #servo_angle = str(97)
             #print motor_speed + str('m,')
             #ser.write(motor_speed + str('m,') + servo_angle + str('s,'))
-        else:
-            motor_speed = str(0)
+        #else:
+            #motor_speed = str(0)
             #print motor_speed + str('m,')
-            ser.write(motor_speed + str('m,'))
-    # Protocol if user stops program
+            #ser.write(motor_speed + str('m,'))
+except:
     cv2.destroyAllWindows()
     print "User Stopped!"
     motor_speed = str(0)
-    ser.write( str(0) + str('m,') + str(97) + str('s,'))
+    ser.write(str(0) + str('m,') + str(97) + str('s,'))
