@@ -4,7 +4,7 @@ import time
 import RPi.GPIO as GPIO
 import serial
 import sys
-ser = serial.Serial('/dev/ttyACM0', 9600)
+#ser = serial.Serial('/dev/ttyACM0', 9600)
 
 distance_limit = 25
 GPIO.setmode(GPIO.BCM)
@@ -123,4 +123,4 @@ except:
     cv2.destroyAllWindows()
     print "User Stopped!"
     motor_speed = str(0)
-    ser.write(str(0) + str('m,') + str(97) + str('s,'))
+    #ser.write(str(0) + str('m,') + str(97) + str('s,'))
