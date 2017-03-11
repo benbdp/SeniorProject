@@ -73,7 +73,9 @@ except:
     print ("problem opening input stream")
     sys.exit(1)
 
-
+ret,frame = webcam.read()
+cv2.imshow("junk",frame)
+cv2.waitKey()
 
 try:
     while True:
