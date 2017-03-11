@@ -98,8 +98,6 @@ try:
         upper_blue = np.array([130, 255, 255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
         cv2.imshow('mask', mask)
-
-
         cv2.imwrite("/home/pi/Desktop/warp.jpg",hsv)
         key = cv2.waitKey() & 0xFF
 
