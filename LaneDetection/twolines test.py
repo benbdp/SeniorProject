@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 
-img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Screen Shot 2017-02-02 at 2.06.46 PM.png')
+img = cv2.imread('C:\Users\Benjamin\PycharmProjects\SeniorProject\LaneDetection\Samples\Photo on 3-2-17 at 2.28 PM.jpg')
 #print kernal
 
 #def blur(img,kernel_size):
@@ -106,32 +106,32 @@ def laneDetection(img):
     newcontours = []
     for cnt in contours:
         area = cv2.contourArea(cnt)
-        if area > 16000:
+        if area > 5000:
             newcontours.append(cnt)
 
     cv2.drawContours(img, newcontours, -1, (0, 255, 0), 3)
     print newcontours
 
-    for x in newcontours:
-        rows, cols = img.shape[:2]
-        vx0, vy0, x0, y0 = cv2.fitLine(x, cv2.DIST_L2, 0, 0.01, 0.01)
-        lefty0 = int((-x0 * vy0 / vx0) + y0)
-        righty0 = int(((cols - x0) * vy0 / vx0) + y0)
 
-        x_00 = float(cols-1)
-        y_00 = float(righty0)
-        x_01 = float(0)
-        y_01 = float(lefty0)
+    rows, cols = img.shape[:2]
+    vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
+    lefty0 = int((-x0 * vy0 / vx0) + y0)
+    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
 
-        slope0 = float((y_01 - y_00)/(x_01-x_00))
-        yint0 = y_01 - (slope0 *x_01)
+    x_00 = float(cols-1)
+    y_00 = float(righty0)
+    x_01 = float(0)
+    y_01 = float(lefty0)
 
-        x0 = (center_y-yint0)/slope0
-        x0 = int(x0)
+    slope0 = float((y_01 - y_00)/(x_01-x_00))
+    yint0 = y_01 - (slope0 *x_01)
+
+    x0 = (center_y-yint0)/slope0
+    x0 = int(x0)
 
 
 
-    vx1, vy1, x1, y1 = cv2.fitLine(contours[1], cv2.DIST_L2, 0, 0.01, 0.01)
+    vx1, vy1, x1, y1 = cv2.fitLine(newcontours[1], cv2.DIST_L2, 0, 0.01, 0.01)
     lefty1 = int((-x1 * vy1 / vx1) + y1)
     righty1 = int(((cols - x1) * vy1 / vx1) + y1)
 

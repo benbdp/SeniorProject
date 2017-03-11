@@ -75,8 +75,8 @@ def laneDetection(img):
     blur = cv2.GaussianBlur(img,(5,5), 3)
     hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
     cv2.imshow('hsv',hsv)
-    lower_blue = np.array([80, 10, 225])  # define range of blue color in HSV
-    upper_blue = np.array([95, 25, 240])
+    lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
+    upper_blue = np.array([130, 255, 255])
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
     cv2.imshow('mask',mask)
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
@@ -84,10 +84,19 @@ def laneDetection(img):
     cv2.imshow('erode',erode)
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     #print contours[0]
-    cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
+
+    newcontours = []
+    for cnt in contours:
+        area = cv2.contourArea(cnt)
+        if area > 5000:
+            newcontours.append(cnt)
+
+    cv2.drawContours(img, newcontours, -1, (0, 255, 0), 3)
+    print newcontours
+
 
     rows, cols = img.shape[:2]
-    vx0, vy0, x0, y0 = cv2.fitLine(contours[0], cv2.DIST_L2, 0, 0.01, 0.01)
+    vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
     lefty0 = int((-x0 * vy0 / vx0) + y0)
     righty0 = int(((cols - x0) * vy0 / vx0) + y0)
 
@@ -100,13 +109,31 @@ def laneDetection(img):
     yint0 = y_01 - (slope0 *x_01)
 
     x0 = (center_y-yint0)/slope0
-
     x0 = int(x0)
 
-    cv2.circle(img,(x0,center_y),5,(0,0,255),-1)
 
-    cv2.imshow("frame",img)
+
+    vx1, vy1, x1, y1 = cv2.fitLine(newcontours[1], cv2.DIST_L2, 0, 0.01, 0.01)
+    lefty1 = int((-x1 * vy1 / vx1) + y1)
+    righty1 = int(((cols - x1) * vy1 / vx1) + y1)
+
+    x_10 = float(cols - 1)
+    y_10 = float(righty1)
+    x_11 = float(0)
+    y_11 = float(lefty1)
+    slope1 = float((y_11 - y_10) / (x_11 - x_10))
+    yint1 = y_11 - (slope1 * x_11)
+    x1 = (center_y - yint1) / slope1
+    x1 = int(x1)
+    cv2.circle(img, (x1, center_y), 5, (0, 0, 255), -1)
+    center = (x0 + x1)/2
+    cv2.circle(img, (center, center_y), 5, (0, 0, 255), -1)
+    angle = float(math.atan2((center - center_x),center_y))
+    angle = math.degrees(angle)
+    print "turn angle:", angle
+
     return cv2.line(img,(cols-1,righty0),(0,lefty0),(0,242,255),3), \
+           cv2.line(img, (cols - 1, righty1), (0, lefty1), (0, 242, 255), 3), \
            cv2.line(img, (center_x, 0), (center_x, height), (255, 0, 0), 2), \
            cv2.line(img, (0, center_y), (width, center_y), (255, 0, 0), 2)
 
