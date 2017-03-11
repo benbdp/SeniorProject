@@ -94,8 +94,8 @@ try:
         hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)
         cv2.imshow("hsv",hsv)
 
-        lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
-        upper_blue = np.array([130, 255, 255])
+        lower_blue = np.array([90, 50, 190])  # define range of blue color in HSV
+        upper_blue = np.array([120, 100, 225])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
         cv2.imshow('mask', mask)
         cv2.imwrite("/home/pi/Desktop/warp.jpg",hsv)
