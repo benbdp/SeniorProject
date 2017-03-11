@@ -75,8 +75,8 @@ def laneDetection(img):
     blur = cv2.GaussianBlur(img,(5,5), 3)
     hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)  # Convert to HSV
     cv2.imshow('hsv',hsv)
-    lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
-    upper_blue = np.array([130, 255, 255])
+    lower_blue = np.array([90, 50, 190])  # define range of blue color in HSV
+    upper_blue = np.array([120, 100, 225])
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
     cv2.imshow('mask',mask)
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
@@ -148,7 +148,9 @@ except:
     print ("problem opening input stream")
     sys.exit(1)
 
-
+ret,frame = webcam.read()
+cv2.imshow("junk",frame)
+cv2.waitKey()
 
 try:
     while True:
