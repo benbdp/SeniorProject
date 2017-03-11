@@ -110,7 +110,7 @@ def laneDetection(img):
 
     x0 = (center_y-yint0)/slope0
     x0 = int(x0)
-
+    cv2.circle(img, (x0, center_y), 5, (0, 0, 255), -1)
 
 
     vx1, vy1, x1, y1 = cv2.fitLine(newcontours[1], cv2.DIST_L2, 0, 0.01, 0.01)
