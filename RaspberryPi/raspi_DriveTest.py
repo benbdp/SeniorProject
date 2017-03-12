@@ -66,7 +66,7 @@ ser.write(str(0) + str('m,') + str(97) + str('s,'))
 print "stopped!"
 
 ser.write(str(80) + str('m,') + str(80) + str('s,'))
-time.sleep(10)
+time.sleep(20)
 ser.write(str(0) + str('m,') + str(97) + str('s,'))
 
 
