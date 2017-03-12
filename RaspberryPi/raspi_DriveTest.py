@@ -57,7 +57,9 @@ def ultrasonicright():
 time.sleep(2)
 ser.write(str(80) + str('m,') + str(97) + str('s,'))
 print"running!"
-time.sleep(3)
+time.sleep(2.75)
+ser.write(str(80) + str('m,') + str(95) + str('s,'))
+time.sleep(2)
 ser.write(str(0) + str('m,') + str(97) + str('s,'))
 print "stopped!"
 #
