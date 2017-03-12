@@ -55,9 +55,6 @@ def ultrasonicright():
 
     return right_distance
 
-
-ser.write(str(0) + str('m,') + str(97) + str('s,'))
-time.sleep(1)
 ser.write(str(100) + str('m,') + str(97) + str('s,'))
 print"running!"
 time.sleep(5)
