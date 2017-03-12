@@ -59,7 +59,7 @@ ser.write(str(80) + str('m,') + str(97) + str('s,'))
 print"running!"
 time.sleep(2.75)
 ser.write(str(80) + str('m,') + str(90) + str('s,'))
-time.sleep(2)
+time.sleep(1)
 ser.write(str(80) + str('m,') + str(97) + str('s,'))
 time.sleep(2)
 ser.write(str(0) + str('m,') + str(97) + str('s,'))
