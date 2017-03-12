@@ -54,13 +54,12 @@ def ultrasonicright():
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
-
-while True:
-    # ser.write(str(100) + str('m,') + str(97) + str('s,'))
-    # print"running!"
-    # time.sleep(5)
-    ser.write(str(0) + str('m,') + str(97) + str('s,'))
-    # print "stopped!"
+time.sleep(2)
+ser.write(str(80) + str('m,') + str(97) + str('s,'))
+print"running!"
+time.sleep(2)
+ser.write(str(0) + str('m,') + str(97) + str('s,'))
+print "stopped!"
 #
 # try:
 #     webcam = cv2.VideoCapture(0) # index of your camera
