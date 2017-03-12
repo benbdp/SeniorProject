@@ -4,7 +4,7 @@ import time
 import RPi.GPIO as GPIO
 import serial
 import sys
-ser = serial.Serial('/dev/ttyAMA0', 9600)
+ser = serial.Serial('/dev/ttyACM0', 9600)
 
 distance_limit = 25
 GPIO.setmode(GPIO.BCM)
@@ -59,8 +59,10 @@ def ultrasonicright():
 ser.write(str(0) + str('m,') + str(97) + str('s,'))
 time.sleep(1)
 ser.write(str(60) + str('m,') + str(97) + str('s,'))
+print"running!"
 time.sleep(2)
 ser.write(str(0) + str('m,') + str(97) + str('s,'))
+print "stopped!"
 
 #
 # try:
