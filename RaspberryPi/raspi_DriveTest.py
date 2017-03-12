@@ -61,7 +61,6 @@ while True:
     # time.sleep(5)
     ser.write(str(0) + str('m,') + str(97) + str('s,'))
     # print "stopped!"
-
 #
 # try:
 #     webcam = cv2.VideoCapture(0) # index of your camera
