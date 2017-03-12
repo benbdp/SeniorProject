@@ -59,7 +59,7 @@ def ultrasonicright():
 ser.write(str(0) + str('m,') + str(97) + str('s,'))
 time.sleep(1)
 ser.write(str(60) + str('m,') + str(97) + str('s,'))
-time.sleep(1)
+time.sleep(2)
 ser.write(str(0) + str('m,') + str(97) + str('s,'))
 
 #
