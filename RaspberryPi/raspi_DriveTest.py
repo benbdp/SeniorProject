@@ -60,7 +60,7 @@ ser.write(str(0) + str('m,') + str(97) + str('s,'))
 time.sleep(1)
 ser.write(str(60) + str('m,') + str(97) + str('s,'))
 print"running!"
-time.sleep(2)
+time.sleep(5)
 ser.write(str(0) + str('m,') + str(97) + str('s,'))
 print "stopped!"
 
