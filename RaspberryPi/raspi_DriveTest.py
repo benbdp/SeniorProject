@@ -54,20 +54,35 @@ def ultrasonicright():
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
-time.sleep(2)
-ser.write(str(80) + str('m,') + str(97) + str('s,'))
-print"running!"
-time.sleep(2.75)
-ser.write(str(80) + str('m,') + str(85) + str('s,'))
-time.sleep(1)
-ser.write(str(80) + str('m,') + str(97) + str('s,'))
-time.sleep(4)
-ser.write(str(0) + str('m,') + str(97) + str('s,'))
-print "stopped!"
 
-ser.write(str(80) + str('m,') + str(80) + str('s,'))
-time.sleep(20)
-ser.write(str(0) + str('m,') + str(97) + str('s,'))
+try:
+    webcam = cv2.VideoCapture(0) # index of your camera
+    time.sleep(2)
+except:
+    print ("problem opening input stream")
+    sys.exit(1)
+
+try:
+    while True:
+        ret, frame = webcam.read()
+        cv2.imshow('frame', frame)
+        key = cv2.waitKey(1) & 0xFF
+        # if the `q` key was pressed, break from the loop
+        if key == ord("q"):
+            break
+    time.sleep(2)
+    ser.write(str(80) + str('m,') + str(97) + str('s,'))
+    print"running!"
+    time.sleep(2.75)
+    ser.write(str(80) + str('m,') + str(85) + str('s,'))
+    time.sleep(1)
+    ser.write(str(80) + str('m,') + str(97) + str('s,'))
+    time.sleep(4)
+    ser.write(str(0) + str('m,') + str(97) + str('s,'))
+    print "sleeping!"
+    time.sleep(10)
+except:
+    print "user stopped!"
 
 
 #
