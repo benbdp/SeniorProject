@@ -137,17 +137,17 @@ def ultrasonicright():
 # dist = np.matrix([[  1.37334519e-01, -1.20441566e+00, 2.19553714e-03, -4.06071434e-04, 2.18048197e+00]])
 
 
-try:
-    webcam = cv2.VideoCapture(0) # index of your camera
-    time.sleep(2)
-except:
-    print ("problem opening input stream")
-    sys.exit(1)
-
-distance_limit = 25
+# try:
+#     webcam = cv2.VideoCapture(0) # index of your camera
+#     time.sleep(2)
+# except:
+#     print ("problem opening input stream")
+#     sys.exit(1)
+#
+# distance_limit = 25
 try:
     while True:
-        ret, frame = webcam.read()
+        # ret, frame = webcam.read()
         # h, w = frame.shape[:2]
         # newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
         # undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
@@ -166,8 +166,8 @@ try:
         #     servo_pos = servo_pos + (abs(angle) * term)
         #
         # print servo_pos
-        cv2.imshow("frame",frame)
-        cv2.waitKey(5)
+        # cv2.imshow("frame",frame)
+        # cv2.waitKey(5)
 
         # if the `q` key was pressed, break from the loop
 
