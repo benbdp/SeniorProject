@@ -1,6 +1,6 @@
 import serial
 import time
-ser = serial.Serial('/dev/ttyACM0', 9600)
+ser = serial.Serial('/dev/ttyAMA0', 9600)
 servo_pos=70
 
 print(str(72) + str('m,') + str(servo_pos) + str('s,'))
