@@ -1,11 +1,9 @@
 import serial
-ser = serial.Serial('/dev/ttyA0', 9600, timeout=1)
-#ser.open()
+import time
+ser = serial.Serial('/dev/ttyACM0', 9600)
+servo_pos=97
 
-ser.write('testing')
-try:
-    while 1:
-        response = ser.readline()
-        print response
-except KeyboardInterrupt:
-    ser.close()
+print(str(80) + str('m,') + str(servo_pos) + str('s,'))
+time.sleep(2)
+# ser.write(str(0) + str('m,') + str(servo_pos) + str('s,'))
+print(str(0) + str('m,') + str(servo_pos) + str('s,'))
