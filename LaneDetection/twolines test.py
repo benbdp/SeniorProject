@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 
-img = cv2.imread('C:\Users\Benjamin\PycharmProjects\SeniorProject\LaneDetection\Samples\Photo on 3-2-17 at 2.28 PM.jpg')
+img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Screen Shot 2017-02-02 at 2.06.46 PM.png')
 #print kernal
 
 #def blur(img,kernel_size):
@@ -150,12 +150,21 @@ def laneDetection(img):
     angle = math.degrees(angle)
     print "turn angle:", angle
 
-    return cv2.line(img,(cols-1,righty0),(0,lefty0),(0,242,255),3), \
-           cv2.line(img, (cols - 1, righty1), (0, lefty1), (0, 242, 255), 3), \
-           cv2.line(img, (center_x, 0), (center_x, height), (255, 0, 0), 2), \
-           cv2.line(img, (0, center_y), (width, center_y), (255, 0, 0), 2)
+    return angle
 
-laneDetection(img)
+angle = laneDetection(img)
+
+servo_pos = 97
+
+if angle >0:
+    servo_pos = servo_pos - (abs(angle) *0.8)
+if angle <0:
+    servo_pos = servo_pos + (abs(angle) * 0.8)
+
+print servo_pos
+
+
+
 cv2.imshow('line',img)
 cv2.waitKey()
 #cv2.imwrite('/Users/Benjamin/Downloads/curvelines.jpg',img)

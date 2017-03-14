@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Movie on 2-2-17 at 1.58 AM.mov')
+img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Photo on 3-2-17 at 2.28 PM.jpg')
 
 kernel_size = 3
 
@@ -34,10 +34,6 @@ def undistort(img,mtx,dist):
 def houghtransform(img,rho,theta,threshold,min_len,max_gap):
     return cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), min_len, max_gap)
 
-try:
-    while True:
-        ret, frame = cap.read()
-        cv2.imshow('frame',frame)
-        cv2.waitKey(5)
-except KeyboardInterrupt:
-        pass
+blur = blur(img,kernel_size)
+cv2.imshow('img',img)
+cv2.waitKey()

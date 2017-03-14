@@ -15,8 +15,12 @@ void setup() {
   AFMS.begin(); 
   Serial.begin(9600);
   myservo.attach(9);  //the pin for the servo control
-  myservo.write(77); //set initial servo position if desired
+  myservo.write(97); //set initial servo position if desired
   Serial.println("Ready"); //prints "Ready" when connection established
+  myrightmotor->run(BACKWARD);
+  myrightmotor->setSpeed(0);
+  myleftmotor->run(BACKWARD);
+  myleftmotor->setSpeed(0);
 }
 
 void loop() {
@@ -35,18 +39,18 @@ void loop() {
           if(readString.indexOf('s') >0) myservo.write(n);
           if(readString.indexOf('m') >0) myleftmotor->setSpeed(n);
           if(readString.indexOf('m') >0) myrightmotor->setSpeed(n);
-          if(readString.indexOf('m') >0) myleftmotor->run(FORWARD);
-          if(readString.indexOf('m') >0) myrightmotor->run(FORWARD);
+          if(readString.indexOf('m') >0) myleftmotor->run(BACKWARD);
+          if(readString.indexOf('m') >0) myrightmotor->run(BACKWARD);
         }
         else
-        {   
+        {
           Serial.print("Value too great: ");
           Serial.println(n);
         }
          readString=""; //clears variable for new input
       }
-    }  
-    else {     
+    }
+    else {
       readString += c; //makes the string readString
     }
   }
