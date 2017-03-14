@@ -167,11 +167,10 @@ try:
         #
         # print servo_pos
         cv2.imshow("frame",frame)
-        key = cv2.waitKey() & 0xFF
+        cv2.waitKey(5)
 
         # if the `q` key was pressed, break from the loop
-        if key == ord("q"):
-            break
+
         left_distance = ultrasonicleft()
         right_distance = ultrasonicright()
         print(left_distance)
