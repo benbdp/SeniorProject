@@ -1,7 +1,7 @@
 import cv2
 import sys
 num = 0
-maxFrames = 20 # if you want 5 frames only.
+maxFrames = 50 # if you want 5 frames only.
 
 try:
     vidStream = cv2.VideoCapture(0) # index of your camera
