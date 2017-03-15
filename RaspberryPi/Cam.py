@@ -92,7 +92,7 @@ try:
         upper_blue = np.array([60,255,255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
         cv2.imshow('mask', mask)
-        cv2.imwrite('/home/pi/Desktop/hsv%04i.jpg' % num,hsv)
+        # cv2.imwrite('/home/pi/Desktop/hsv%04i.jpg' % num,hsv)
         key = cv2.waitKey() & 0xFF
 
         # if the `q` key was pressed, break from the loop
