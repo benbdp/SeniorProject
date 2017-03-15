@@ -81,14 +81,15 @@ try:
         undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
         cv2.imshow('undistort', undistort)
         src_pts = np.float32([[72, 227], [576, 223], [1, 316], [634, 296]])  # src
-
         dst_pts = np.float32([[0, 0], [556, 0], [0, 184], [556, 156]])  # dst
-
         M = cv2.getPerspectiveTransform(src_pts, dst_pts)
         dst_img = cv2.warpPerspective(undistort, M, (556, 156))
         cv2.imshow('warp', dst_img)
+        hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)  # Convert to HSV
+        cv2.imshow('hsv', hsv)
 
-        # cv2.imwrite('/home/pi/Desktop/warp.jpg',undistort)
+
+        cv2.imwrite('/home/pi/Desktop/hsv.jpg',hsv)
         key = cv2.waitKey() & 0xFF
 
         # if the `q` key was pressed, break from the loop
