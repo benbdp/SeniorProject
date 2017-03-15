@@ -77,7 +77,7 @@ try:
     while True:
         num = num +1
         ret, frame = webcam.read()
-        print webcam.get(cv2.CV_CAP_PROP_POS_FRAMES)
+        print webcam.get(cv2.CAP_PROP_POS_FRAMES)
         #
         # #cv2.imshow('frame', frame)
         # h, w = frame.shape[:2]
