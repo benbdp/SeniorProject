@@ -32,4 +32,6 @@ lower_blue = np.array([40, 70, 140])  # define range of color in HSV
 upper_blue = np.array([60,255,255])
 mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
 cv2.imshow('mask', mask)
+cv2.waitKey()
+cv2.destroyAllWindows()
 del (camera)
