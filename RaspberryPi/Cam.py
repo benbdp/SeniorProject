@@ -109,7 +109,7 @@ try:
         newcontours = []
         for cnt in contours:
             area = cv2.contourArea(cnt)
-            if area > 5000:
+            if area > 1:
                 newcontours.append(cnt)
 
         cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
