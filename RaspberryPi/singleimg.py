@@ -1,5 +1,5 @@
 import cv2
-import nump as np
+import numpy as np
 
 mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
 dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
