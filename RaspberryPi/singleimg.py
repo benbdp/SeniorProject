@@ -1,21 +1,36 @@
 import cv2
-import datetime
-import time
 
-def camera():
-    cap = cv2.VideoCapture(0)
-    time.sleep(2)
-    timestamp = datetime.datetime.now()
-    ret, frame = cap.read()
-    ts = timestamp.strftime("%A %d %B %Y %I:%M:%S%p")
-    cv2.putText(frame, ts, (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
-    cap.release()
-    return frame
+# Camera 0 is the integrated web cam on my netbook
+camera_port = 0
 
-num =0
-while True:
-    print num
-    frame = camera()
-    cv2.imshow("frame",frame)
-    cv2.waitKey(1)
-    num = num +1
+# Number of frames to throw away while the camera adjusts to light levels
+ramp_frames = 30
+
+# Now we can initialize the camera capture object with the cv2.VideoCapture class.
+# All it needs is the index to a camera port.
+camera = cv2.VideoCapture(camera_port)
+
+
+# Captures a single image from the camera and returns it in PIL format
+def get_image():
+    # read is the easiest way to get a full image out of a VideoCapture object.
+    retval, im = camera.read()
+    return im
+
+
+# Ramp the camera - these frames will be discarded and are only used to allow v4l2
+# to adjust light levels, if necessary
+for i in xrange(ramp_frames):
+    temp = get_image()
+print("Taking image...")
+# Take the actual image we want to keep
+camera_capture = get_image()
+
+# A nice feature of the imwrite method is that it will automatically choose the
+# correct format based on the file extension you provide. Convenient!
+cv2.imshow(camera_capture)
+cv2.waitKey()
+
+# You'll want to release the camera, otherwise you won't be able to create a new
+# capture object until your script exits
+del (camera)
