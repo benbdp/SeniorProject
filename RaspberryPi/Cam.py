@@ -71,9 +71,10 @@ try:
 except:
     print ("problem opening input stream")
     sys.exit(1)
-
+num =0
 try:
     while True:
+        num = num +1
         ret, frame = webcam.read()
         #cv2.imshow('frame', frame)
         h, w = frame.shape[:2]
@@ -91,9 +92,7 @@ try:
         upper_blue = np.array([60, 100, 160])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
         cv2.imshow('mask', mask)
-
-
-        #cv2.imwrite('/home/pi/Desktop/hsv.jpg',hsv)
+        cv2.imwrite('/home/pi/Desktop/hsv%04i.jpg' % num,hsv)
         key = cv2.waitKey() & 0xFF
 
         # if the `q` key was pressed, break from the loop
