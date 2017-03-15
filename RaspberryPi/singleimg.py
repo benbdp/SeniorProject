@@ -14,6 +14,7 @@ def camera():
 
 num =0
 while True:
+    print num
     frame = camera()
     cv2.imshow("frame",frame)
     cv2.waitKey(1)
