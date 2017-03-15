@@ -8,7 +8,6 @@ try:
 except:
     print ("problem opening input stream")
     sys.exit(1)
-
 while num < maxFrames:
     retval, frame = vidStream.read()
     cv2.imshow("img",frame)

@@ -39,7 +39,9 @@ for fname in images:
 
 retval, cameramatrix, distortioncoeff, rotationvector, translationvector = cv2.calibrateCamera(objpoints, imgpoints, (640,480), None, None)
 
+np.save('/home/pi/Cal_Imgs/cameramatrix.npy',cameramatrix)
 print('matrix',cameramatrix)
+np.save('/home/pi/Cal_Imgs/distortioncoeff.npy',distortioncoeff)
 print('dist',distortioncoeff)
 
 mean_error = 0
