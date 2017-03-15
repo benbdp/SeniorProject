@@ -99,7 +99,7 @@ M = cv2.getPerspectiveTransform(src_pts, dst_pts)
 dst_img = cv2.warpPerspective(undistort, M, (556, 156))
 #cv2.imshow('warp', dst_img)
 hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)  # Convert to HSV
-#cv2.imshow('hsv', hsv)
+cv2.imshow('hsv', hsv)
 lower_blue = np.array([40, 70, 140])  # define range of color in HSV
 upper_blue = np.array([60,255,255])
 mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
@@ -177,8 +177,8 @@ print(str(72) + str('m,') + str(servo_pos) + str('s,'))
 ser.write(str(72) + str('m,') + str(servo_pos) + str('s,'))
 time.sleep(1)
 
-print(str(0) + str('m,') + str(servo_pos) + str('s,'))
-ser.write(str(0) + str('m,') + str(servo_pos) + str('s,'))
+print(str(0) + str('m,') + str(70) + str('s,'))
+ser.write(str(0) + str('m,') + str(70) + str('s,'))
 cv2.imshow("img",dst_img)
 cv2.waitKey()
 cv2.destroyAllWindows()
