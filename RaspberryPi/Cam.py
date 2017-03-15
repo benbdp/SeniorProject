@@ -66,16 +66,16 @@ mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
 dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
 
 
-try:
-    webcam = cv2.VideoCapture(0) # index of your camera
-    time.sleep(2)
-except:
-    print ("problem opening input stream")
-    sys.exit(1)
-num =0
+# try:
+#     webcam = cv2.VideoCapture(0) # index of your camera
+#     time.sleep(2)
+# except:
+#     print ("problem opening input stream")
+#     sys.exit(1)
+# num =0
 try:
     while True:
-        num = num +1
+        webcam = cv2.VideoCapture(0)
         ret, frame = webcam.read()
         print webcam.get(cv2.CAP_PROP_POS_FRAMES)
 
