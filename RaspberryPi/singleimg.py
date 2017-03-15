@@ -11,7 +11,7 @@ while(1):
 
     cv2.putText(frame, ts, (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
     cv2.imshow("Frame",frame)
-    key = cv2.waitKey(1) & 0xFF
+    key = cv2.waitKey(5) & 0xFF
     if key == ord("q"):
         break
 
