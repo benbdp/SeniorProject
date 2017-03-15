@@ -152,6 +152,15 @@ try:
         # print "turn angle:", angle
         # cv2.imshow("img",img)
         print angle
+        term = 0.9
+        servo_pos = 70
+
+        if angle > 0:
+            servo_pos = servo_pos - (abs(angle) * term)
+        if angle < 0:
+            servo_pos = servo_pos + (abs(angle) * term)
+
+        print servo_pos
 
         cv2.imshow("dst",dst_img)
 
