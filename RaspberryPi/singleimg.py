@@ -2,9 +2,9 @@ import cv2
 import datetime
 import time
 
-cap = cv2.VideoCapture(0)
 def camera():
-    time.sleep(1)
+    cap = cv2.VideoCapture(0)
+    time.sleep(2)
     timestamp = datetime.datetime.now()
     ret, frame = cap.read()
     ts = timestamp.strftime("%A %d %B %Y %I:%M:%S%p")
