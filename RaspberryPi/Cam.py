@@ -89,7 +89,7 @@ try:
         hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)  # Convert to HSV
         cv2.imshow('hsv', hsv)
         lower_blue = np.array([40, 70, 140])  # define range of color in HSV
-        upper_blue = np.array([60, 100, 160])
+        upper_blue = np.array([60,255,255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
         cv2.imshow('mask', mask)
         cv2.imwrite('/home/pi/Desktop/hsv%04i.jpg' % num,hsv)
