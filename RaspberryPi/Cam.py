@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import serial
 import sys
 import math
-#ser = serial.Serial('/dev/ttyACM0', 9600)
+ser = serial.Serial('/dev/ttyACM0', 9600)
 
 distance_limit = 25
 GPIO.setmode(GPIO.BCM)
@@ -163,6 +163,12 @@ try:
 
         print servo_pos
 
+        print(str(72) + str('m,') + str(servo_pos) + str('s,'))
+        ser.write(str(72) + str('m,') + str(servo_pos) + str('s,'))
+        time.sleep(1)
+
+        print(str(0) + str('m,') + str(servo_pos) + str('s,'))
+        ser.write(str(0) + str('m,') + str(servo_pos) + str('s,'))
         cv2.imshow("dst",dst_img)
 
 
@@ -190,4 +196,4 @@ except:
     cv2.destroyAllWindows()
     print "User Stopped!"
     motor_speed = str(0)
-    #ser.write(str(0) + str('m,') + str(97) + str('s,'))
+    ser.write(str(0) + str('m,') + str(70) + str('s,'))
