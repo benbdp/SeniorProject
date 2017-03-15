@@ -157,9 +157,6 @@ try:
 
 
 
-
-
-
         # cv2.imwrite('/home/pi/Desktop/hsv%04i.jpg' % num,hsv)
         key = cv2.waitKey() & 0xFF
 
