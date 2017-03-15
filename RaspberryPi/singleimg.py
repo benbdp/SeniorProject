@@ -12,7 +12,9 @@ def camera():
     cap.release()
     return frame
 
+num =0
 while True:
     frame = camera()
     cv2.imshow("frame",frame)
-    cv2.waitKey()
+    cv2.waitKey(1)
+    num = num +1
