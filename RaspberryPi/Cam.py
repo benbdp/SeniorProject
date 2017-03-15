@@ -61,9 +61,8 @@ def ultrasonicright():
     right_distance = (elapsed1 * 34300) / 2
 
     return right_distance
-
-mtx = np.matrix([[  1.09737118e+03, 0.00000000e+00, 6.29382303e+02], [  0.00000000e+00, 1.10083151e+03, 3.71037449e+02], [  0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
-dist = np.matrix([[  1.37334519e-01, -1.20441566e+00, 2.19553714e-03, -4.06071434e-04, 2.18048197e+00]])
+mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
+dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
 
 
 try:
@@ -73,10 +72,6 @@ except:
     print ("problem opening input stream")
     sys.exit(1)
 
-ret,frame = webcam.read()
-cv2.imshow("junk",frame)
-cv2.waitKey()
-
 try:
     while True:
         ret, frame = webcam.read()
@@ -84,23 +79,8 @@ try:
         h, w = frame.shape[:2]
         newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
         undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
-        #cv2.imshow('undistort', undistort)
+        cv2.imshow('undistort', undistort)
 
-        src_pts = np.float32([[142, 338], [522, 338], [20, 480], [635, 480]])  # src
-
-        dst_pts = np.float32([[0, 0], [558, 0], [0, 430], [558, 430]])  # dst
-
-        M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-        dst_img = cv2.warpPerspective(frame, M, (558, 430))
-        #cv2.imshow('dst', dst_img)
-        hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)
-        cv2.imshow("hsv",hsv)
-
-        lower_blue = np.array([90, 50, 190])  # define range of blue color in HSV
-        upper_blue = np.array([120, 100, 225])
-        mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
-        cv2.imshow('mask', mask)
-        cv2.imwrite("/home/pi/Desktop/warp.jpg",hsv)
         key = cv2.waitKey() & 0xFF
 
         # if the `q` key was pressed, break from the loop
