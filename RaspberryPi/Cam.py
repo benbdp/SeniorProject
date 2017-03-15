@@ -80,7 +80,7 @@ try:
         newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
         undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
         cv2.imshow('undistort', undistort)
-        cv2.imsave('/home/pi/Desktop/warp.jpg',undistort)
+        cv2.imwrite('/home/pi/Desktop/warp.jpg',undistort)
         key = cv2.waitKey() & 0xFF
 
         # if the `q` key was pressed, break from the loop
