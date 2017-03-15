@@ -28,7 +28,7 @@ camera_capture = get_image()
 
 # A nice feature of the imwrite method is that it will automatically choose the
 # correct format based on the file extension you provide. Convenient!
-cv2.imshow(camera_capture)
+cv2.imshow('camera_capture',camera_capture)
 cv2.waitKey()
 
 # You'll want to release the camera, otherwise you won't be able to create a new
