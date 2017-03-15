@@ -2,9 +2,8 @@ import cv2
 import datetime
 import time
 
-
+cap = cv2.VideoCapture(0)
 def camera():
-    cap = cv2.VideoCapture(0)
     time.sleep(1)
     timestamp = datetime.datetime.now()
     ret, frame = cap.read()
