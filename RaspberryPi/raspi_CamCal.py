@@ -33,8 +33,8 @@ for fname in images:
 
         # Draw and display the corners
         img = cv2.drawChessboardCorners(img, (9,6), corners2,ret)
-        cv2.imshow('img',img)
-        cv2.waitKey(100)
+        #cv2.imshow('img',img)
+        #cv2.waitKey(100)
         num = num + 1
 
 retval, cameramatrix, distortioncoeff, rotationvector, translationvector = cv2.calibrateCamera(objpoints, imgpoints, (640,480), None, None)
