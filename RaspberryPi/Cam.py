@@ -152,8 +152,8 @@ try:
         angle = math.degrees(angle)
         # print "turn angle:", angle
         # cv2.imshow("img",img)
-        print angle
-        term = 0.9
+        print "amount to turn: ",angle
+        term = 0.3
         servo_pos = 70
 
         if angle > 0:
@@ -161,7 +161,7 @@ try:
         if angle < 0:
             servo_pos = servo_pos + (abs(angle) * term)
 
-        print servo_pos
+        print "servo_pos", servo_pos
 
         print(str(72) + str('m,') + str(servo_pos) + str('s,'))
         ser.write(str(72) + str('m,') + str(servo_pos) + str('s,'))
