@@ -191,7 +191,6 @@ def laneDetection(img):
 
 angle = laneDetection(mask)
 
-
 term = 0.3
 servo_pos = 70
 
