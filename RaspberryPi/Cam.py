@@ -135,7 +135,7 @@ def laneDetection(img):
         slope0 = float((y_01 - y_00)/(x_01-x_00))
         yint0 = y_01 - (slope0 *x_01)
 
-        x0 = (center_y-yint0)/slope0w
+        x0 = (center_y-yint0)/slope0
         x0 = int(x0)
         cv2.circle(img, (x0, center_y), 5, (0, 0, 255), -1)
 
@@ -193,7 +193,7 @@ for i in xrange(junk_frames):
 
 capture = get_image()
 angle = laneDetection(capture)
-term = 0.9
+term = 0.5
 servo_pos = 70
 
 if angle > 0:
