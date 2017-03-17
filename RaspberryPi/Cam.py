@@ -71,7 +71,7 @@ def laneDetection(img):
     lower_blue = np.array([40, 70, 140])  # define range of color in HSV
     upper_blue = np.array([60, 255, 255])
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
-    height, width, channels = mask.shape
+    height, width, channels = hsv.shape
     print height, width, channels
     cv2.imshow('mask', mask)
     #
