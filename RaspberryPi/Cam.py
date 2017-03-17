@@ -103,11 +103,11 @@ def laneDetection(img):
         x0 = int(x0)
 
         if x0 < center_x:
-            angle = 10
-
-        elif x0 > center_x:
             angle = -10
 
+        elif x0 > center_x:
+            angle = 10
+        print "turn angle: ",angle
         return angle
 
 
@@ -135,7 +135,7 @@ def laneDetection(img):
         slope0 = float((y_01 - y_00)/(x_01-x_00))
         yint0 = y_01 - (slope0 *x_01)
 
-        x0 = (center_y-yint0)/slope0
+        x0 = (center_y-yint0)/slope0w
         x0 = int(x0)
         cv2.circle(img, (x0, center_y), 5, (0, 0, 255), -1)
 
