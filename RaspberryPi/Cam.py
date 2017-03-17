@@ -200,9 +200,9 @@ term = 0.3
 servo_pos = 70
 
 if angle > 0:
-    servo_pos = servo_pos + (abs(angle) * term)
-if angle < 0:
     servo_pos = servo_pos - (abs(angle) * term)
+if angle < 0:
+    servo_pos = servo_pos + (abs(angle) * term)
 
 print "servo_pos", servo_pos
 
