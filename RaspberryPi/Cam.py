@@ -103,10 +103,10 @@ def laneDetection(img):
         x0 = int(x0)
 
         if x0 < center_x:
-            angle = -10
+            angle = -20
 
         elif x0 > center_x:
-            angle = 10
+            angle = 20
         print "turn angle: ",angle
         return angle
 
