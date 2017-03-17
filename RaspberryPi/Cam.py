@@ -102,17 +102,12 @@ def laneDetection(img):
         x0 = (height - yint0) / slope0
         x0 = int(x0)
 
-        x1 = (0 - yint0) / slope0
-        x1 = int(x1)
+        if x0 < center_x:
+            angle = 10
 
-        adj = x0
+        elif x0 > center_x:
+            angle = -10
 
-        opp = x0 -x1
-        angle = float(math.atan2((opp), adj))
-        angle = math.degrees(angle)
-
-        angle = angle + (angle *2)
-        print "angle",angle
         return angle
 
 
