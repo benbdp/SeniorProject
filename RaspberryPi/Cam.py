@@ -196,7 +196,7 @@ for i in xrange(junk_frames):
 
 capture = get_image()
 angle = laneDetection(capture)
-term = 0.3
+term = 0.9
 servo_pos = 70
 
 if angle > 0:
