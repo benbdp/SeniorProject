@@ -196,22 +196,21 @@ for i in xrange(junk_frames):
 
 capture = get_image()
 angle = laneDetection(capture)
-# term = 0.3
-# servo_pos = 70
-#
-# if angle > 0:
-#     servo_pos = servo_pos + (abs(angle) * term)
-# if angle < 0:
-#     servo_pos = servo_pos - (abs(angle) * term)
-#
-# print "servo_pos", servo_pos
-#
-# print(str(70) + str('m,') + str(servo_pos) + str('s,'))
-# ser.write(str(72) + str('m,') + str(servo_pos) + str('s,'))
-# time.sleep(0.5)
-#
-# print(str(0) + str('m,') + str(70) + str('s,'))
-# ser.write(str(0) + str('m,') + str(70) + str('s,'))
-# cv2.imshow("img",dst_img)
+term = 0.3
+servo_pos = 70
+
+if angle > 0:
+    servo_pos = servo_pos + (abs(angle) * term)
+if angle < 0:
+    servo_pos = servo_pos - (abs(angle) * term)
+
+print "servo_pos", servo_pos
+
+print(str(70) + str('m,') + str(servo_pos) + str('s,'))
+ser.write(str(72) + str('m,') + str(servo_pos) + str('s,'))
+time.sleep(0.5)
+
+print(str(0) + str('m,') + str(70) + str('s,'))
+ser.write(str(0) + str('m,') + str(70) + str('s,'))
 cv2.waitKey()
-# cv2.destroyAllWindows()
+cv2.destroyAllWindows()
