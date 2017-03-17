@@ -110,6 +110,8 @@ def laneDetection(img):
         opp = x0 -x1
         angle = float(math.atan2((opp), adj))
         angle = math.degrees(angle)
+
+        angle = angle + (angle *2)
         print "angle",angle
         return angle
 
