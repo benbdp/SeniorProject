@@ -213,6 +213,6 @@ cv2.imshow('mask', mask)
 #
 # print(str(0) + str('m,') + str(70) + str('s,'))
 # ser.write(str(0) + str('m,') + str(70) + str('s,'))
-# cv2.imshow("img",dst_img)
-# cv2.waitKey()
+cv2.imshow("img",dst_img)
+cv2.waitKey()
 # cv2.destroyAllWindows()
