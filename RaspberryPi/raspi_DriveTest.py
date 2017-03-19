@@ -63,10 +63,9 @@ def ultrasonicright():
 
     return right_distance
 
+while True:
+    left_distance = ultrasonicleft()
+    right_distance = ultrasonicright()
+    print(left_distance)
+    print(right_distance)
 
-left_distance = ultrasonicleft()
-right_distance = ultrasonicright()
-print(left_distance)
-print(right_distance)
-
-cv2.destroyAllWindows()
