@@ -74,8 +74,6 @@ dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
 #     sys.exit(1)
 # num =0
 
-
-
 junk_frames = 50
 camera = cv2.VideoCapture(0)
 
