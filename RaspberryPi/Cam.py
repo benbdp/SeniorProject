@@ -65,7 +65,6 @@ def ultrasonicright():
 mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
 dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
 
-
 # try:
 #     webcam = cv2.VideoCapture(0) # index of your camera
 #     time.sleep(2)
