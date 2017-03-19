@@ -64,6 +64,7 @@ def ultrasonicright():
     return right_distance
 
 while True:
+    time.sleep(1)
     left_distance = ultrasonicleft()
     right_distance = ultrasonicright()
     print(left_distance)
