@@ -138,6 +138,8 @@ x_01 = float(0)
 y_01 = float(lefty0)
 
 slope0 = float((y_01 - y_00) / (x_01 - x_00))
+
+print"slope0: ", slope0
 yint0 = y_01 - (slope0 * x_01)
 
 x0 = (center_y - yint0) / slope0
@@ -153,6 +155,7 @@ y_10 = float(righty1)
 x_11 = float(0)
 y_11 = float(lefty1)
 slope1 = float((y_11 - y_10) / (x_11 - x_10))
+print"slope1: ",slope1
 yint1 = y_11 - (slope1 * x_11)
 x1 = (center_y - yint1) / slope1
 x1 = int(x1)
