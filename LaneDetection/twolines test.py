@@ -80,7 +80,98 @@ img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Sa
 #cv2.imshow('img',img)
 #cv2.waitKey(0)
 #cv2.destroyAllWindows()
+class PID:
+    """
+	Discrete PID control
+	"""
 
+    def __init__(self, P=2.0, I=0.0, D=1.0, Derivator=0, Integrator=0, Integrator_max=500, Integrator_min=-500):
+
+        self.Kp = P
+        self.Ki = I
+        self.Kd = D
+        self.Derivator = Derivator
+        self.Integrator = Integrator
+        self.Integrator_max = Integrator_max
+        self.Integrator_min = Integrator_min
+
+        self.set_point = 0.0
+        self.error = 0.0
+
+    def update(self, current_value):
+        """
+		Calculate PID output value for given reference input and feedback
+		"""
+
+        self.error = self.set_point - current_value
+
+        self.P_value = self.Kp * self.error
+        self.D_value = self.Kd * (self.error - self.Derivator)
+        self.Derivator = self.error
+
+        self.Integrator = self.Integrator + self.error
+
+        if self.Integrator > self.Integrator_max:
+            self.Integrator = self.Integrator_max
+        elif self.Integrator < self.Integrator_min:
+            self.Integrator = self.Integrator_min
+
+        self.I_value = self.Integrator * self.Ki
+
+        PID = self.P_value + self.I_value + self.D_value
+
+        return PID
+
+    def setPoint(self, set_point):
+        """
+		Initilize the setpoint of PID
+		"""
+        self.set_point = set_point
+        self.Integrator = 0
+        self.Derivator = 0
+
+    def setIntegrator(self, Integrator):
+        self.Integrator = Integrator
+
+    def setDerivator(self, Derivator):
+        self.Derivator = Derivator
+
+    def setKp(self, P):
+        self.Kp = P
+
+    def setKi(self, I):
+        self.Ki = I
+
+    def setKd(self, D):
+        self.Kd = D
+
+    def getPoint(self):
+        return self.set_point
+
+    def getError(self):
+        return self.error
+
+    def getIntegrator(self):
+        return self.Integrator
+
+    def getDerivator(self):
+        return self.Derivator
+
+def line(img,contours,center_y):
+    rows, cols = img.shape[:2]
+    vx0, vy0, x0, y0 = cv2.fitLine(contours, cv2.DIST_L2, 0, 0.01, 0.01)
+    lefty0 = int((-x0 * vy0 / vx0) + y0)
+    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
+    x_00 = float(cols - 1)
+    y_00 = float(righty0)
+    x_01 = float(0)
+    y_01 = float(lefty0)
+    slope0 = float((y_01 - y_00) / (x_01 - x_00))
+    yint0 = y_01 - (slope0 * x_01)
+    x0 = (center_y - yint0) / slope0
+    x0 = int(x0)
+    cv2.circle(img, (x0, center_y), 5, (0, 0, 255), -1)
+    return x0
 
 def laneDetection(img):
     height, width, channels = img.shape
@@ -135,78 +226,21 @@ def laneDetection(img):
         cv2.drawContours(img, newcontours, -1, (0, 255, 0), 3)
         #print newcontours
 
-
-        rows, cols = img.shape[:2]
-        vx0, vy0, x0, y0 = cv2.fitLine(contours[0], cv2.DIST_L2, 0, 0.01, 0.01)
-        lefty0 = int((-x0 * vy0 / vx0) + y0)
-        righty0 = int(((cols - x0) * vy0 / vx0) + y0)
-
-        x_00 = float(cols - 1)
-        y_00 = float(righty0)
-        x_01 = float(0)
-        y_01 = float(lefty0)
-
-        slope0 = float((y_01 - y_00) / (x_01 - x_00))
-        yint0 = y_01 - (slope0 * x_01)
-
-        x0 = (height - yint0) / slope0
-        x0 = int(x0)
-
-        x1 = (0 - yint0) / slope0
-        x1 = int(x1)
-
-        adj0 = x0
-
-        opp0 = x0 - x1
-        angle0 = float(math.atan2((opp0), adj0))
-        angle0 = math.degrees(angle0)
-        print angle0
+        one = line(erode,newcontours[0],center_y)
+        two = line(erode,newcontours[1],center_y)
+        error = two - one
+        return error
 
 
+print laneDetection(img)
+# servo_pos = 70
 
-
-        vx1, vy1, x1, y1 = cv2.fitLine(newcontours[1], cv2.DIST_L2, 0, 0.01, 0.01)
-        lefty1 = int((-x1 * vy1 / vx1) + y1)
-        righty1 = int(((cols - x1) * vy1 / vx1) + y1)
-
-        x_10 = float(cols - 1)
-        y_10 = float(righty1)
-        x_11 = float(0)
-        y_11 = float(lefty1)
-        slope1 = float((y_11 - y_10) / (x_11 - x_10))
-        yint1 = y_11 - (slope1 * x_11)
-
-        x1 = (center_y - yint1) / slope1
-        x1 = int(x1)
-
-         = (0 - yint0) / slope0
-        x1 = int(x1)
-
-        adj0 = x0
-
-        opp0 = x0 - x1
-        angle0 = float(math.atan2((opp0), adj0))
-        angle0 = math.degrees(angle0)
-        print angle0
-
-        cv2.circle(img, (x1, center_y), 5, (0, 0, 255), -1)
-        center = (x0 + x1)/2
-        cv2.circle(img, (center, center_y), 5, (0, 0, 255), -1)
-        angle = float(math.atan2((center - center_x),center_y))
-        angle = math.degrees(angle)
-        print "turn angle: ", angle
-        return angle
-
-angle = laneDetection(img)
-
-servo_pos = 70
-
-if angle >0:
-    servo_pos = servo_pos - (abs(angle) *0.8)
-if angle <0:
-    servo_pos = servo_pos + (abs(angle) * 0.8)
-
-print "servo_pos: ",servo_pos
+# if angle >0:
+#     servo_pos = servo_pos - (abs(angle) *0.8)
+# if angle <0:
+#     servo_pos = servo_pos + (abs(angle) * 0.8)
+#
+# print "servo_pos: ",servo_pos
 
 
 

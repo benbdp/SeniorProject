@@ -93,7 +93,7 @@ class PID:
 
 PID()
 p = PID(1, 0, 0)
-p.setPoint(97.7932635969)
+p.setPoint(0)
 while True:
     pid = p.update(int(input("enter val: ")))
     print pid

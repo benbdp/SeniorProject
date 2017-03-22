@@ -70,14 +70,6 @@ def ultrasonicright():
 mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
 dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
 
-# try:
-#     webcam = cv2.VideoCapture(0) # index of your camera
-#     time.sleep(2)
-# except:
-#     print ("problem opening input stream")
-#     sys.exit(1)
-# num =0
-
 junk_frames = 50
 camera = cv2.VideoCapture(0)
 
@@ -88,7 +80,7 @@ def get_image():
 for i in xrange(junk_frames):
     temp = get_image()
 
-capture = get_image()
+capture = temp
 
 #cv2.imshow('frame', frame)
 h, w = capture.shape[:2]
