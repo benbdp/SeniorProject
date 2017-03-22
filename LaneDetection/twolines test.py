@@ -137,21 +137,31 @@ def laneDetection(img):
 
 
         rows, cols = img.shape[:2]
-        vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
+        vx0, vy0, x0, y0 = cv2.fitLine(contours[0], cv2.DIST_L2, 0, 0.01, 0.01)
         lefty0 = int((-x0 * vy0 / vx0) + y0)
         righty0 = int(((cols - x0) * vy0 / vx0) + y0)
 
-        x_00 = float(cols-1)
+        x_00 = float(cols - 1)
         y_00 = float(righty0)
         x_01 = float(0)
         y_01 = float(lefty0)
 
-        slope0 = float((y_01 - y_00)/(x_01-x_00))
-        yint0 = y_01 - (slope0 *x_01)
+        slope0 = float((y_01 - y_00) / (x_01 - x_00))
+        yint0 = y_01 - (slope0 * x_01)
 
-        x0 = (center_y-yint0)/slope0
+        x0 = (height - yint0) / slope0
         x0 = int(x0)
-        cv2.circle(img, (x0, center_y), 5, (0, 0, 255), -1)
+
+        x1 = (0 - yint0) / slope0
+        x1 = int(x1)
+
+        adj0 = x0
+
+        opp0 = x0 - x1
+        angle0 = float(math.atan2((opp0), adj0))
+        angle0 = math.degrees(angle0)
+        print angle0
+
 
 
 
@@ -165,8 +175,20 @@ def laneDetection(img):
         y_11 = float(lefty1)
         slope1 = float((y_11 - y_10) / (x_11 - x_10))
         yint1 = y_11 - (slope1 * x_11)
+
         x1 = (center_y - yint1) / slope1
         x1 = int(x1)
+
+         = (0 - yint0) / slope0
+        x1 = int(x1)
+
+        adj0 = x0
+
+        opp0 = x0 - x1
+        angle0 = float(math.atan2((opp0), adj0))
+        angle0 = math.degrees(angle0)
+        print angle0
+
         cv2.circle(img, (x1, center_y), 5, (0, 0, 255), -1)
         center = (x0 + x1)/2
         cv2.circle(img, (center, center_y), 5, (0, 0, 255), -1)

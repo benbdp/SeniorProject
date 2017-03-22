@@ -26,6 +26,11 @@ mtx = np.matrix([[486.7350296, 0., 319.86577798],
 dist = np.matrix([[1.72030848e-01,  -4.89793474e-01,  -1.64310264e-03,   4.26229958e-04, 3.80932152e-01]])
 #print dist
 
+
+
+
+
+
 def ultrasonicleft():
     GPIO.output(TRIGGERLEFT, False)
     time.sleep(0.5)
