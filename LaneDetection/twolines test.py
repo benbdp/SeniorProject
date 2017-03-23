@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 
-img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Screen Shot 2017-02-02 at 2.06.46 PM.png')
+img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Photo on 3-2-17 at 2.28 PM.jpg')
 #print kernal
 
 #def blur(img,kernel_size):
@@ -181,7 +181,12 @@ def laneDetection(img):
     #print 'width',width
     center_x = width / 2
     #print center_x
-    dilation = cv2.dilate(img, np.ones((5, 5), np.uint8), iterations=5)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
+    lower_blue = np.array([110, 50, 50])  # define range of blue color in HSV
+    upper_blue = np.array([130, 255, 255])
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
+    cv2.imshow('mask', mask)
+    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
     cv2.imshow('erode',erode)
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -227,12 +232,28 @@ def laneDetection(img):
         #print newcontours
 
         one = line(erode,newcontours[0],center_y)
+        #print one
         two = line(erode,newcontours[1],center_y)
-        error = two - one
+        #print two
+        centerlane = (one + two)/2
+        #print center_x
+        error = center_x - centerlane
         return error
 
 
+
+
+
+
 print laneDetection(img)
+
+
+
+p = PID(1, 0, 0)
+p.setPoint(0)
+pid = p.update(laneDetection(img))
+print pid
+
 # servo_pos = 70
 
 # if angle >0:
