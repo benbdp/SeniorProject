@@ -80,7 +80,9 @@ def key_input(event):
     if key_press == "w":
         print "forward"
         left_distance = ultrasonicleft()
+        print left_distance
         right_distance = ultrasonicright()
+        print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             forward(0.1)
         else:
@@ -91,7 +93,9 @@ def key_input(event):
     if key_press == "a":
         print "left"
         left_distance = ultrasonicleft()
+        print left_distance
         right_distance = ultrasonicright()
+        print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             left(0.1)
         else:
@@ -99,7 +103,9 @@ def key_input(event):
     if key_press == "d":
         print "right"
         left_distance = ultrasonicleft()
+        print left_distance
         right_distance = ultrasonicright()
+        print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             right(0.1)
         else:
