@@ -65,12 +65,12 @@ def reverse(sec):
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left(sec):
-    ser.write(str(75) + str('m,') + str(servo_center-10) + str('s,'))
+    ser.write(str(75) + str('m,') + str(servo_center-5) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def right(sec):
-    ser.write(str(75) + str('m,') + str(servo_center+10) + str('s,'))
+    ser.write(str(75) + str('m,') + str(servo_center+5) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
@@ -82,18 +82,18 @@ def key_input(event):
         left_distance = ultrasonicleft()
         right_distance = ultrasonicright()
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            forward(0.01)
+            forward(0.1)
         else:
             pass
     if key_press == "s":
         print "reverse"
-        reverse(0.01)
+        reverse(0.1)
     if key_press == "a":
         print "left"
         left_distance = ultrasonicleft()
         right_distance = ultrasonicright()
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            left(0.01)
+            left(0.1)
         else:
             pass
     if key_press == "d":
@@ -101,7 +101,7 @@ def key_input(event):
         left_distance = ultrasonicleft()
         right_distance = ultrasonicright()
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            right(0.01)
+            right(0.1)
         else:
             pass
     if key_press == "q":
