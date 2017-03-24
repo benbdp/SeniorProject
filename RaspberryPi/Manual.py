@@ -55,24 +55,24 @@ def ultrasonicright():
     return right_distance
 
 def forward(sec):
-    ser.write(str(200) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(150) + str('m,') + str(servo_center) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def reverse(sec):
-    ser.write(str(-200) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(-150) + str('m,') + str(servo_center) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left(sec):
-    ser.write(str(200) + str('m,') + str(servo_center-5) + str('s,'))
+    ser.write(str(150) + str('m,') + str(servo_center-10) + str('s,'))
     time.sleep(sec)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(0) + str('m,') + str(servo_center-10) + str('s,'))
 
 def right(sec):
-    ser.write(str(200) + str('m,') + str(servo_center+5) + str('s,'))
+    ser.write(str(150) + str('m,') + str(servo_center+10) + str('s,'))
     time.sleep(sec)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(0) + str('m,') + str(servo_center+10) + str('s,'))
 
 def key_input(event):
     print "key: ", event.char
