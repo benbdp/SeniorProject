@@ -5,8 +5,8 @@ import sys
 import Tkinter as tk
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
-servo_center = 70
-distance_limit = 25
+servo_center = 85
+distance_limit = 35
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 TRIGGERRIGHT = 18
