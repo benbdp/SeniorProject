@@ -7,7 +7,7 @@ import sys
 import math
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
-servo_center = 83
+servo_center = 86
 distance_limit = 50
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -159,8 +159,6 @@ def get_image():
     retval, img = camera.read()
     return img
 
-for i in xrange(junk_frames):
-    temp = get_image()
 def lane_detection(img):
     #cv2.imshow('frame', frame)
     h, w = img.shape[:2]
@@ -216,10 +214,22 @@ def lane_detection(img):
         print "Found one line"
     else:
         print "error"
-
+directions = []
 p = PID(1, 0, 0)
 p.setPoint(0)
-pid = p.update(lane_detection(temp))
-print pid
+directions[0]= p.update(lane_detection(get_image()))
+ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
+time.sleep(1.5)
+ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+print directions[0]
+#
+# while True:
+#     img = get_image()
+#     p = PID(1, 0, 0)
+#     p.setPoint(0)
+#     pid = p.update(lane_detection(img))
+#     print pid
+#     if input("Entry") == int(1):
+#         break
 cv2.waitKey()
 cv2.destroyAllWindows()
