@@ -214,10 +214,16 @@ def lane_detection(img):
         print "Found one line"
     else:
         print "error"
+
+def frame(junk_frames):
+    for i in xrange(junk_frames):
+        temp = get_image()
+    return temp
+
 directions = []
 p = PID(1, 0, 0)
 p.setPoint(0)
-print lane_detection(get_image())
+print lane_detection(frame(50))
 # pid = p.update(lane_detection(get_image()))
 # directions.append(pid)
 # ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
