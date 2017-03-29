@@ -10,6 +10,6 @@ while True:
     entry = int(input("Enter change servo pos: "))
     ser.write(str(200) + str('m,') + str(servo_center+entry) + str('s,'))
     print"running!"
-    time.sleep(2)
+    time.sleep(1)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
     print "stopped!"
