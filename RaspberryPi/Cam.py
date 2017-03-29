@@ -207,7 +207,7 @@ def lane_detection(img):
 
         centerlane = (zero + one) / 2
         error = center_x - centerlane
-        print error
+        #print error
         return error
 
     elif num_contours == 1:
@@ -228,14 +228,16 @@ def forward(sec):
 directions = []
 p = PID(1, 0, 0)
 p.setPoint(0)
-print lane_detection(frame(50))
+#print lane_detection(frame(50))
 pid = p.update(lane_detection(frame(50)))
 cv2.waitKey()
 directions.append(pid)
+print directions
 forward(0.5)
 pid = p.update(lane_detection(frame(50)))
 cv2.waitKey()
 directions.append(pid)
+print directions
 forward(0.5)
 pid = p.update(lane_detection(frame(50)))
 cv2.waitKey()
