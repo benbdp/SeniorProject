@@ -89,16 +89,16 @@ lower_blue = np.array([40, 70, 140])  # define range of color in HSV
 upper_blue = np.array([60,255,255])
 mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
 cv2.imshow('mask', mask)
-# height, width, channels = dst_img.shape
-# # print height
-# center_y = height / 2
-# # print center_y
-# # print width
-# center_x = width / 2
-# # print center_x
-# dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
-# erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
-# # cv2.imshow('erode',erode)
+height, width, channels = dst_img.shape
+# print height
+center_y = height / 2
+# print center_y
+# print width
+center_x = width / 2
+# print center_x
+dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
+erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
+cv2.imshow('erode',erode)
 # im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 # # print contours[0]
 #
