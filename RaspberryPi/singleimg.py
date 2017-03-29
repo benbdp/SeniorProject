@@ -28,6 +28,7 @@ dst_pts = np.float32([[0,0],[558,0],[0,154],[558,154]])#dst
 
 M = cv2.getPerspectiveTransform(src_pts,dst_pts)
 dst_img = cv2.warpPerspective(undistort,M,(558,154))
+cv2.imshow("warp",dst_img)
 # hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)  # Convert to HSV
 # cv2.imshow('hsv', hsv)
 # lower_blue = np.array([40, 70, 140])  # define range of color in HSV
