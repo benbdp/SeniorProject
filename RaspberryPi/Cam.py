@@ -113,7 +113,7 @@ center_y = height / 2
 center_x = width / 2
 # print center_x
 dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
-erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=5)
+erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)
 cv2.imshow('erode',erode)
 im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 # print contours[0]
