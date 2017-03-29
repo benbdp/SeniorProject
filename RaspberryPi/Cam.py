@@ -259,10 +259,10 @@ def frame(junk_frames):
         temp = get_image()
     return temp
 
-directions = []
-p = PID(1, 0, 0)
-p.setPoint(0)
-num = 0
+# directions = []
+# p = PID(1, 0, 0)
+# p.setPoint(0)
+# num = 0
 while True:
     lane_detection(frame(50))
     cv2.waitKey()
