@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import serial
 import sys
 import math
-ser = serial.Serial('/dev/ACM1', 9600)
+ser = serial.Serial('/dev/ttyACM1', 9600)
 
 servo_center = 83
 distance_limit = 50
