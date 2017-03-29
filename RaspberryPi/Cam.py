@@ -99,16 +99,16 @@ center_x = width / 2
 dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
 erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
 cv2.imshow('erode',erode)
-# im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-# # print contours[0]
-#
-# newcontours = []
-# for cnt in contours:
-#     area = cv2.contourArea(cnt)
-#     if area > 1:
-#         newcontours.append(cnt)
-# cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
-# # print newcontours
+im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+# print contours[0]
+
+newcontours = []
+for cnt in contours:
+    area = cv2.contourArea(cnt)
+    if area > 100:
+        newcontours.append(cnt)
+cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
+print newcontours
 #
 # print "Found two lines"
 #
