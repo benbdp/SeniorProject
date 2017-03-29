@@ -108,7 +108,7 @@ for cnt in contours:
     if area > 100:
         newcontours.append(cnt)
 cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
-print newcontours
+#print newcontours
 
 num_contours = len(newcontours)
 if num_contours == 2 :
