@@ -63,6 +63,22 @@ def ultrasonicright():
 
     return right_distance
 
+def line(img,contours,center_y):
+    rows, cols = img.shape[:2]
+    vx0, vy0, x0, y0 = cv2.fitLine(contours, cv2.DIST_L2, 0, 0.01, 0.01)
+    lefty0 = int((-x0 * vy0 / vx0) + y0)
+    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
+    x_00 = float(cols - 1)
+    y_00 = float(righty0)
+    x_01 = float(0)
+    y_01 = float(lefty0)
+    slope0 = float((y_01 - y_00) / (x_01 - x_00))
+    yint0 = y_01 - (slope0 * x_01)
+    x0 = (center_y - yint0) / slope0
+    x0 = int(x0)
+    cv2.circle(img, (x0, center_y), 5, (0, 0, 255), -1)
+    return x0
+
 def get_image():
     retval, img = camera.read()
     return img
@@ -113,6 +129,9 @@ cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
 num_contours = len(newcontours)
 if num_contours == 2 :
     print "Found two lines"
+    print (line(erode,newcontours[0],center_y))
+    print (line(erode,newcontours[1],center_y))
+
 elif num_contours == 1:
     print "Found one line"
 else:
