@@ -264,4 +264,4 @@ def frame(junk_frames):
 # p.setPoint(0)
 # num = 0
 while True:
-    lane_detection(frame(50))
+    lane_detection(frame(10))
