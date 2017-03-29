@@ -12,6 +12,7 @@ while True:
     print"running!"
     time.sleep(1)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+    time.sleep(1)
     print "reversing!"
     ser.write(str(-50) + str('m,') + str(servo_center-entry) + str('s,'))
     time.sleep(1)
