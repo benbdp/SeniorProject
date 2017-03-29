@@ -265,4 +265,3 @@ def frame(junk_frames):
 # num = 0
 while True:
     lane_detection(frame(50))
-    cv2.waitKey()
