@@ -220,36 +220,14 @@ def frame(junk_frames):
         temp = get_image()
     return temp
 
-def forward(sec):
-    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
-    time.sleep(sec)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
-
 directions = []
 p = PID(1, 0, 0)
 p.setPoint(0)
-#print lane_detection(frame(50))
-pid = p.update(lane_detection(frame(50)))
-cv2.waitKey()
-directions.append(pid)
-print directions
-forward(0.5)
-pid = p.update(lane_detection(frame(50)))
-cv2.waitKey()
-directions.append(pid)
-print directions
-forward(0.5)
-pid = p.update(lane_detection(frame(50)))
-cv2.waitKey()
-directions.append(pid)
-print "directions",directions
-#
-# while True:
-#     img = get_image()
-#     p = PID(1, 0, 0)
-#     p.setPoint(0)
-#     pid = p.update(lane_detection(img))
-#     print pid
-#     if input("Entry") == int(1):
-#         break
-cv2.destroyAllWindows()
+num = 0
+while True:
+    print "num: ",num
+    num = num +1
+    pid = p.update(lane_detection(frame(50)))
+    cv2.waitKey()
+    directions.append(pid)
+    print directions
