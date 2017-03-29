@@ -217,7 +217,8 @@ def lane_detection(img):
 directions = []
 p = PID(1, 0, 0)
 p.setPoint(0)
-directions.append(p.update(lane_detection(get_image())))
+pid = p.update(lane_detection(get_image()))
+directions.append(pid)
 ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
 time.sleep(1.5)
 ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
