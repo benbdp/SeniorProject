@@ -229,6 +229,7 @@ directions.append(pid)
 ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
 time.sleep(0.5)
 ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+time.sleep(0.5)
 pid = p.update(lane_detection(frame(50)))
 directions.append(pid)
 print "directions",directions
