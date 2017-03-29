@@ -109,6 +109,14 @@ for cnt in contours:
         newcontours.append(cnt)
 cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
 print newcontours
+
+num_contours = len(newcontours)
+if num_contours == 2 :
+    print "Found two lines"
+elif num_contours == 1:
+    print "Found one line"
+else:
+    print "error"
 #
 # print "Found two lines"
 #
