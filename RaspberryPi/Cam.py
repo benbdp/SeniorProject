@@ -159,6 +159,21 @@ def get_image():
     retval, img = camera.read()
     return img
 
+def forward(sec):
+    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
+    time.sleep(sec)
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+
+def left(sec):
+    ser.write(str(100) + str('m,') + str(servo_center-10) + str('s,'))
+    time.sleep(sec)
+    ser.write(str(0) + str('m,') + str(servo_center-10) + str('s,'))
+
+def right(sec):
+    ser.write(str(100) + str('m,') + str(servo_center+10) + str('s,'))
+    time.sleep(sec)
+    ser.write(str(0) + str('m,') + str(servo_center+10) + str('s,'))
+
 def lane_detection(img):
     #cv2.imshow('frame', frame)
     h, w = img.shape[:2]
@@ -202,32 +217,40 @@ def lane_detection(img):
     num_contours = len(newcontours)
     if num_contours == 2 :
         print "Found two lines"
-        zero = line(erode,newcontours[0],center_y)
-        one = line(erode,newcontours[1],center_y)
-
-        centerlane = (zero + one) / 2
-        error = center_x - centerlane
-        #print error
-        return error
+        forward(0.5)
+        # zero = line(erode,newcontours[0],center_y)
+        # one = line(erode,newcontours[1],center_y)
+        #
+        # centerlane = (zero + one) / 2
+        # error = center_x - centerlane
+        # #print error
+        # return error
 
     elif num_contours == 1:
         print "Found one line"
-        rows, cols = img.shape[:2]
-        vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
-        lefty0 = int((-x0 * vy0 / vx0) + y0)
-        righty0 = int(((cols - x0) * vy0 / vx0) + y0)
-        x_00 = float(cols - 1)
-        y_00 = float(righty0)
-        x_01 = float(0)
-        y_01 = float(lefty0)
-        slope0 = float((y_01 - y_00) / (x_01 - x_00))
-        yint0 = y_01 - (slope0 * x_01)
-        x0 = (center_y - yint0) / slope0
-        x1 = (rows - yint0) / slope0
-        dif = x1 - x0
-        angle = float(math.atan2((dif), center_y))
-        angle = math.degrees(angle)
-        return angle
+        # rows, cols = img.shape[:2]
+        # vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
+        # lefty0 = int((-x0 * vy0 / vx0) + y0)
+        # righty0 = int(((cols - x0) * vy0 / vx0) + y0)
+        # x_00 = float(cols - 1)
+        # y_00 = float(righty0)
+        # x_01 = float(0)
+        # y_01 = float(lefty0)
+        # slope0 = float((y_01 - y_00) / (x_01 - x_00))
+        # yint0 = y_01 - (slope0 * x_01)
+        # x0 = (center_y - yint0) / slope0
+        # x1 = (rows - yint0) / slope0
+        # dif = x1 - x0
+        # angle = float(math.atan2((dif), center_y))
+        # angle = math.degrees(angle)
+        # return angle
+        x = line(erode,newcontours[0],center_y)
+
+        if x > center_x:
+            right(0.5)
+
+        if x < center_x:
+            left(0.5)
     else:
         print "error"
 
@@ -241,8 +264,5 @@ p = PID(1, 0, 0)
 p.setPoint(0)
 num = 0
 while True:
-    print "num: ",num
-    num = num +1
-    pid = p.update(lane_detection(frame(50)))
-    directions.append(pid)
-    print directions
+    lane_detection(frame(50))
+    cv2.waitKey()
