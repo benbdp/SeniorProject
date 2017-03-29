@@ -243,9 +243,6 @@ num = 0
 while True:
     print "num: ",num
     num = num +1
-    print(lane_detection(frame(50)))
-    cv2.waitKey()
     pid = p.update(lane_detection(frame(50)))
-    cv2.waitKey()
     directions.append(pid)
     print directions
