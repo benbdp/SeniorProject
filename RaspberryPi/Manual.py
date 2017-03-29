@@ -55,7 +55,7 @@ def ultrasonicright():
     return right_distance
 
 def forward(sec):
-    ser.write(str(200) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
