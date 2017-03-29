@@ -213,7 +213,7 @@ def lane_detection(img):
     elif num_contours == 1:
         print "Found one line"
         rows, cols = img.shape[:2]
-        vx0, vy0, x0, y0 = cv2.fitLine(contours, cv2.DIST_L2, 0, 0.01, 0.01)
+        vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
         lefty0 = int((-x0 * vy0 / vx0) + y0)
         righty0 = int(((cols - x0) * vy0 / vx0) + y0)
         x_00 = float(cols - 1)
