@@ -225,12 +225,21 @@ p = PID(1, 0, 0)
 p.setPoint(0)
 print lane_detection(frame(50))
 pid = p.update(lane_detection(frame(50)))
+cv2.waitKey()
 directions.append(pid)
 ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
 time.sleep(0.5)
 ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 time.sleep(0.5)
 pid = p.update(lane_detection(frame(50)))
+cv2.waitKey()
+directions.append(pid)
+ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
+time.sleep(0.5)
+ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+time.sleep(0.5)
+pid = p.update(lane_detection(frame(50)))
+cv2.waitKey()
 directions.append(pid)
 print "directions",directions
 #
@@ -242,5 +251,4 @@ print "directions",directions
 #     print pid
 #     if input("Entry") == int(1):
 #         break
-cv2.waitKey()
 cv2.destroyAllWindows()
