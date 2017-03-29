@@ -21,6 +21,7 @@ h, w = capture.shape[:2]
 newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
 undistort = cv2.undistort(capture, mtx, dist, None, newcameramtx)
 cv2.imshow('undistort', undistort)
+cv2.imwrite('/home/pi/Desktop/warp.png',undistort)
 # src_pts = np.float32([[72, 227], [576, 223], [1, 316], [634, 296]])  # src
 # dst_pts = np.float32([[0, 0], [556, 0], [0, 184], [556, 156]])  # dst
 # M = cv2.getPerspectiveTransform(src_pts, dst_pts)
