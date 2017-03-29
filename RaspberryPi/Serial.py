@@ -11,5 +11,7 @@ while True:
     ser.write(str(200) + str('m,') + str(servo_center+entry) + str('s,'))
     print"running!"
     time.sleep(1)
+    ser.write(str(-100) + str('m,') + str(servo_center) + str('s,'))
+    time.sleep(1)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
     print "stopped!"
