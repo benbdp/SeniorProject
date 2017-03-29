@@ -224,12 +224,12 @@ directions = []
 p = PID(1, 0, 0)
 p.setPoint(0)
 print lane_detection(frame(50))
-# pid = p.update(lane_detection(get_image()))
-# directions.append(pid)
+pid = p.update(lane_detection(get_image()))
+directions.append(pid)
 # ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
 # time.sleep(1.5)
 # ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
-# print directions[0]
+print "directions",directions[0]
 #
 # while True:
 #     img = get_image()
