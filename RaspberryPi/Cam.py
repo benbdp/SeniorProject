@@ -246,10 +246,10 @@ def lane_detection(img):
         # return angle
         x = line(erode,newcontours[0],center_y)
 
-        if x > center_x:
+        if x < center_x:
             right(0.5)
 
-        if x < center_x:
+        if x > center_x:
             left(0.5)
     else:
         print "error"
