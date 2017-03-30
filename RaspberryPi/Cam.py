@@ -82,14 +82,20 @@ def get_image():
     retval, img = camera.read()
     return img
 
-def forward():
-    ser.write(str(100) + str('m,')+str(servo_center) + str('s,'))
+def forward(sec):
+    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
+    time.sleep(sec)
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
-def left():
-    ser.write(str(100) + str('m,')+str(servo_center-10) + str('s,'))
+def left(sec):
+    ser.write(str(100) + str('m,') + str(servo_center-10) + str('s,'))
+    time.sleep(sec)
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
-def right():
-    ser.write(str(100) + str('m,')+str(servo_center+10) + str('s,'))
+def right(sec):
+    ser.write(str(100) + str('m,') + str(servo_center+10) + str('s,'))
+    time.sleep(sec)
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def lane_detection(img):
     #cv2.imshow('frame', frame)
@@ -107,7 +113,7 @@ def lane_detection(img):
     hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)  # Convert to HSV
     cv2.imshow('hsv', hsv)
     lower_blue = np.array([50, 50, 130])  # define range of color in HSV
-    upper_blue = np.array([95, 140, 220])
+    upper_blue = np.array([90, 90, 220])
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
     cv2.imshow('mask', mask)
     height, width, channels = dst_img.shape
@@ -134,7 +140,7 @@ def lane_detection(img):
     num_contours = len(newcontours)
     if num_contours == 2 :
         print "Found two lines"
-        forward()
+        forward(0.5)
         # zero = line(erode,newcontours[0],center_y)
         # one = line(erode,newcontours[1],center_y)
         #
@@ -164,31 +170,24 @@ def lane_detection(img):
         x = line(erode,newcontours[0],center_y)
 
         if x < center_x:
-            right()
+            right(0.5)
 
         if x > center_x:
-            left()
+            left(0.5)
     else:
         print "error"
-        stop()
 
 def frame(junk_frames):
     for i in xrange(junk_frames):
         temp = get_image()
     return temp
 
-
-def stop():
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
-try:
-    while True:
-        left_distance = ultrasonicleft()
-        print left_distance
-        right_distance = ultrasonicright()
-        print right_distance
-        if (right_distance > distance_limit) and (left_distance > distance_limit):
-            lane_detection(frame(10))
-        else:
-            stop()
-except:
-    stop()
+while True:
+    left_distance = ultrasonicleft()
+    print left_distance
+    right_distance = ultrasonicright()
+    print right_distance
+    if (right_distance > distance_limit) and (left_distance > distance_limit):
+        lane_detection(frame(10))
+    else:
+        ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
