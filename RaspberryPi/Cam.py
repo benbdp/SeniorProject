@@ -105,25 +105,8 @@ def contours(img): # img should be wrapped image
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
     cv2.imshow('mask', mask)
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)
-    size = np.size(dilation)
-    skel = np.zeros(dilation.shape, np.uint8)
-    ret, img = cv2.threshold(dilation, 127, 255, 0)
-    element = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
-    done = False
-
-    while (not done):
-        eroded = cv2.erode(img, element)
-        temp = cv2.dilate(eroded, element)
-        temp = cv2.subtract(img, temp)
-        skel = cv2.bitwise_or(skel, temp)
-        img = eroded.copy()
-
-        zeros = size - cv2.countNonZero(img)
-        if zeros == size:
-            done = True
-
-    cv2.imshow("skel",skel)
-    im2, contours, hierarchy = cv2.findContours(skel, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)
+    im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
 
 def lane_detection(img):
@@ -138,25 +121,10 @@ def lane_detection(img):
 
     M = cv2.getPerspectiveTransform(src_pts,dst_pts)
     dst_img = cv2.warpPerspective(undistort,M,(558,154))
-    cv2.imshow('warp', dst_img)
-    hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)  # Convert to HSV
-    cv2.imshow('hsv', hsv)
-    lower_blue = np.array([50, 50, 130])  # define range of color in HSV
-    upper_blue = np.array([95, 140, 220])
-    mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
-    cv2.imshow('mask', mask)
-    height, width, channels = dst_img.shape
-    # print height
-    center_y = height / 2
-    # print center_y
-    # print width
-    center_x = width / 2
-    # print center_x
-    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)
-    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)
-    cv2.imshow('erode',erode)
     cont = contours(dst_img)
-
+    height, width, channels = dst_img.shape
+    center_y = height / 2
+    center_x = width / 2
     newcontours = []
     for cnt in cont:
         area = cv2.contourArea(cnt)
@@ -164,7 +132,6 @@ def lane_detection(img):
             newcontours.append(cnt)
     cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
     #print newcontours
-    cv2.imshow("img",dst_img)
     num_contours = len(newcontours)
     if num_contours == 2 :
         print "Found two lines"
@@ -195,7 +162,7 @@ def lane_detection(img):
         # angle = float(math.atan2((dif), center_y))
         # angle = math.degrees(angle)
         # return angle
-        x = line(erode,newcontours[0],center_y)
+        x = line(dst_img,newcontours[0],center_y)
 
         if x < center_x:
             right(0.5)
