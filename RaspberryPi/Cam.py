@@ -82,14 +82,17 @@ def get_image():
     return img
 
 def forward(sec):
-    ser.write(str(60) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(70) + str('m,') + str(servo_center) + str('s,'))
+    time.sleep(sec)
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left(sec):
-    ser.write(str(60) + str('m,') + str(servo_center-10) + str('s,'))
+    ser.write(str(70) + str('m,') + str(servo_center-10) + str('s,'))
 
 def right(sec):
-    ser.write(str(60) + str('m,') + str(servo_center+10) + str('s,'))
-
+    ser.write(str(70) + str('m,') + str(servo_center+10) + str('s,'))
+    time.sleep(sec)
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
