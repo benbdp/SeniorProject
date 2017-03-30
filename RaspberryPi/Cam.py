@@ -113,7 +113,7 @@ def lane_detection(img):
     hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)  # Convert to HSV
     cv2.imshow('hsv', hsv)
     lower_blue = np.array([50, 50, 130])  # define range of color in HSV
-    upper_blue = np.array([90, 90, 170])
+    upper_blue = np.array([90, 90, 220])
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
     cv2.imshow('mask', mask)
     height, width, channels = dst_img.shape
