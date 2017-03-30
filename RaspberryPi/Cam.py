@@ -170,6 +170,7 @@ def lane_detection(img):
             left()
     else:
         print "error"
+        stop()
 
 def frame(junk_frames):
     for i in xrange(junk_frames):
