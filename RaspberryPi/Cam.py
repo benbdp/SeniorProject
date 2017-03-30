@@ -82,20 +82,14 @@ def get_image():
     retval, img = camera.read()
     return img
 
-def forward(sec):
-    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
-    time.sleep(sec)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+def forward():
+    ser.write(str(servo_center) + str('s,'))
 
-def left(sec):
-    ser.write(str(100) + str('m,') + str(servo_center-10) + str('s,'))
-    time.sleep(sec)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+def left():
+    ser.write(str(servo_center-10) + str('s,'))
 
-def right(sec):
-    ser.write(str(100) + str('m,') + str(servo_center+10) + str('s,'))
-    time.sleep(sec)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+def right():
+    ser.write(str(servo_center+10) + str('s,'))
 
 def lane_detection(img):
     #cv2.imshow('frame', frame)
@@ -140,7 +134,7 @@ def lane_detection(img):
     num_contours = len(newcontours)
     if num_contours == 2 :
         print "Found two lines"
-        forward(0.5)
+        forward()
         # zero = line(erode,newcontours[0],center_y)
         # one = line(erode,newcontours[1],center_y)
         #
@@ -170,10 +164,10 @@ def lane_detection(img):
         x = line(erode,newcontours[0],center_y)
 
         if x < center_x:
-            right(0.5)
+            right()
 
         if x > center_x:
-            left(0.5)
+            left()
     else:
         print "error"
 
@@ -182,12 +176,20 @@ def frame(junk_frames):
         temp = get_image()
     return temp
 
-while True:
-    left_distance = ultrasonicleft()
-    print left_distance
-    right_distance = ultrasonicright()
-    print right_distance
-    if (right_distance > distance_limit) and (left_distance > distance_limit):
-        lane_detection(frame(10))
-    else:
-        ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+def init():
+    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
+def stop():
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+try:
+    init()
+    while True:
+        left_distance = ultrasonicleft()
+        print left_distance
+        right_distance = ultrasonicright()
+        print right_distance
+        if (right_distance > distance_limit) and (left_distance > distance_limit):
+            lane_detection(frame(10))
+        else:
+            stop()
+except:
+    stop()
