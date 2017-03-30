@@ -97,6 +97,35 @@ def right(sec):
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
+def contours(img): # img should be wrapped image
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
+    cv2.imshow('hsv', hsv)
+    lower_blue = np.array([50, 50, 130])  # define range of color in HSV
+    upper_blue = np.array([95, 140, 220])
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
+    cv2.imshow('mask', mask)
+    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)
+    size = np.size(dilation)
+    skel = np.zeros(dilation.shape, np.uint8)
+    ret, img = cv2.threshold(dilation, 127, 255, 0)
+    element = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+    done = False
+
+    while (not done):
+        eroded = cv2.erode(img, element)
+        temp = cv2.dilate(eroded, element)
+        temp = cv2.subtract(img, temp)
+        skel = cv2.bitwise_or(skel, temp)
+        img = eroded.copy()
+
+        zeros = size - cv2.countNonZero(img)
+        if zeros == size:
+            done = True
+
+    cv2.imshow("skel",skel)
+    im2, contours, hierarchy = cv2.findContours(skel, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    return contours
+
 def lane_detection(img):
     #cv2.imshow('frame', frame)
     h, w = img.shape[:2]
@@ -126,17 +155,16 @@ def lane_detection(img):
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)
     cv2.imshow('erode',erode)
-    im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    # print contours[0]
+    cont = contours(dst_img)
 
     newcontours = []
-    for cnt in contours:
+    for cnt in cont:
         area = cv2.contourArea(cnt)
         if area > 100:
             newcontours.append(cnt)
     cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
     #print newcontours
-
+    cv2.imshow("img",dst_img)
     num_contours = len(newcontours)
     if num_contours == 2 :
         print "Found two lines"
@@ -183,11 +211,13 @@ def frame(junk_frames):
     return temp
 
 while True:
+
     left_distance = ultrasonicleft()
     print left_distance
     right_distance = ultrasonicright()
     print right_distance
     if (right_distance > distance_limit) and (left_distance > distance_limit):
         lane_detection(frame(10))
+        cv2.waitKey(5)
     else:
         ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
