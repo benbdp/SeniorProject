@@ -83,13 +83,13 @@ def get_image():
     return img
 
 def forward():
-    ser.write(str(servo_center) + str('s,'))
+    ser.write(str(100) + str('m,')+str(servo_center) + str('s,'))
 
 def left():
-    ser.write(str(servo_center-10) + str('s,'))
+    ser.write(str(100) + str('m,')+str(servo_center-10) + str('s,'))
 
 def right():
-    ser.write(str(servo_center+10) + str('s,'))
+    ser.write(str(100) + str('m,')+str(servo_center+10) + str('s,'))
 
 def lane_detection(img):
     #cv2.imshow('frame', frame)
@@ -176,19 +176,16 @@ def frame(junk_frames):
         temp = get_image()
     return temp
 
-def init():
-    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
+
 def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 try:
-    init()
     while True:
         left_distance = ultrasonicleft()
         print left_distance
         right_distance = ultrasonicright()
         print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            ser.write(str(100) + str('m,'))
             lane_detection(frame(10))
         else:
             stop()
