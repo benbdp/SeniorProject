@@ -75,7 +75,6 @@ def line(img,contours,center_y):
     yint0 = y_01 - (slope0 * x_01)
     x0 = (center_y - yint0) / slope0
     x0 = int(x0)
-    cv2.circle(img, (x0, center_y), 5, (0, 0, 255), -1)
     return x0
 
 def get_image():
@@ -99,22 +98,18 @@ def right(sec):
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
-    cv2.imshow('hsv', hsv)
     lower_blue = np.array([50, 50, 130])  # define range of color in HSV
     upper_blue = np.array([95, 140, 220])
     mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
-    cv2.imshow('mask', mask)
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
 
 def lane_detection(img):
-    #cv2.imshow('frame', frame)
     h, w = img.shape[:2]
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
     undistort = cv2.undistort(img, mtx, dist, None, newcameramtx)
-    cv2.imshow('undistort', undistort)
     src_pts = np.float32([[59,228],[568,227],[3,305],[625,305]])#src
 
     dst_pts = np.float32([[0,0],[558,0],[0,154],[558,154]])#dst
@@ -130,7 +125,6 @@ def lane_detection(img):
         area = cv2.contourArea(cnt)
         if area > 100:
             newcontours.append(cnt)
-    cv2.drawContours(dst_img, newcontours, -1, (0, 255, 0), 3)
     #print newcontours
     num_contours = len(newcontours)
     if num_contours == 2 :
@@ -185,6 +179,5 @@ while True:
     print right_distance
     if (right_distance > distance_limit) and (left_distance > distance_limit):
         lane_detection(frame(10))
-        cv2.waitKey(5)
     else:
         ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
