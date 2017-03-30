@@ -3,9 +3,8 @@ import math
 import numpy as np
 
 
-img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Samples/Photo on 3-2-17 at 2.28 PM.jpg')
+img = cv2.imread('/Users/Benjamin/PycharmProjects/SeniorProject/LaneDetection/Screen Shot 2017-02-02 at 2.06.46 PM.png')
 #print kernal
-
 #def blur(img,kernel_size):
  #   return cv2.GaussianBlur(img, (kernel_size, kernel_size), 1)
 
@@ -157,6 +156,45 @@ class PID:
     def getDerivator(self):
         return self.Derivator
 
+def neighbours_vec(image):
+    return image[2:,1:-1], image[2:,2:], image[1:-1,2:], image[:-2,2:], image[:-2,1:-1],     image[:-2,:-2], image[1:-1,:-2], image[2:,:-2]
+
+def transitions_vec(P2, P3, P4, P5, P6, P7, P8, P9):
+    return ((P3-P2) > 0).astype(int) + ((P4-P3) > 0).astype(int) + \
+    ((P5-P4) > 0).astype(int) + ((P6-P5) > 0).astype(int) + \
+    ((P7-P6) > 0).astype(int) + ((P8-P7) > 0).astype(int) + \
+    ((P9-P8) > 0).astype(int) + ((P2-P9) > 0).astype(int)
+
+def zhangSuen_vec(image, iterations):
+    for iter in range (1, iterations):
+        print iter
+        # step 1
+        P2,P3,P4,P5,P6,P7,P8,P9 = neighbours_vec(image)
+        condition0 = image[1:-1,1:-1]
+        condition4 = P4*P6*P8
+        condition3 = P2*P4*P6
+        condition2 = transitions_vec(P2, P3, P4, P5, P6, P7, P8, P9) == 1
+        condition1 = (2 <= P2+P3+P4+P5+P6+P7+P8+P9) * (P2+P3+P4+P5+P6+P7+P8+P9 <= 6)
+        cond = (condition0 == 1) * (condition4 == 0) * (condition3 == 0) * (condition2 == 1) * (condition1 == 1)
+        changing1 = np.where(cond == 1)
+        image[changing1[0]+1,changing1[1]+1] = 0
+        # step 2
+        P2,P3,P4,P5,P6,P7,P8,P9 = neighbours_vec(image)
+        condition0 = image[1:-1,1:-1]
+        condition4 = P2*P6*P8
+        condition3 = P2*P4*P8
+        condition2 = transitions_vec(P2, P3, P4, P5, P6, P7, P8, P9) == 1
+        condition1 = (2 <= P2+P3+P4+P5+P6+P7+P8+P9) * (P2+P3+P4+P5+P6+P7+P8+P9 <= 6)
+        cond = (condition0 == 1) * (condition4 == 0) * (condition3 == 0) * (condition2 == 1) * (condition1 == 1)
+        changing2 = np.where(cond == 1)
+        image[changing2[0]+1,changing2[1]+1] = 0
+    return image
+
+
+
+
+
+
 def line(img,contours,center_y):
     rows, cols = img.shape[:2]
     vx0, vy0, x0, y0 = cv2.fitLine(contours, cv2.DIST_L2, 0, 0.01, 0.01)
@@ -190,35 +228,48 @@ def laneDetection(img):
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
     cv2.imshow('erode',erode)
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     num_contours = len(contours)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     #print "contours",num_contours
     if num_contours < 2:
-        rows, cols = img.shape[:2]
-        vx0, vy0, x0, y0 = cv2.fitLine(contours[0], cv2.DIST_L2, 0, 0.01, 0.01)
-        lefty0 = int((-x0 * vy0 / vx0) + y0)
-        righty0 = int(((cols - x0) * vy0 / vx0) + y0)
+        zero = line(erode,contours[0],center_y)
+        print zero
 
-        x_00 = float(cols - 1)
-        y_00 = float(righty0)
-        x_01 = float(0)
-        y_01 = float(lefty0)
 
-        slope0 = float((y_01 - y_00) / (x_01 - x_00))
-        yint0 = y_01 - (slope0 * x_01)
-
-        x0 = (height - yint0) / slope0
-        x0 = int(x0)
-
-        x1 = (0 - yint0) / slope0
-        x1 = int(x1)
-
-        adj = x0
-
-        opp = x0 -x1
-        angle = float(math.atan2((opp), adj))
-        angle = math.degrees(angle)
-        print "angle",angle
-        return angle
+        return
 
 
     else:
@@ -244,15 +295,15 @@ def laneDetection(img):
 
 
 
-
-print laneDetection(img)
-
-
-
-p = PID(1, 0, 0)
-p.setPoint(0)
-pid = p.update(laneDetection(img))
-print pid
+laneDetection(img)
+# print laneDetection(img)
+#
+#
+#
+# p = PID(1, 0, 0)
+# p.setPoint(0)
+# pid = p.update(laneDetection(img))
+# print pid
 
 # servo_pos = 70
 
@@ -268,6 +319,3 @@ print pid
 cv2.imshow('line',img)
 cv2.waitKey()
 #cv2.imwrite('/Users/Benjamin/Downloads/curvelines.jpg',img)
-
-
-
