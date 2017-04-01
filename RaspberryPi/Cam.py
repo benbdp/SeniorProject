@@ -87,10 +87,10 @@ def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left():
-    ser.write(str(60) + str('m,') + str(servo_center-10) + str('s,'))
+    ser.write(str(60) + str('m,') + str(servo_center-7) + str('s,'))
 
 def right():
-    ser.write(str(60) + str('m,') + str(servo_center+10) + str('s,'))
+    ser.write(str(60) + str('m,') + str(servo_center+7) + str('s,'))
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
