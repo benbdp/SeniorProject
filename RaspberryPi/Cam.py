@@ -81,20 +81,16 @@ def get_image():
     retval, img = camera.read()
     return img
 
-def forward(sec):
+def forward():
     ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
-    time.sleep(sec)
+def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
-def left(sec):
+def left():
     ser.write(str(100) + str('m,') + str(servo_center-10) + str('s,'))
-    time.sleep(sec)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
-def right(sec):
+def right():
     ser.write(str(100) + str('m,') + str(servo_center+10) + str('s,'))
-    time.sleep(sec)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
@@ -129,7 +125,7 @@ def lane_detection(img):
     num_contours = len(newcontours)
     if num_contours == 2 :
         print "Found two lines"
-        forward(0.5)
+        forward()
         # zero = line(erode,newcontours[0],center_y)
         # one = line(erode,newcontours[1],center_y)
         #
@@ -159,12 +155,13 @@ def lane_detection(img):
         x = line(dst_img,newcontours[0],center_y)
 
         if x < center_x:
-            right(0.5)
+            right()
 
         if x > center_x:
-            left(0.5)
+            left()
     else:
         print "error"
+        stop()
 
 def frame(junk_frames):
     for i in xrange(junk_frames):
@@ -172,7 +169,6 @@ def frame(junk_frames):
     return temp
 
 while True:
-
     left_distance = ultrasonicleft()
     print left_distance
     right_distance = ultrasonicright()
@@ -180,4 +176,4 @@ while True:
     if (right_distance > distance_limit) and (left_distance > distance_limit):
         lane_detection(frame(10))
     else:
-        ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+        stop()

@@ -71,23 +71,15 @@ import numpy as np
 img = cv2.imread('/Users/Benjamin/Downloads/hsv.png')
 
 
+lower_blue = np.array([50, 50, 130])  # define range of color in HSV
+upper_blue = np.array([90, 90, 220])
+mask = cv2.inRange(img, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
+cv2.imshow('mask', mask)
+dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
 
-def laneDetection(img):
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
-    lower_blue = np.array([50, 50, 130])  # define range of color in HSV
-    upper_blue = np.array([90, 90, 220])
-    mask = cv2.inRange(img, lower_blue, upper_blue)  # Threshold the HSV image to get only blue colors
-    cv2.imshow('mask', mask)
-    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=5)
-    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
-    cv2.imshow('erode',erode)
-    return erode
-
-img = laneDetection(img)
-
-size = np.size(img)
-skel = np.zeros(img.shape, np.uint8)
-ret, img = cv2.threshold(img, 127, 255, 0)
+size = np.size(dilation)
+skel = np.zeros(dilation.shape, np.uint8)
+ret, img = cv2.threshold(dilation, 127, 255, 0)
 element = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
 done = False
 
