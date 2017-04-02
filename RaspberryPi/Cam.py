@@ -102,7 +102,7 @@ def contours(img): # img should be wrapped image
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
 
-def lane_detection(img, num):
+def lane_detection(img):
     h, w = img.shape[:2]
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
     undistort = cv2.undistort(img, mtx, dist, None, newcameramtx)
@@ -126,8 +126,6 @@ def lane_detection(img, num):
     if num_contours == 2 :
         print "Found two lines"
         forward()
-        num =+ 1
-        return num
         # zero = line(erode,newcontours[0],center_y)
         # one = line(erode,newcontours[1],center_y)
         #
@@ -138,7 +136,6 @@ def lane_detection(img, num):
 
     elif num_contours == 1:
         print "Found one line"
-        num =+ 1
         # rows, cols = img.shape[:2]
         # vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
         # lefty0 = int((-x0 * vy0 / vx0) + y0)
@@ -162,13 +159,10 @@ def lane_detection(img, num):
 
         if x > center_x:
             left()
-
-        return num
     else:
-        num =+1
+
         print "error"
         stop()
-        return num
 def frame(junk_frames):
     for i in xrange(junk_frames):
         temp = get_image()
@@ -178,12 +172,13 @@ try:
     while True:
         #cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, frame(10))
         print num
+        num = num +1
         left_distance = ultrasonicleft()
         print left_distance
         right_distance = ultrasonicright()
         print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            lane_detection(frame(10),num)
+            lane_detection(frame(10))
         else:
             stop()
 
