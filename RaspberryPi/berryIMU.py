@@ -447,10 +447,10 @@ while True:
         print ("\033[1;35;40m   \tCFangleX Angle %5.2f \033[1;36;40m  CFangleY Angle %5.2f \33[1;32;40m" % (
         CFangleX, CFangleY)),
 
-    if 1:  # Change to '0' to stop  showing the heading
+    if 0:  # Change to '0' to stop  showing the heading
         print ("HEADING  %5.2f \33[1;37;40m tiltCompensatedHeading %5.2f" % (heading, tiltCompensatedHeading)),
 
-    if 1:  # Change to '0' to stop  showing the angles from the Kalman filter
+    if 0:  # Change to '0' to stop  showing the angles from the Kalman filter
         print ("\033[1;31;40m kalmanX %5.2f  \033[1;35;40m kalmanY %5.2f  " % (kalmanX, kalmanY)),
 
     print(" ")
