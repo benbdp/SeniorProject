@@ -102,7 +102,7 @@ def contours(img): # img should be wrapped image
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
 
-def lane_detection(img):
+def lane_detection(img, num):
     h, w = img.shape[:2]
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
     undistort = cv2.undistort(img, mtx, dist, None, newcameramtx)
@@ -126,6 +126,7 @@ def lane_detection(img):
     if num_contours == 2 :
         print "Found two lines"
         forward()
+        num =+ 1
         # zero = line(erode,newcontours[0],center_y)
         # one = line(erode,newcontours[1],center_y)
         #
@@ -136,6 +137,7 @@ def lane_detection(img):
 
     elif num_contours == 1:
         print "Found one line"
+        num =+ 1
         # rows, cols = img.shape[:2]
         # vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
         # lefty0 = int((-x0 * vy0 / vx0) + y0)
@@ -160,6 +162,7 @@ def lane_detection(img):
         if x > center_x:
             left()
     else:
+        num =+1
         print "error"
         stop()
 
@@ -168,15 +171,18 @@ def frame(junk_frames):
         temp = get_image()
     return temp
 num = 0
-while True:
-    #cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, frame(10))
-    print num
-    num =+1
-    left_distance = ultrasonicleft()
-    print left_distance
-    right_distance = ultrasonicright()
-    print right_distance
-    if (right_distance > distance_limit) and (left_distance > distance_limit):
-        lane_detection(frame(10))
-    else:
-        stop()
+try:
+    while True:
+        #cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, frame(10))
+        print num
+        left_distance = ultrasonicleft()
+        print left_distance
+        right_distance = ultrasonicright()
+        print right_distance
+        if (right_distance > distance_limit) and (left_distance > distance_limit):
+            lane_detection(frame(10),num)
+        else:
+            stop()
+
+except:
+    stop()
