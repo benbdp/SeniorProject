@@ -170,12 +170,12 @@ def frame(junk_frames):
     return temp
 num = 0
 while True:
+    num =+1
     left_distance = ultrasonicleft()
     print left_distance
     right_distance = ultrasonicright()
     print right_distance
     if (right_distance > distance_limit) and (left_distance > distance_limit):
         lane_detection(frame(10),num)
-        num =+ 1
     else:
         stop()
