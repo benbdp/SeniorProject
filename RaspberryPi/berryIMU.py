@@ -436,10 +436,10 @@ while True:
     if tiltCompensatedHeading < 0:
         tiltCompensatedHeading += 360
 
-    if 1:  # Change to '0' to stop showing the angles from the accelerometer
+    if 0:  # Change to '0' to stop showing the angles from the accelerometer
         print ("\033[1;34;40mACCX Angle %5.2f ACCY Angle %5.2f  \033[0m  " % (AccXangle, AccYangle)),
 
-    if 1:  # Change to '0' to stop  showing the angles from the gyro
+    if 0:  # Change to '0' to stop  showing the angles from the gyro
         print (
         "\033[1;31;40m\tGRYX Angle %5.2f  GYRY Angle %5.2f  GYRZ Angle %5.2f" % (gyroXangle, gyroYangle, gyroZangle)),
 
