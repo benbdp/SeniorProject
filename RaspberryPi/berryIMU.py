@@ -286,7 +286,7 @@ while True:
     b = datetime.datetime.now() - a
     a = datetime.datetime.now()
     LP = b.microseconds / (1000000 * 1.0)
-    print "Loop Time | %5.2f|" % (LP),
+    #print "Loop Time | %5.2f|" % (LP),
 
     ###############################################
     #### Apply low pass filter ####
