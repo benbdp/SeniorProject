@@ -167,10 +167,24 @@ def frame(junk_frames):
     for i in xrange(junk_frames):
         temp = get_image()
     return temp
+
+def data(img):
+    h, w = img.shape[:2]
+    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+    undistort = cv2.undistort(img, mtx, dist, None, newcameramtx)
+    src_pts = np.float32([[59, 228], [568, 227], [3, 305], [625, 305]])  # src
+
+    dst_pts = np.float32([[0, 0], [558, 0], [0, 154], [558, 154]])  # dst
+
+    M = cv2.getPerspectiveTransform(src_pts, dst_pts)
+    dst_img = cv2.warpPerspective(undistort, M, (558, 154))
+    return dst_img
+
+
 num = 0
 try:
     while True:
-        cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, frame(10))
+        cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, data(frame(10)))
         print num
         num = num +1
         left_distance = ultrasonicleft()
