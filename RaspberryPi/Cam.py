@@ -127,6 +127,7 @@ def lane_detection(img, num):
         print "Found two lines"
         forward()
         num =+ 1
+        return num
         # zero = line(erode,newcontours[0],center_y)
         # one = line(erode,newcontours[1],center_y)
         #
@@ -161,11 +162,13 @@ def lane_detection(img, num):
 
         if x > center_x:
             left()
+
+        return num
     else:
         num =+1
         print "error"
         stop()
-
+        return num
 def frame(junk_frames):
     for i in xrange(junk_frames):
         temp = get_image()
