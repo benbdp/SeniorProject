@@ -163,17 +163,20 @@ def lane_detection(img):
         print "error"
         stop()
 
-def frame(junk_frames):
+def frame(junk_frames,num):
     for i in xrange(junk_frames):
         temp = get_image()
+    cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, temp)
+    num += 1
     return temp
 
+num = 0
 while True:
     left_distance = ultrasonicleft()
     print left_distance
     right_distance = ultrasonicright()
     print right_distance
     if (right_distance > distance_limit) and (left_distance > distance_limit):
-        lane_detection(frame(10))
+        lane_detection(frame(10,num))
     else:
         stop()
