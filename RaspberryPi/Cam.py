@@ -169,7 +169,8 @@ def frame(junk_frames):
     return temp
 num = 0
 while True:
-    cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, frame(10))
+    #cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, frame(10))
+    print num
     num =+1
     left_distance = ultrasonicleft()
     print left_distance
