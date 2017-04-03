@@ -148,6 +148,7 @@ def frame(junk_frames):
 
     return temp
 
+
 try:
     while True:
         left_distance = ultrasonicleft()
