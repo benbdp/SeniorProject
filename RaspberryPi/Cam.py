@@ -143,6 +143,7 @@ def lane_detection(img):
 def frame(junk_frames):
     for i in xrange(junk_frames):
         temp = get_image()
+        print('taking image')
     return temp
 
 try:
