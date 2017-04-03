@@ -82,15 +82,15 @@ def get_image():
     return img
 
 def forward():
-    ser.write(str(60) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(70) + str('m,') + str(servo_center) + str('s,'))
 def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left():
-    ser.write(str(60) + str('m,') + str(servo_center-5) + str('s,'))
+    ser.write(str(70) + str('m,') + str(servo_center-5) + str('s,'))
 
 def right():
-    ser.write(str(60) + str('m,') + str(servo_center+5) + str('s,'))
+    ser.write(str(70) + str('m,') + str(servo_center+5) + str('s,'))
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
@@ -148,11 +148,11 @@ def frame(junk_frames):
 try:
     while True:
         left_distance = ultrasonicleft()
-        print left_distance
+        #print left_distance
         right_distance = ultrasonicright()
-        print right_distance
+        #print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            lane_detection(frame(10))
+            lane_detection(frame(2))
         else:
             stop()
 except:
