@@ -3,8 +3,7 @@ import numpy as np
 import time
 import RPi.GPIO as GPIO
 import serial
-import sys
-import math
+import datetime
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
 servo_center = 86
@@ -141,9 +140,12 @@ def lane_detection(img):
         stop()
 
 def frame(junk_frames):
+    ts = time.time()
+    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    print("Taking Image: ",st)
     for i in xrange(junk_frames):
         temp = get_image()
-        print('taking image')
+
     return temp
 
 try:
