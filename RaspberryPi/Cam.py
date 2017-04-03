@@ -102,6 +102,11 @@ def contours(img): # img should be wrapped image
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
 
+def center(contour):
+    M = cv2.moments(contour)
+    cx = int(M['m10'] / M['m00'])
+    return cx
+
 def lane_detection(img):
     h, w = img.shape[:2]
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
@@ -114,79 +119,34 @@ def lane_detection(img):
     dst_img = cv2.warpPerspective(undistort,M,(558,154))
     cont = contours(dst_img)
     height, width, channels = dst_img.shape
-    center_y = height / 2
     center_x = width / 2
     newcontours = []
     for cnt in cont:
         area = cv2.contourArea(cnt)
         if area > 100:
             newcontours.append(cnt)
-    #print newcontours
     num_contours = len(newcontours)
     if num_contours == 2 :
         print "Found two lines"
         forward()
-        # zero = line(erode,newcontours[0],center_y)
-        # one = line(erode,newcontours[1],center_y)
-        #
-        # centerlane = (zero + one) / 2
-        # error = center_x - centerlane
-        # #print error
-        # return error
-
     elif num_contours == 1:
         print "Found one line"
-        # rows, cols = img.shape[:2]
-        # vx0, vy0, x0, y0 = cv2.fitLine(newcontours[0], cv2.DIST_L2, 0, 0.01, 0.01)
-        # lefty0 = int((-x0 * vy0 / vx0) + y0)
-        # righty0 = int(((cols - x0) * vy0 / vx0) + y0)
-        # x_00 = float(cols - 1)
-        # y_00 = float(righty0)
-        # x_01 = float(0)
-        # y_01 = float(lefty0)
-        # slope0 = float((y_01 - y_00) / (x_01 - x_00))
-        # yint0 = y_01 - (slope0 * x_01)
-        # x0 = (center_y - yint0) / slope0
-        # x1 = (rows - yint0) / slope0
-        # dif = x1 - x0
-        # angle = float(math.atan2((dif), center_y))
-        # angle = math.degrees(angle)
-        # return angle
-        x = line(dst_img,newcontours[0],center_y)
-
+        x= center(newcontours[0])
         if x < center_x:
             right()
-
         if x > center_x:
             left()
     else:
-
         print "error"
         stop()
+
 def frame(junk_frames):
     for i in xrange(junk_frames):
         temp = get_image()
     return temp
 
-def data(img):
-    h, w = img.shape[:2]
-    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
-    undistort = cv2.undistort(img, mtx, dist, None, newcameramtx)
-    src_pts = np.float32([[59, 228], [568, 227], [3, 305], [625, 305]])  # src
-
-    dst_pts = np.float32([[0, 0], [558, 0], [0, 154], [558, 154]])  # dst
-
-    M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-    dst_img = cv2.warpPerspective(undistort, M, (558, 154))
-    return dst_img
-
-
-num = 0
 try:
     while True:
-        cv2.imwrite("/home/pi/DrivingData/image%04i.jpg" % num, data(frame(10)))
-        print num
-        num = num +1
         left_distance = ultrasonicleft()
         print left_distance
         right_distance = ultrasonicright()
