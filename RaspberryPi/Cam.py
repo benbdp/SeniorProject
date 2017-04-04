@@ -6,7 +6,7 @@ import serial
 import datetime
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
-servo_center = 86
+servo_center = 82
 distance_limit = 50
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -132,17 +132,9 @@ def lane_detection(img):
         print "Found one line"
         x= center(newcontours[0])
 
-        if x > 0 and x < (center_x/2):
-            print "right(10)"
-            right(10)
-        if x > (center_x/2) and x < center_x:
-            print "right(5)"
+        if x > center_x:
             right(5)
-        if x < width and x > ((center_x/2)*3):
-            print "left(10)"
-            left(10)
-        if x < ((center_x/2)*3) and x > center_x:
-            print "left(5)"
+        if x < center_x:
             left(5)
 
     else:
