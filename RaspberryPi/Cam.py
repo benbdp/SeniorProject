@@ -85,11 +85,11 @@ def forward():
 def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
-def left():
-    ser.write(str(60) + str('m,') + str(servo_center-5) + str('s,'))
+def left(change):
+    ser.write(str(60) + str('m,') + str(servo_center-change) + str('s,'))
 
-def right():
-    ser.write(str(60) + str('m,') + str(servo_center+5) + str('s,'))
+def right(change):
+    ser.write(str(60) + str('m,') + str(servo_center+change) + str('s,'))
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
@@ -126,27 +126,20 @@ def lane_detection(img):
             newcontours.append(cnt)
     num_contours = len(newcontours)
     if num_contours == 2 :
-        ts = time.time()
-        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-        print "Found two lines: ",st
+        print "Found two lines"
         forward()
     elif num_contours == 1:
-        ts = time.time()
-        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-        print "Found one line: ",st
+        print "Found one line"
         x= center(newcontours[0])
         if x < center_x:
-            right()
+            right(10)
         if x > center_x:
-            left()
+            left(10)
     else:
         print "error"
         stop()
 
 def frame(junk_frames):
-    ts = time.time()
-    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    print("Taking Image: ",st)
     for i in xrange(junk_frames):
         temp = get_image()
 
@@ -160,7 +153,7 @@ try:
         right_distance = ultrasonicright()
         #print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            lane_detection(frame(20))
+            lane_detection(frame(15))
         else:
             stop()
 except:
