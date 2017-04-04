@@ -126,10 +126,14 @@ def lane_detection(img):
             newcontours.append(cnt)
     num_contours = len(newcontours)
     if num_contours == 2 :
-        print "Found two lines"
+        ts = time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        print "Found two lines: ",st
         forward()
     elif num_contours == 1:
-        print "Found one line"
+        ts = time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        print "Found one line: ",st
         x= center(newcontours[0])
         if x < center_x:
             right()
@@ -156,7 +160,7 @@ try:
         right_distance = ultrasonicright()
         #print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            lane_detection(frame(10))
+            lane_detection(frame(20))
         else:
             stop()
 except:
