@@ -137,14 +137,18 @@ def lane_detection(img):
     elif num_contours == 1:
         print "Found one line"
         x= center(newcontours[0])
-        print "x: ",x
+
         if x > 0 and x < (center_x/2):
+            print right(10)
             right(10)
         if x > (center_x/2) and x < center_x:
+            print"right(5)"
             right(5)
         if x < width and x > ((center_x/2)*3):
+            print"left(10)"
             left(10)
         if x < ((center_x/2)*3) and x > center_x:
+            print"left(5)"
             left(5)
 
     else:
