@@ -6,7 +6,7 @@ import serial
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
 servo_center = 82
-distance_limit = 50
+distance_limit = 40
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 TRIGGERRIGHT = 24
