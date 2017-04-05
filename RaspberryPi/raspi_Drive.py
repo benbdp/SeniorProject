@@ -120,9 +120,9 @@ def lane_detection(img):
         x= center(newcontours[0])
 
         if x < center_x:
-            right(5)
+            right(8)
         if x > center_x:
-            left(5)
+            left(8)
 
     else:
         print "error"
