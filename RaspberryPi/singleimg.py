@@ -55,7 +55,7 @@ M = cv2.moments(contours[1])
 cx1 = int(M['m10']/M['m00'])
 cy1 = int(M['m01']/M['m00'])
 cv2.circle(dst_img,(cx1,cy1),10,(0, 0, 255),-1)
-cv2.imwrite('/home/pi/Desktop/imgs/center.png', capture)
+cv2.imwrite('/home/pi/Desktop/imgs/center.png', dst_img)
 
 cv2.waitKey()
 cv2.destroyAllWindows()
