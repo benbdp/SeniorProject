@@ -71,11 +71,12 @@ def forward():
 def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
-def left(change):
-    ser.write(str(60) + str('m,') + str(servo_center-change) + str('s,'))
+def left():
+    ser.write(str(60) + str('m,') + str(servo_center-5) + str('s,'))
 
-def right(change):
-    ser.write(str(60) + str('m,') + str(servo_center+change) + str('s,'))
+def right():
+    ser.write(str(60) + str('m,') + str(servo_center+5) + str('s,'))
+
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
@@ -120,9 +121,9 @@ def lane_detection(img):
         x= center(newcontours[0])
 
         if x < center_x:
-            right(6)
+            right()
         if x > center_x:
-            left(6)
+            left()
 
     else:
         print "error"
