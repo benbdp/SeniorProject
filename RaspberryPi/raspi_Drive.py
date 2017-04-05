@@ -104,7 +104,6 @@ def lane_detection(img):
 
     M = cv2.getPerspectiveTransform(src_pts,dst_pts)
     dst_img = cv2.warpPerspective(undistort,M,(558,154))
-    cv2.imshow("img",dst_img)
     cont = contours(dst_img)
     height, width, channels = dst_img.shape
     center_x = width / 2
@@ -146,7 +145,6 @@ try:
         print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             lane_detection(frame(10))
-            cv2.waitKey()
         else:
             stop()
 except:
