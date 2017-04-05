@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import serial
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
-servo_center = 82
+servo_center = 84
 distance_limit = 50
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -72,10 +72,10 @@ def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left(change):
-    ser.write(str(60) + str('m,') + str(servo_center-change) + str('s,'))
+    ser.write(str(80) + str('m,') + str(servo_center-change) + str('s,'))
 
 def right(change):
-    ser.write(str(60) + str('m,') + str(servo_center+change) + str('s,'))
+    ser.write(str(80) + str('m,') + str(servo_center+change) + str('s,'))
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
@@ -120,9 +120,9 @@ def lane_detection(img):
         x= center(newcontours[0])
 
         if x < center_x:
-            right(8)
+            right(5)
         if x > center_x:
-            left(8)
+            left(5)
 
     else:
         print "error"
