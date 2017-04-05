@@ -3,7 +3,6 @@ import numpy as np
 import time
 import RPi.GPIO as GPIO
 import serial
-import datetime
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
 servo_center = 82
@@ -68,6 +67,7 @@ def get_image():
 
 def forward():
     ser.write(str(60) + str('m,') + str(servo_center) + str('s,'))
+
 def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
@@ -114,6 +114,7 @@ def lane_detection(img):
     if num_contours == 2 :
         print "Found two lines"
         forward()
+
     elif num_contours == 1:
         print "Found one line"
         x= center(newcontours[0])
@@ -137,9 +138,9 @@ def frame(junk_frames):
 try:
     while True:
         left_distance = ultrasonicleft()
-        #print left_distance
+        print left_distance
         right_distance = ultrasonicright()
-        #print right_distance
+        print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
             lane_detection(frame(15))
         else:
