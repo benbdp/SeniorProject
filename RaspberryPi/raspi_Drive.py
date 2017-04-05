@@ -3,11 +3,10 @@ import numpy as np
 import time
 import RPi.GPIO as GPIO
 import serial
-import sys
-import math
+import datetime
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
-servo_center = 83
+servo_center = 82
 distance_limit = 50
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -20,8 +19,10 @@ ECHOLEFT = 14
 GPIO.setup(TRIGGERLEFT, GPIO.OUT)
 GPIO.setup(ECHOLEFT, GPIO.IN)
 
-kernel_size = 3
-disance_limit = 25
+mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
+dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
+
+camera = cv2.VideoCapture(0)
 
 def ultrasonicleft():
     GPIO.output(TRIGGERLEFT, False)
@@ -60,45 +61,88 @@ def ultrasonicright():
 
     return right_distance
 
+
+def get_image():
+    retval, img = camera.read()
+    return img
+
+def forward():
+    ser.write(str(60) + str('m,') + str(servo_center) + str('s,'))
+def stop():
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+
+def left(change):
+    ser.write(str(60) + str('m,') + str(servo_center-change) + str('s,'))
+
+def right(change):
+    ser.write(str(60) + str('m,') + str(servo_center+change) + str('s,'))
+
+def contours(img): # img should be wrapped image
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
+    lower_blue = np.array([50, 50, 130])  # define range of color in HSV
+    upper_blue = np.array([95, 140, 220])
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)  # Threshold the HSV image to get only desired color
+    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)
+    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)
+    im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    return contours
+
+def center(contour):
+    M = cv2.moments(contour)
+    cx = int(M['m10'] / M['m00'])
+    return cx
+
+def lane_detection(img):
+    h, w = img.shape[:2]
+    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+    undistort = cv2.undistort(img, mtx, dist, None, newcameramtx)
+    src_pts = np.float32([[59,228],[568,227],[3,305],[625,305]])#src
+
+    dst_pts = np.float32([[0,0],[558,0],[0,154],[558,154]])#dst
+
+    M = cv2.getPerspectiveTransform(src_pts,dst_pts)
+    dst_img = cv2.warpPerspective(undistort,M,(558,154))
+    cont = contours(dst_img)
+    height, width, channels = dst_img.shape
+    center_x = width / 2
+    newcontours = []
+    for cnt in cont:
+        area = cv2.contourArea(cnt)
+        if area > 100:
+            newcontours.append(cnt)
+    num_contours = len(newcontours)
+    if num_contours == 2 :
+        print "Found two lines"
+        forward()
+    elif num_contours == 1:
+        print "Found one line"
+        x= center(newcontours[0])
+
+        if x > center_x:
+            right(5)
+        if x < center_x:
+            left(5)
+
+    else:
+        print "error"
+        stop()
+
+def frame(junk_frames):
+    for i in xrange(junk_frames):
+        temp = get_image()
+
+    return temp
+
+
 try:
     while True:
-        # ret, frame = webcam.read()
-        # h, w = frame.shape[:2]
-        # newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
-        # undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)
-        # src_pts = np.float32([[142, 338], [522, 338], [20, 480], [635, 480]])  # src
-        # dst_pts = np.float32([[0, 0], [558, 0], [0, 430], [558, 430]])  # dst
-        # M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-        # dst_img = cv2.warpPerspective(frame, M, (558, 430))
-        #
-        # angle = laneDetection(dst_img)
-        # term = 0.6
-        # servo_pos = 97
-        #
-        # if angle > 0:
-        #     servo_pos = servo_pos - (abs(angle) * term)
-        # if angle < 0:
-        #     servo_pos = servo_pos + (abs(angle) * term)
-        #
-        # print servo_pos
-        # cv2.imshow("frame",frame)
-        # cv2.waitKey(5)
-
-        # if the `q` key was pressed, break from the loop
-
         left_distance = ultrasonicleft()
+        #print left_distance
         right_distance = ultrasonicright()
-        print(left_distance)
-        print(right_distance)
-        # if (right_distance > distance_limit) and (left_distance > distance_limit):
-        #     ser.write(str(80) + str('m,') + str(servo_pos) + str('s,'))
-        #     time.sleep(1)
-        #     ser.write(str(0) + str('m,') + str(servo_pos) + str('s,'))
-        #
-        # else:
-        #     ser.write(str(0) + str('m,') + str(97) + str('s,'))
+        #print right_distance
+        if (right_distance > distance_limit) and (left_distance > distance_limit):
+            lane_detection(frame(15))
+        else:
+            stop()
 except:
-    cv2.destroyAllWindows()
-    print "User Stopped!"
-    motor_speed = str(0)
-    ser.write(str(0) + str('m,') + str(97) + str('s,'))
+    stop()
