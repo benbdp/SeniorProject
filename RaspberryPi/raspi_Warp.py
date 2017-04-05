@@ -1,10 +1,27 @@
 import cv2
 import numpy as np
 
-src_img = cv2.imread('/home/pi/Desktop/warp.png')
-cv2.imshow('src_img',src_img)
+mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
+dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
 
-print(src_img.shape)
+junk_frames = 30
+camera = cv2.VideoCapture(0)
+
+def get_image():
+    retval, img = camera.read()
+    return img
+
+
+for i in xrange(junk_frames):
+    temp = get_image()
+
+capture = get_image()
+
+h, w = capture.shape[:2]
+newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+undistort = cv2.undistort(capture, mtx, dist, None, newcameramtx)
+src_img = undistort
+cv2.imshow('src_img',src_img)
 
 src_pts = np.float32([[59,228],[568,227],[3,305],[625,305]])#src
 
