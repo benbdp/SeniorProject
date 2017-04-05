@@ -67,24 +67,15 @@ def get_image():
 
 def forward():
     ser.write(str(60) + str('m,') + str(servo_center) + str('s,'))
-    print "ser.write(str(60) + str('m,') + str(servo_center) + str('s,'))"
-    time.sleep(0.5)
-    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left():
     ser.write(str(60) + str('m,') + str(servo_center-8) + str('s,'))
-    print "ser.write(str(60) + str('m,') + str(servo_center-5) + str('s,'))"
-    time.sleep(0.5)
-    ser.write(str(0) + str('m,') + str(servo_center-8) + str('s,'))
 
 def right():
     ser.write(str(60) + str('m,') + str(servo_center+8) + str('s,'))
-    print "ser.write(str(60) + str('m,') + str(servo_center+5) + str('s,'))"
-    time.sleep(0.5)
-    ser.write(str(0) + str('m,') + str(servo_center+8) + str('s,'))
 
 
 def contours(img): # img should be wrapped image
