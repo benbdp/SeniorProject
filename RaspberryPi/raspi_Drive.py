@@ -120,9 +120,9 @@ def lane_detection(img):
         x= center(newcontours[0])
 
         if x < center_x:
-            right(5)
+            right(6)
         if x > center_x:
-            left(5)
+            left(6)
 
     else:
         print "error"
@@ -142,7 +142,7 @@ try:
         right_distance = ultrasonicright()
         print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            lane_detection(frame(5))
+            lane_detection(frame(1))
         else:
             stop()
 except:
