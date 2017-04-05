@@ -8,16 +8,16 @@ import math
 
 #ser = serial.Serial('/dev/ttyACM0', 9600)
 #
-distance_limit = 25
-
+servo_center = 82
+distance_limit = 50
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-TRIGGERRIGHT = 18
+TRIGGERRIGHT = 24
 ECHORIGHT = 23
 GPIO.setup(TRIGGERRIGHT, GPIO.OUT)
 GPIO.setup(ECHORIGHT, GPIO.IN)
-TRIGGERLEFT = 24
-ECHOLEFT = 25
+TRIGGERLEFT = 15
+ECHOLEFT = 14
 GPIO.setup(TRIGGERLEFT, GPIO.OUT)
 GPIO.setup(ECHOLEFT, GPIO.IN)
 
