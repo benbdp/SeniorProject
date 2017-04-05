@@ -44,8 +44,8 @@ dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)
 erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)
 cv2.imwrite('/home/pi/Desktop/imgs/erode.png', mask)
 im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-print contours
-cv2.drawContours(dst_img, contours, -1, (0, 0, 255), 3)
+# print contours
+# cv2.drawContours(dst_img, contours, -1, (0, 0, 255), 3)
 # cv2.imwrite('/home/pi/Desktop/imgs/contours.png', dst_img)
 M = cv2.moments(contours[0])
 cx0 = int(M['m10']/M['m00'])
