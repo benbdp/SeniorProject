@@ -142,7 +142,7 @@ try:
         right_distance = ultrasonicright()
         print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            lane_detection(frame(1))
+            lane_detection(frame(30))
         else:
             stop()
 except:
