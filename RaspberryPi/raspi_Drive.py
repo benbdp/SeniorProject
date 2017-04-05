@@ -72,10 +72,10 @@ def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left(change):
-    ser.write(str(80) + str('m,') + str(servo_center-change) + str('s,'))
+    ser.write(str(60) + str('m,') + str(servo_center-change) + str('s,'))
 
 def right(change):
-    ser.write(str(80) + str('m,') + str(servo_center+change) + str('s,'))
+    ser.write(str(60) + str('m,') + str(servo_center+change) + str('s,'))
 
 def contours(img): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
@@ -120,9 +120,9 @@ def lane_detection(img):
         x= center(newcontours[0])
 
         if x < center_x:
-            right(5)
+            right(8)
         if x > center_x:
-            left(5)
+            left(8)
 
     else:
         print "error"
@@ -142,7 +142,7 @@ try:
         right_distance = ultrasonicright()
         print right_distance
         if (right_distance > distance_limit) and (left_distance > distance_limit):
-            lane_detection(frame(8))
+            lane_detection(frame(5))
         else:
             stop()
 except:
