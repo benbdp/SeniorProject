@@ -16,21 +16,21 @@ for i in xrange(junk_frames):
     temp = get_image()
 
 capture = get_image()
-cv2.imwrite('/home/pi/Desktop/imgs/frame.png',capture)
+#cv2.imwrite('/home/pi/Desktop/imgs/frame.png',capture)
 
 #cv2.imshow('frame', frame)
 h, w = capture.shape[:2]
 newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
 undistort = cv2.undistort(capture, mtx, dist, None, newcameramtx)
 #cv2.imshow('undistort', undistort)
-cv2.imwrite('/home/pi/Desktop/imgs/undistort.png',undistort)
+#cv2.imwrite('/home/pi/Desktop/imgs/undistort.png',undistort)
 src_pts = np.float32([[59,228],[568,227],[3,305],[625,305]])#src
 
 dst_pts = np.float32([[0,0],[558,0],[0,154],[558,154]])#dst
 
 M = cv2.getPerspectiveTransform(src_pts,dst_pts)
 dst_img = cv2.warpPerspective(undistort,M,(558,154))
-cv2.imwrite('/home/pi/Desktop/imgs/warped.png',dst_img)
+#cv2.imwrite('/home/pi/Desktop/imgs/warped.png',dst_img)
 #cv2.imshow("warp",dst_img)
 hsv = cv2.cvtColor(dst_img, cv2.COLOR_BGR2HSV)  # Convert to HSV
 cv2.imwrite('/home/pi/Desktop/imgs/hsv.png', hsv)
