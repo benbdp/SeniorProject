@@ -97,7 +97,7 @@ while True:
 
             slope = float((y_1 - y_0) / (x_1 - x_0))
 
-            print("slope: ", slope)
+            print("slope%02i: " %cnt, slope)
 
             # Finally draw the line
             cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
