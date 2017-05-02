@@ -84,11 +84,20 @@ while True:
             if area > 1000:  # run test to ensure small contours are eliminated
                 newcontours.append(cnt)
         for cnt in newcontours:
+            rows, cols = warp.shape[:2]
             # then apply fitline() function
             [vx, vy, x, y] = cv2.fitLine(cnt, cv2.DIST_L2, 0, 0.01, 0.01)
             # Now find two extreme points on the line to draw line
             lefty = int((-x * vy / vx) + y)
             righty = int(((warp.shape[1] - x) * vy / vx) + y)
+            x_0 = float(cols - 1)
+            y_0 = float(righty)
+            x_1 = float(0)
+            y_1 = float(lefty)
+
+            slope = float((y_1 - y_0) / (x_1 - x_0))
+
+            print("slope: ", slope)
 
             # Finally draw the line
             cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
