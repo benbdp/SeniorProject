@@ -55,18 +55,18 @@ while True:
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=4)
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=2)
     cv2.imshow("erode", erode)
-    im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    newcontours = []
-    for cnt in contours:
-        area = cv2.contourArea(cnt)
-        if area > 10000:
-            newcontours.append(cnt)
-            area = cv2.contourArea(cnt)
-            # print(area)
-
-    x, y, w, h = cv2.boundingRect(newcontours[0])
-    cv2.rectangle(warp,(x,y),(x+w,y+h),(255,0,0),2)
-    cv2.imshow("circles",warp)
+    # im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    # newcontours = []
+    # for cnt in contours:
+    #     area = cv2.contourArea(cnt)
+    #     if area > 10000:
+    #         newcontours.append(cnt)
+    #         area = cv2.contourArea(cnt)
+    #         # print(area)
+    #
+    # x, y, w, h = cv2.boundingRect(newcontours[0])
+    # cv2.rectangle(warp,(x,y),(x+w,y+h),(255,0,0),2)
+    # cv2.imshow("circles",warp)
 
     result = cv2.bitwise_and(warp,warp,mask = mask)
 
