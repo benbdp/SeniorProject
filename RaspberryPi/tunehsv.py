@@ -77,6 +77,7 @@ while True:
         print("h: ", h, " s: ", s, " v: ", v)
         break
     if k == 32:
+        num=0
         im,contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         newcontours = []
         for cnt in contours:
@@ -96,13 +97,11 @@ while True:
             y_1 = float(lefty)
 
             slope = float((y_1 - y_0) / (x_1 - x_0))
-            # num = int(np.ndarray.tostring(cnt))
-            # print("slope%d: " %num)
-            print (cnt)
+            print("slope%d: " %num)
 
             # Finally draw the line
             cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
-
+            num =+ 1
 
         cv2.imshow("lines",warp)
 
