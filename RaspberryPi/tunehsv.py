@@ -77,7 +77,7 @@ while True:
         print("h: ", h, " s: ", s, " v: ", v)
         break
     if k == 32:
-        contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        im,contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         newcontours = []
         for cnt in contours:
             area = cv2.contourArea(cnt)
