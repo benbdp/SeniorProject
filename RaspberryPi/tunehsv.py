@@ -78,7 +78,12 @@ while True:
         break
     if k == 32:
         contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        newcontours = []
         for cnt in contours:
+            area = cv2.contourArea(cnt)
+            if area > 1000:  # run test to ensure small contours are eliminated
+                newcontours.append(cnt)
+        for cnt in newcontours:
             # then apply fitline() function
             [vx, vy, x, y] = cv2.fitLine(cnt, cv2.DIST_L2, 0, 0.01, 0.01)
             # Now find two extreme points on the line to draw line
