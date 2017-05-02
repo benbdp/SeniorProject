@@ -228,50 +228,12 @@ def laneDetection(img):
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=3)
     cv2.imshow('erode',erode)
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     num_contours = len(contours)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     #print "contours",num_contours
     if num_contours < 2:
         zero = line(erode,contours[0],center_y)
         print zero
-
-
         return
-
-
     else:
         newcontours = []
         for cnt in contours:
