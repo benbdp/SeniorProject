@@ -77,20 +77,19 @@ while True:
         print("h: ", h, " s: ", s, " v: ", v)
         break
     if k == 32:
-        im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        newcontours = []
+        contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         for cnt in contours:
-            area = cv2.contourArea(cnt)
-            if area > 1000:
-                newcontours.append(cnt)
-                area = cv2.contourArea(cnt)
-                print(area)
+            # then apply fitline() function
+            [vx, vy, x, y] = cv2.fitLine(cnt, cv2.DIST_L2, 0, 0.01, 0.01)
+            # Now find two extreme points on the line to draw line
+            lefty = int((-x * vy / vx) + y)
+            righty = int(((warp.shape[1] - x) * vy / vx) + y)
 
-        x0, y0, w0, h0 = cv2.boundingRect(newcontours[0])
-        cv2.rectangle(warp,(x0,y0),(x0+w0,y0+h0),(255,0,0),2)
-        x1, y1, w1, h1 = cv2.boundingRect(newcontours[1])
-        cv2.rectangle(warp, (x1, y1), (x1 + w1, y1 + h1), (255, 0, 0), 2)
-        cv2.imshow("circles",warp)
+            # Finally draw the line
+            cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
+
+
+        cv2.imshow("lines",warp)
 
 cv2.destroyAllWindows()
 vs.stop()
