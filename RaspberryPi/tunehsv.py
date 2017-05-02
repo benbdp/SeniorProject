@@ -86,8 +86,10 @@ while True:
                 area = cv2.contourArea(cnt)
                 print(area)
 
-        x, y, w, h = cv2.boundingRect(newcontours[0])
-        cv2.rectangle(warp,(x,y),(x+w,y+h),(255,0,0),2)
+        x0, y0, w0, h0 = cv2.boundingRect(newcontours[0])
+        cv2.rectangle(warp,(x0,y0),(x0+w0,y0+h0),(255,0,0),2)
+        x1, y1, w1, h1 = cv2.boundingRect(newcontours[1])
+        cv2.rectangle(warp, (x1, y1), (x1 + w1, y1 + h1), (255, 0, 0), 2)
         cv2.imshow("circles",warp)
 
 cv2.destroyAllWindows()
