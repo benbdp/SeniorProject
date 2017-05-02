@@ -4,7 +4,8 @@ import imutils
 import cv2
 import numpy as np
 
-
+mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
+dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
 # created a *threaded* video stream, allow the camera sensor to warmup,
 # and start the FPS counter
 
@@ -27,9 +28,16 @@ while True:
 
     frame = vs.read()
     frame = imutils.resize(frame, width=640)
+    h, w = frame.shape[:2]
+    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+    undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)  # undistort image
+    src_pts = np.float32([[59, 228], [568, 227], [3, 305], [625, 305]])  # source points
+    dst_pts = np.float32([[0, 0], [558, 0], [0, 154], [558, 154]])  # destination points
+    M = cv2.getPerspectiveTransform(src_pts, dst_pts)
+    warp = cv2.warpPerspective(undistort, M, (558, 154))  # warp the image
 
     #converting to HSV
-    hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
+    hsv = cv2.cvtColor(warp,cv2.COLOR_BGR2HSV)
 
     # get info from track bar and appy to result
     h = cv2.getTrackbarPos('h','result')
@@ -57,10 +65,10 @@ while True:
             # print(area)
 
     x, y, w, h = cv2.boundingRect(newcontours[0])
-    cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
-    cv2.imshow("circles",frame)
+    cv2.rectangle(warp,(x,y),(x+w,y+h),(255,0,0),2)
+    cv2.imshow("circles",warp)
 
-    result = cv2.bitwise_and(frame,frame,mask = mask)
+    result = cv2.bitwise_and(warp,warp,mask = mask)
 
     cv2.imshow('result',result)
 
