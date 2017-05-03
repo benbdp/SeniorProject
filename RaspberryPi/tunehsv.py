@@ -100,7 +100,7 @@ while True:
             y_1 = float(lefty)
             print(y_1)
 
-            slope = float((y_1 - y_0) / (x_1 - x_0))
+            slope = float((x_1 - x_0) /(y_1 - y_0) )
             print("slope%d: " %num,slope)
 
             # Finally draw the line
