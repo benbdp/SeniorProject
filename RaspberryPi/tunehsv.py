@@ -86,7 +86,6 @@ while True:
                 newcontours.append(cnt)
         for cnt in newcontours:
             rows, cols = warp.shape[:2]
-            print "height: ", rows
             # then apply fitline() function
             [vx, vy, x, y] = cv2.fitLine(cnt, cv2.DIST_L2, 0, 0.01, 0.01)
             # Now find two extreme points on the line to draw line
@@ -96,9 +95,16 @@ while True:
             y_0 = float(righty)
             x_1 = float(0)
             y_1 = float(lefty)
-
+            mid = rows / 2
             slope = float((x_1 - x_0) /(y_1 - y_0) )
             print("slope%d: " %num,slope)
+            yint0 = y_1 - (slope * x_1)
+
+            x0 = (mid - yint0) / slope
+            x0 = int(x0)
+            cv2.circle(warp, (x0, mid), 5, (0, 0, 255), -1)
+
+
 
             # Finally draw the line
             cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
