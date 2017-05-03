@@ -92,9 +92,13 @@ while True:
             lefty = int((-x * vy / vx) + y)
             righty = int(((warp.shape[1] - x) * vy / vx) + y)
             x_0 = float(cols - 1)
+            print(x_0)
             y_0 = float(righty)
+            print(y_0)
             x_1 = float(0)
+            print(x_1)
             y_1 = float(lefty)
+            print(y_1)
 
             slope = float((y_1 - y_0) / (x_1 - x_0))
             print("slope%d: " %num,slope)
