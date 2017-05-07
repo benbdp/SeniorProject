@@ -4,8 +4,8 @@ import imutils
 import cv2
 import numpy as np
 
-mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
-dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
+mtx = np.load('/home/pi/SeniorProject/RaspberryPi/cameramatrix.npy')
+dist = np.load('/home/pi/SeniorProject/RaspberryPi/distortioncoeff.npy')
 # created a *threaded* video stream, allow the camera sensor to warmup,
 # and start the FPS counter
 
