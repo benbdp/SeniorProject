@@ -95,6 +95,7 @@ while True:
         num=0
         im,contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         newcontours = []
+        points = []
         for cnt in contours:
             area = cv2.contourArea(cnt)
             if area > 1000:  # run test to ensure small contours are eliminated
@@ -119,6 +120,8 @@ while True:
             print mid
 
             x0 = line(warp,cnt,mid)
+
+            points.append(x0)
             cv2.circle(warp, (x0, mid), 5, (0, 0, 255), -1)
 
 
@@ -126,7 +129,9 @@ while True:
             # Finally draw the line
             cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
             num =+ 1
-
+        if len(newcontours)==2:
+            dist = points[0]-points[1]
+            print dist
         cv2.imshow("lines",warp)
 
 cv2.destroyAllWindows()
