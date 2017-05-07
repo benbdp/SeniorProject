@@ -28,6 +28,44 @@ def line(img,contours,center_y):
 
 def nothing(x):
     pass
+
+
+def findline(erode,warp):
+    num = 0
+    im, contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    newcontours = []
+    points = []
+    for cnt in contours:
+        area = cv2.contourArea(cnt)
+        if area > 1000:  # run test to ensure small contours are eliminated
+            newcontours.append(cnt)
+    for cnt in newcontours:
+        rows, cols = warp.shape[:2]
+        # then apply fitline() function
+        [vx, vy, x, y] = cv2.fitLine(cnt, cv2.DIST_L2, 0, 0.01, 0.01)
+        # Now find two extreme points on the line to draw line
+        lefty = int((-x * vy / vx) + y)
+        righty = int(((warp.shape[1] - x) * vy / vx) + y)
+        x_0 = float(cols - 1)
+        y_0 = float(righty)
+        x_1 = float(0)
+        y_1 = float(lefty)
+        mid = rows / 2
+        slope = float((x_1 - x_0) / (y_1 - y_0))
+        print("slope%d: " % num, slope)
+        yint0 = y_1 - (slope * x_1)
+        x0 = line(warp, cnt, mid)
+
+        points.append(x0)
+        cv2.circle(warp, (x0, mid), 5, (0, 0, 255), -1)
+
+        # Finally draw the line
+        cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
+        num = + 1
+
+        return points[0],points[1]
+
+
 # Creating a window for later use
 cv2.namedWindow('result')
 
@@ -92,39 +130,7 @@ while True:
         print("h: ", h, " s: ", s, " v: ", v)
         break
     if k == 32:
-        num=0
-        im,contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        newcontours = []
-        points = []
-        for cnt in contours:
-            area = cv2.contourArea(cnt)
-            if area > 1000:  # run test to ensure small contours are eliminated
-                newcontours.append(cnt)
-        for cnt in newcontours:
-            rows, cols = warp.shape[:2]
-            # then apply fitline() function
-            [vx, vy, x, y] = cv2.fitLine(cnt, cv2.DIST_L2, 0, 0.01, 0.01)
-            # Now find two extreme points on the line to draw line
-            lefty = int((-x * vy / vx) + y)
-            righty = int(((warp.shape[1] - x) * vy / vx) + y)
-            x_0 = float(cols - 1)
-            y_0 = float(righty)
-            x_1 = float(0)
-            y_1 = float(lefty)
-            mid = rows / 2
-            slope = float((x_1 - x_0) /(y_1 - y_0) )
-            print("slope%d: " %num,slope)
-            yint0 = y_1 -(slope * x_1)
-            x0 = line(warp,cnt,mid)
-
-            points.append(x0)
-            cv2.circle(warp, (x0, mid), 5, (0, 0, 255), -1)
-
-
-
-            # Finally draw the line
-            cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
-            num =+ 1
+        zero,one=findline(erode,warp)
         try:
             rows, cols = warp.shape[:2]
             # dist = (points[0]+points[1])/2
