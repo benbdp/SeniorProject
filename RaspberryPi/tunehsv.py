@@ -67,8 +67,8 @@ while True:
     # fooling with mask
     mask = cv2.inRange(hsv,lower_blue, upper_blue)
     # cv2.imshow("msk",mask)
-    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=4)
-    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=2)
+    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=2)
+    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=1)
     cv2.imshow("erode", erode)
     # im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     # newcontours = []
