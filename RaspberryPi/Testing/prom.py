@@ -18,7 +18,7 @@ def right(angle):
 
 def p():
     forward()
-    time.sleep(1)
+    time.sleep(2)
     right(10)
     time.sleep(0.5)
     # forward()
