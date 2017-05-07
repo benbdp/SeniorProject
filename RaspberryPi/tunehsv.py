@@ -128,6 +128,7 @@ while True:
         # if len(newcontours)==2:
         #     dist = points[0]-points[1]
         #     print dist
+        print points
         cv2.imshow("lines",warp)
 
 cv2.destroyAllWindows()
