@@ -99,7 +99,7 @@ while True:
             mid = rows / 2
             slope = float((x_1 - x_0) /(y_1 - y_0) )
             print("slope%d: " %num,slope)
-            yint0 = y_1 - (slope * x_1)
+            yint0 = y_1 /(slope * x_1)
             print yint0
             print mid
 
