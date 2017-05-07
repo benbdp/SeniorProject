@@ -125,9 +125,9 @@ while True:
             # Finally draw the line
             cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
             num =+ 1
-        if len(newcontours)==2:
-            dist = points[0]-points[1]
-            print dist
+        # if len(newcontours)==2:
+        #     dist = points[0]-points[1]
+        #     print dist
         cv2.imshow("lines",warp)
 
 cv2.destroyAllWindows()
