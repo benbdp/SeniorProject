@@ -127,8 +127,8 @@ while True:
             num =+ 1
         try:
             rows, cols = warp.shape[:2]
-            dist = (points[0]+points[1])/2
-            print dist
+            # dist = (points[0]+points[1])/2
+            # print dist
             center = cols/2
             print center
 
