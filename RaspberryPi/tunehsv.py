@@ -95,6 +95,7 @@ while True:
             y_0 = float(righty)
             x_1 = float(0)
             y_1 = float(lefty)
+            print "rows ",rows
             mid = rows / 2
             slope = float((x_1 - x_0) /(y_1 - y_0) )
             print("slope%d: " %num,slope)
