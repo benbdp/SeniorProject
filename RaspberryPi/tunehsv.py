@@ -125,16 +125,17 @@ while True:
             # Finally draw the line
             cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
             num =+ 1
-
-        cv2.imshow("lines",warp)
-        if len(newcontours)==2:
+        try:
             rows, cols = warp.shape[:2]
             dist = (points[0]+points[1])/2
             print dist
             center = cols/2
             print center
-        else:
+
+        except:
             pass
+        cv2.imshow("lines",warp)
+
 
 cv2.destroyAllWindows()
 vs.stop()
