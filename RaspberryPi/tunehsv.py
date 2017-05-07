@@ -100,6 +100,7 @@ while True:
             print("slope%d: " %num,slope)
             yint0 = y_1 - (slope * x_1)
             print yint0
+            print mid
 
             x0 = (mid - yint0) / slope
             x0 = int(x0)
