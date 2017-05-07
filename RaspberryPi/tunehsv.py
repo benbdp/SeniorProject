@@ -99,6 +99,7 @@ while True:
             slope = float((x_1 - x_0) /(y_1 - y_0) )
             print("slope%d: " %num,slope)
             yint0 = y_1 - (slope * x_1)
+            print yint0
 
             x0 = (mid - yint0) / slope
             x0 = int(x0)
