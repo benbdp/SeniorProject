@@ -131,6 +131,8 @@ while True:
             print dist
             center = cols/2
             print center
+        else:
+            pass
 
         cv2.imshow("lines",warp)
 
