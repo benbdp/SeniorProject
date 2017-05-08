@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 import serial
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
+
 servo_center = 82  # servo position to drive straight
 distance_limit = 40  # how close an object can get to the car
 GPIO.setmode(GPIO.BCM)
@@ -19,8 +20,9 @@ GPIO.setup(TRIGGERLEFT, GPIO.OUT)
 GPIO.setup(ECHOLEFT, GPIO.IN)
 
 # load camera matrix and distortion coefficients
-mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
-dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
+mtx = np.load('/home/pi/SeniorProject/RaspberryPi/cameramatrix.npy')
+dist = np.load('/home/pi/SeniorProject/RaspberryPi/distortioncoeff.npy')
+lower = np.load('/home/pi/SeniorProject/RaspberryPi/hsv.npy')
 
 camera = cv2.VideoCapture(0)
 
@@ -89,11 +91,10 @@ def new_left():
     pass
 
 
-def contours(img): # img should be wrapped image
+def contours(img,lower): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
-    lower_bound = np.array([50, 50, 130])  # define range of color in HSV
-    upper_bound = np.array([95, 140, 220])
-    mask = cv2.inRange(hsv, lower_bound, upper_bound)  # Threshold the HSV image to get only desired color
+    upper = np.array([180,255,255])# define range of color in HSV
+    mask = cv2.inRange(hsv, lower, upper)  # Threshold the HSV image to get only desired color
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)  # dilate pixels to fill in gaps
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)  # cut away border pixels to reduce size
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # contour detection
@@ -112,7 +113,7 @@ def lane_detection(img):
     dst_pts = np.float32([[0,0],[558,0],[0,154],[558,154]])  # destination points
     M = cv2.getPerspectiveTransform(src_pts,dst_pts)
     warp = cv2.warpPerspective(undistort,M,(558,154))  # warp the image
-    cont = contours(warp)
+    cont = contours(warp,lower)
     height, width, channels = warp.shape
     center_x = width / 2
     newcontours = []
