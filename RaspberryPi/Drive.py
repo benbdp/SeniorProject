@@ -142,8 +142,10 @@ def lane_detection(img):
         m = line(img,newcontours[0])
 
         if m < 0:  # result if line is left of image
+            print "right"
             right()
         if m > 0:  # result if line is right of image
+            print "left"
             left()
 
     else:  # result if no lines or too many lines
