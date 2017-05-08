@@ -139,6 +139,7 @@ def lane_detection(img):
 
     elif num_contours == 1:  # result if one lane lines
         m = line(img,newcontours[0])
+        print "slope",m
 
         if m < 0:  # result if line is left of image
             print "right"
