@@ -78,10 +78,10 @@ def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 # function to turn left
 def left():
-    ser.write(str(63) + str('m,') + str(servo_center-7) + str('s,'))
+    ser.write(str(63) + str('m,') + str(servo_center-9) + str('s,'))
 # function to turn right
 def right():
-    ser.write(str(63) + str('m,') + str(servo_center+7) + str('s,'))
+    ser.write(str(63) + str('m,') + str(servo_center+9) + str('s,'))
 
 
 def new_right():
@@ -134,11 +134,10 @@ def lane_detection(img):
             newcontours.append(cnt)
     num_contours = len(newcontours)
     if num_contours == 2:  # result if two lines
-        print "Found two lines"
+        print "Forward"
         forward()
 
     elif num_contours == 1:  # result if one lane lines
-        print "Found one line"
         m = line(img,newcontours[0])
 
         if m < 0:  # result if line is left of image
