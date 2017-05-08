@@ -90,6 +90,17 @@ def new_right():
 def new_left():
     pass
 
+def line(img,contours):
+    rows, cols = img.shape[:2]
+    vx0, vy0, x0, y0 = cv2.fitLine(contours, cv2.DIST_L2, 0, 0.01, 0.01)
+    lefty0 = int((-x0 * vy0 / vx0) + y0)
+    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
+    x_00 = float(cols - 1)
+    y_00 = float(righty0)
+    x_01 = float(0)
+    y_01 = float(lefty0)
+    slope0 = float((y_01 - y_00) / (x_01 - x_00))
+    return slope0
 
 def contours(img,lower): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
@@ -128,11 +139,11 @@ def lane_detection(img):
 
     elif num_contours == 1:  # result if one lane lines
         print "Found one line"
-        x= center(newcontours[0])
+        m = line(img,newcontours[0])
 
-        if x < center_x:  # result if line is left of image
+        if m < 0:  # result if line is left of image
             right()
-        if x > center_x:  # result if line is right of image
+        if m > 0:  # result if line is right of image
             left()
 
     else:  # result if no lines or too many lines
@@ -155,7 +166,7 @@ def main():
             print right_distance
             if (right_distance > distance_limit) and (
                 left_distance > distance_limit):  # if car is safe distance from object drive!
-                lane_detection(frame(1))
+                lane_detection(frame(8))
             else:
                 stop()  # if the car is not a safe distance do not move
             end = time.time()
