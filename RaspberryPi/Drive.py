@@ -73,22 +73,19 @@ def get_image():
 # function to drive forward
 def forward():
     ser.write(str(63) + str('m,') + str(servo_center) + str('s,'))
+    print "forward"
 # function that will stop the car
 def stop():
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+    print "stop"
 # function to turn left
 def left():
     ser.write(str(63) + str('m,') + str(servo_center-7) + str('s,'))
+    print 'left'
 # function to turn right
 def right():
     ser.write(str(63) + str('m,') + str(servo_center+7) + str('s,'))
-
-
-def new_right():
-    pass
-
-def new_left():
-    pass
+    print 'right'
 
 def line(img,contours):
     rows, cols = img.shape[:2]
@@ -134,22 +131,27 @@ def lane_detection(img):
             newcontours.append(cnt)
     num_contours = len(newcontours)
     if num_contours == 2:  # result if two lines
-        print "Forward"
-        forward()
+        m0 = line(img, newcontours[0])
+        print "slope0", m0
+        m1 = line(img, newcontours[1])
+        print "slope1", m1
 
+        if abs(m0) < 0.1 and abs(m1) < 0.5:
+            forward()
+        elif m0 < 0 and m1 < 0:
+            right()
+        elif m0 > 0 and m1 > 0:
+            left()
     elif num_contours == 1:  # result if one lane lines
         m = line(img,newcontours[0])
         print "slope",m
 
         if m < 0:  # result if line is left of image
-            print "right"
             right()
         if m > 0:  # result if line is right of image
-            print "left"
             left()
 
     else:  # result if no lines or too many lines
-        print "error"
         stop()
 
 def frame(junk_frames):  # function to discard some frames
