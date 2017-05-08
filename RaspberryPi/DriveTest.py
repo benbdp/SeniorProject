@@ -165,7 +165,7 @@ def main():
             if (right_distance > distance_limit) and (
                 left_distance > distance_limit):  # if car is safe distance from object drive!
                 getframe = vs.read()
-                newframe = imutils.resize(getframe, width=400)
+                newframe = imutils.resize(getframe, width=320)
                 lane_detection(newframe)
             else:
                 stop()  # if the car is not a safe distance do not move

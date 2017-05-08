@@ -95,8 +95,8 @@ def contours(img,lower): # img should be wrapped image
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
     upper = np.array([180,255,255])# define range of color in HSV
     mask = cv2.inRange(hsv, lower, upper)  # Threshold the HSV image to get only desired color
-    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)  # dilate pixels to fill in gaps
-    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)  # cut away border pixels to reduce size
+    dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=2)  # dilate pixels to fill in gaps
+    erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=1)  # cut away border pixels to reduce size
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # contour detection
     return contours
 
@@ -144,12 +144,11 @@ def frame(junk_frames):  # function to discard some frames
         temp = get_image()
     return temp
 
-
-
 def main():
     # Main loop
     try:
         while True:
+            start = time.time()
             left_distance = ultrasonicleft()
             print left_distance
             right_distance = ultrasonicright()
@@ -159,8 +158,10 @@ def main():
                 lane_detection(frame(8))
             else:
                 stop()  # if the car is not a safe distance do not move
+            end = time.time()
+            elapsed = end - start
+            print elapsed
     except:
-
         stop()  # stop car when program is stopped
 
 if __name__ == "__main__":
