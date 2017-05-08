@@ -11,60 +11,8 @@ dist = np.load('/home/pi/SeniorProject/RaspberryPi/distortioncoeff.npy')
 
 vs = WebcamVideoStream(src=0).start()
 
-def line(img,contours,center_y):
-    rows, cols = img.shape[:2]
-    vx0, vy0, x0, y0 = cv2.fitLine(contours, cv2.DIST_L2, 0, 0.01, 0.01)
-    lefty0 = int((-x0 * vy0 / vx0) + y0)
-    righty0 = int(((cols - x0) * vy0 / vx0) + y0)
-    x_00 = float(cols - 1)
-    y_00 = float(righty0)
-    x_01 = float(0)
-    y_01 = float(lefty0)
-    slope0 = float((y_01 - y_00) / (x_01 - x_00))
-    yint0 = y_01 - (slope0 * x_01)
-    x0 = (center_y - yint0) / slope0
-    x0 = int(x0)
-    return x0
-
 def nothing(x):
     pass
-
-
-def findline(erode,warp):
-    num = 0
-    im, contours, hier = cv2.findContours(erode, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-    newcontours = []
-    points = []
-    for cnt in contours:
-        area = cv2.contourArea(cnt)
-        if area > 1000:  # run test to ensure small contours are eliminated
-            newcontours.append(cnt)
-    for cnt in newcontours:
-        rows, cols = warp.shape[:2]
-        # then apply fitline() function
-        [vx, vy, x, y] = cv2.fitLine(cnt, cv2.DIST_L2, 0, 0.01, 0.01)
-        # Now find two extreme points on the line to draw line
-        lefty = int((-x * vy / vx) + y)
-        righty = int(((warp.shape[1] - x) * vy / vx) + y)
-        x_0 = float(cols - 1)
-        y_0 = float(righty)
-        x_1 = float(0)
-        y_1 = float(lefty)
-        mid = rows / 2
-        slope = float((x_1 - x_0) / (y_1 - y_0))
-        print("slope%d: " % num, slope)
-        yint0 = y_1 - (slope * x_1)
-        x0 = line(warp, cnt, mid)
-
-        points.append(x0)
-        cv2.circle(warp, (x0, mid), 5, (0, 0, 255), -1)
-
-        # Finally draw the line
-        cv2.line(warp, (warp.shape[1] - 1, righty), (0, lefty), 255, 2)
-        num = + 1
-
-        return points[0],points[1]
-
 
 # Creating a window for later use
 cv2.namedWindow('result')
@@ -78,7 +26,6 @@ cv2.createTrackbar('s', 'result',0,255,nothing)
 cv2.createTrackbar('v', 'result',0,255,nothing)
 
 while True:
-
     frame = vs.read()
     frame = imutils.resize(frame, width=640)
     h, w = frame.shape[:2]
