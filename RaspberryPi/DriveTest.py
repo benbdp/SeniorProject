@@ -96,6 +96,7 @@ def contours(img,lower): # img should be wrapped image
     mask = cv2.inRange(hsv, lower, upper)  # Threshold the HSV image to get only desired color
     dilation = cv2.dilate(mask, np.ones((5, 5), np.uint8), iterations=6)  # dilate pixels to fill in gaps
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=6)  # cut away border pixels to reduce size
+    cv2.imshow(erode)
     im2, contours, hierarchy = cv2.findContours(erode, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # contour detection
     return contours
 
