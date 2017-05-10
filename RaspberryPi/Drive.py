@@ -147,11 +147,11 @@ def lane_detection(img):
         print "error",error
 
 
-        if error > 5:
+        if error > 12:
             print "right"
             # right()
 
-        elif error < -5:
+        elif error < -12:
             print "left"
             # left()
 
