@@ -184,9 +184,6 @@ def get_threaded_frame():
     frame = vs.read()
     return frame
 
-def clear_cam():
-    for i in xrange(10):
-        frame = get_threaded_frame()
 
 
 def control(movement):
@@ -203,7 +200,9 @@ def control(movement):
 def main():
     # Main loop
     try:
-        clear_cam()
+        get_threaded_frame()
+        time.sleep(1)
+        get_threaded_frame()
         queue = []
         num = 0
         frame = get_threaded_frame()
