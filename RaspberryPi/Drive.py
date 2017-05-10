@@ -142,7 +142,7 @@ def lane_detection(img):
         center_car = (center0+center1)/2
 
         # calculate how far off center the car is.
-        error = (center_x-center_car)
+        error = (center_x-center_car) - 5
 
         print "error",error
 
