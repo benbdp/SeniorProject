@@ -1,4 +1,6 @@
 import cv2
+from imutils.video import WebcamVideoStream
+import imutils
 import numpy as np
 import time
 import RPi.GPIO as GPIO
@@ -26,7 +28,7 @@ lower = np.load('/home/pi/SeniorProject/RaspberryPi/hsv.npy')
 
 print "loaded hsv params: ",lower
 
-camera = cv2.VideoCapture(0)
+vs = WebcamVideoStream(src=0).start()
 
 # function to return left ultrasonic distance
 def ultrasonicleft():
@@ -175,16 +177,18 @@ def lanedetection(img,lower):
         return "stop"
 
 
-def take_image():
-    retval, img = camera.read()
-    return img
+# def take_image():
+#     retval, img = camera.read()
+#     return img
+#
+# def get_frame(junk_frames):  # function to discard some frames
+#     for i in xrange(junk_frames):
+#         frame = take_image()
+#         return frame
 
-def get_frame(junk_frames):  # function to discard some frames
-    for i in xrange(junk_frames):
-        frame = take_image()
-        return frame
-
-
+def take_threaded_frame():
+    frame = vs.read()
+    print frame.shape
 
 
 
@@ -193,16 +197,17 @@ def main():
     # Main loop
     try:
         stop()
-        get_frame(5)
+        # get_frame(5)
         while True:
             left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
             right_distance = ultrasonicright()
             # print "right dist: ", right_distance
             if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
-                frame = get_frame(5)
-                what_to_do = lanedetection(frame,lower)
-                print what_to_do
+                # frame = get_frame(5)
+                # what_to_do = lanedetection(frame,lower)
+                # print what_to_do
+                take_threaded_frame()
             else:
                 stop()
 
