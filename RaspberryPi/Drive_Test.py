@@ -79,11 +79,11 @@ def stop():
     print "stop"
 # function to turn left
 def left():
-    ser.write(str(65) + str('m,') + str(servo_center-7) + str('s,'))
+    ser.write(str(65) + str('m,') + str(servo_center-10) + str('s,'))
     print 'left'
 # function to turn right
 def right():
-    ser.write(str(65) + str('m,') + str(servo_center+7) + str('s,'))
+    ser.write(str(65) + str('m,') + str(servo_center+10) + str('s,'))
     print 'right'
 
 def center(contour):
@@ -210,10 +210,7 @@ def main():
         what_to_do = lanedetection(frame, lower)
         print "To start I should: ",what_to_do
         queue.append(what_to_do)
-        time.sleep(1)
-        print "starting"
         forward()
-        time.sleep(0.6)
 
         while True:
             # print queue
