@@ -180,6 +180,10 @@ def get_threaded_frame():
     frame = vs.read()
     return frame
 
+def clear_cam():
+    for i in xrange(10):
+        frame = get_threaded_frame()
+
 
 def control(movement):
     if movement == "forward":
@@ -195,7 +199,7 @@ def control(movement):
 def main():
     # Main loop
     try:
-        get_threaded_frame()
+        clear_cam()
         queue = []
         num = 0
         frame = get_threaded_frame()
