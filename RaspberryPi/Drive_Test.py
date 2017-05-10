@@ -188,8 +188,8 @@ def main():
     try:
         stop()
         action = []
+        num = 0
         while True:
-            num = 0
             left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
             right_distance = ultrasonicright()
@@ -202,11 +202,11 @@ def main():
                 print action
 
                 print "I should be: ",(action[num])
+                num =+ 1
 
 
             else:
                 stop()
-            num =+1
 
     except:
         stop()  # stop car when program is stopped
