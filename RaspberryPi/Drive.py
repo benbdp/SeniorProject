@@ -24,6 +24,8 @@ mtx = np.load('/home/pi/SeniorProject/RaspberryPi/cameramatrix.npy')
 dist = np.load('/home/pi/SeniorProject/RaspberryPi/distortioncoeff.npy')
 lower = np.load('/home/pi/SeniorProject/RaspberryPi/hsv.npy')
 
+print "loaded hsv params: ",lower
+
 camera = cv2.VideoCapture(0)
 
 # function to return left ultrasonic distance
