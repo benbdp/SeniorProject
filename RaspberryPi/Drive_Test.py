@@ -213,11 +213,11 @@ def main():
 
         while True:
             # print queue
-            left_distance = ultrasonicleft()
+            # left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
             right_distance = ultrasonicright()
             # print "right dist: ", right_distance
-            if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
+            if (right_distance > distance_limit):# and (left_distance > distance_limit):  # if car is safe distance from object drive!
                 frame = get_threaded_frame()
                 control(queue[num])
                 num = num +1
