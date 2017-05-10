@@ -203,6 +203,7 @@ def main():
         action.append(what_to_do)
 
         while True:
+            print action
             left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
             right_distance = ultrasonicright()
