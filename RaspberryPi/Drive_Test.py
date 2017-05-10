@@ -71,7 +71,7 @@ def ultrasonicright():
 
 # function to drive forward
 def forward():
-    ser.write(str(60) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(65) + str('m,') + str(servo_center) + str('s,'))
     print "forward"
 # function that will stop the car
 def stop():
@@ -79,11 +79,11 @@ def stop():
     print "stop"
 # function to turn left
 def left():
-    ser.write(str(60) + str('m,') + str(servo_center-5) + str('s,'))
+    ser.write(str(65) + str('m,') + str(servo_center-7) + str('s,'))
     print 'left'
 # function to turn right
 def right():
-    ser.write(str(60) + str('m,') + str(servo_center+5) + str('s,'))
+    ser.write(str(65) + str('m,') + str(servo_center+7) + str('s,'))
     print 'right'
 
 def center(contour):
@@ -215,6 +215,7 @@ def main():
         time.sleep(0.5)
 
         while True:
+            start = time.time()
             # print queue
             left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
@@ -229,6 +230,9 @@ def main():
 
             else:
                 stop()
+            end = time.sleep()
+            elapsed = end - start
+            print "took: ",elapsed
 
     except:
         stop()  # stop car when program is stopped
