@@ -145,12 +145,12 @@ def lanedetection(img,lower):
 
         # print "error", error
 
-        if error > 26:
+        if error > 30:
             # print "left"
             # left()
             return "left"
 
-        elif error < -26:
+        elif error < -30:
             # print "right"
             # right()
             return "right"
