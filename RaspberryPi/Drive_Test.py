@@ -173,7 +173,7 @@ def lanedetection(img,lower):
             return "left"
 
     else:  # result if no lines or too many lines
-        stop()
+        # stop()
         return "stop"
 
 
