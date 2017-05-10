@@ -79,11 +79,11 @@ def stop():
     print "stop"
 # function to turn left
 def left():
-    ser.write(str(65) + str('m,') + str(servo_center-10) + str('s,'))
+    ser.write(str(65) + str('m,') + str(servo_center-5) + str('s,'))
     print 'left'
 # function to turn right
 def right():
-    ser.write(str(65) + str('m,') + str(servo_center+10) + str('s,'))
+    ser.write(str(65) + str('m,') + str(servo_center+5) + str('s,'))
     print 'right'
 
 def center(contour):
