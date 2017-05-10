@@ -71,7 +71,7 @@ def ultrasonicright():
 
 # function to drive forward
 def forward():
-    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(63) + str('m,') + str(servo_center) + str('s,'))
     print "forward"
 # function that will stop the car
 def stop():
@@ -201,6 +201,7 @@ def main():
         # what_to_do = lanedetection(frame, lower)
         # print "To start I should: ",what_to_do
         # action.append(what_to_do)
+        stop()
         forward()
         time.sleep(5)
         stop()
