@@ -195,26 +195,26 @@ def control(movement):
 def main():
     # Main loop
     try:
-        action = []
+        get_threaded_frame()
+        queue = []
         num = 0
         frame = get_threaded_frame()
         what_to_do = lanedetection(frame, lower)
         print "To start I should: ",what_to_do
-        action.append(what_to_do)
-
+        queue.append(what_to_do)
         while True:
-            print action
+            print queue
             left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
             right_distance = ultrasonicright()
             # print "right dist: ", right_distance
             if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
-                control(action[num])
+                control(queue[num])
+                num = num +1
                 frame = get_threaded_frame()
                 what_to_do = lanedetection(frame,lower)
-                print "I should: ", what_to_do
-                action.append(what_to_do)
-                num =+1
+                queue.append(what_to_do)
+
             else:
                 stop()
 
