@@ -138,7 +138,7 @@ def lane_detection(img):
         center1 = center(newcontours[1])
         center_car = (center0+center1)
 
-        error = center_x-center_car
+        error = center_car-center_x
 
         print "error",error
 
@@ -189,7 +189,7 @@ def main():
                 stop()  # if the car is not a safe distance do not move
             end = time.time()
             elapsed = end - start
-            print elapsed
+            print "elapsed: ",elapsed
     except:
         stop()  # stop car when program is stopped
 
