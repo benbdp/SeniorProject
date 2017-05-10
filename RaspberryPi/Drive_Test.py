@@ -201,10 +201,9 @@ def main():
         # what_to_do = lanedetection(frame, lower)
         # print "To start I should: ",what_to_do
         # action.append(what_to_do)
-        stop()
-        forward()
-        time.sleep(5)
-        stop()
+        while True:
+            forward()
+
 
 
 
