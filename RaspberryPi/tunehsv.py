@@ -53,7 +53,7 @@ while True:
     mask = cv2.inRange(hsv,lower, upper)
     # cv2.imshow("msk",mask)
     h, w = mask.shape[:2]
-    x, y, w, h = 0,0,h,w
+    x, y, w, h = 0,0,h/2,w
     crop_img = mask[y: y + h, x: x + w]
     dilation = cv2.dilate(crop_img, np.ones((5, 5), np.uint8), iterations=2)
     erode = cv2.erode(dilation, np.ones((5, 5), np.uint8), iterations=1)
