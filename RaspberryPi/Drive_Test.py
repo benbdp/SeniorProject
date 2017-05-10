@@ -230,7 +230,8 @@ def main():
 
             else:
                 stop()
-            end = time.sleep()
+
+            end = time.time()
             elapsed = end - start
             print "took: ",elapsed
 
