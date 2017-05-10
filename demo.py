@@ -1,56 +1,25 @@
-#Import necessary packages
-from imutils.video import WebcamVideoStream
-import imutils
+# import packages
 import cv2
 import numpy as np
 
-vs = WebcamVideoStream(src=0).start()
-def nothing(x):
-    pass
+tuned_vals = np.load("/Users/Benjamin/PycharmProjects/SeniorProject/tuned_vals.npy")
+
+# create the camera
+camera = cv2.VideoCapture(0)
 
 
-
-# Creating a window for later use
-cv2.namedWindow('result')
-
-# Starting with 100's to prevent error while masking
-h,s,v = 100,100,100
-
-# Creating track bar
-cv2.createTrackbar('h', 'result',0,179,nothing)
-cv2.createTrackbar('s', 'result',0,255,nothing)
-cv2.createTrackbar('v', 'result',0,255,nothing)
-
+#show the frames
 while True:
-
-    frame = vs.read()
-    frame = imutils.resize(frame, width=640)
-    h, w = frame.shape[:2]
-
-    #converting to HSV
+    ret, frame = camera.read()
+    height,width,channels = frame.shape
+    frame = cv2.resize(frame,(width/2,height/2))
+    cv2.imshow("frame",frame)
     hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
-
-    # get info from track bar and appy to result
-    h = cv2.getTrackbarPos('h','result')
-    s = cv2.getTrackbarPos('s','result')
-    v = cv2.getTrackbarPos('v','result')
-
-    # Normal masking algorithm
-    lower_blue = np.array([h,s,v])
-    upper_blue = np.array([180,255,255])
-
-
-    # fooling with mask
-    mask = cv2.inRange(hsv,lower_blue, upper_blue)
-    result = cv2.bitwise_and(frame, frame, mask=mask)
-    cv2.imshow("mask",mask)
-    cv2.imshow('result', result)
-
+    cv2.imshow("hsv",hsv)
+    # lower_range = tuned_vals
+    # upper_range =np.array([180,255,255])
+    # mask = cv2.inRange(hsv,lowerb=lower_range,upperb=upper_range)
+    # cv2.imshow("mask",mask)
     k = cv2.waitKey(5) & 0xFF
     if k == 27:
-        print("h: ", h, " s: ", s, " v: ", v)
         break
-
-
-cv2.destroyAllWindows()
-vs.stop()

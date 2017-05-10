@@ -131,17 +131,17 @@ def lane_detection(img):
             newcontours.append(cnt)
     num_contours = len(newcontours)
     if num_contours == 2:  # result if two lines
-        m0 = line(img, newcontours[0])
-        print "slope0", m0
-        m1 = line(img, newcontours[1])
-        print "slope1", m1
+        center0 = center(newcontours[0])
+        center1 = center(newcontours[1])
+        center_car = (center0+center1)
 
-        if abs(m0) < 0.1 and abs(m1) < 0.5:
-            forward()
-        elif m0 < 0 and m1 < 0:
-            right()
-        elif m0 > 0 and m1 > 0:
-            left()
+        error = center_x-center_car
+
+        print error
+
+        stop()
+
+
     elif num_contours == 1:  # result if one lane lines
         m = line(img,newcontours[0])
         print "slope",m
