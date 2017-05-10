@@ -202,6 +202,7 @@ def main():
         what_to_do = lanedetection(frame, lower)
         print "To start I should: ",what_to_do
         queue.append(what_to_do)
+        forward()
         while True:
             print queue
             left_distance = ultrasonicleft()
