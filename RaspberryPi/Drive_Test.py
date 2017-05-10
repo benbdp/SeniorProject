@@ -202,23 +202,25 @@ def main():
         what_to_do = lanedetection(frame, lower)
         print "To start I should: ",what_to_do
         action.append(what_to_do)
+
+
         ser.write(str(63) + str('m,') + str(servo_center) + str('s,'))
         time.sleep(0.3)
-
-        while True:
-            left_distance = ultrasonicleft()
-            # print "left dist: ", left_distance
-            right_distance = ultrasonicright()
-            # print "right dist: ", right_distance
-            if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
-                control(action[num])
-                frame = get_threaded_frame()
-                what_to_do = lanedetection(frame,lower)
-                print "I should: ", what_to_do
-                action.append(what_to_do)
-                num =+1
-            else:
-                stop()
+        #
+        # while True:
+        #     left_distance = ultrasonicleft()
+        #     # print "left dist: ", left_distance
+        #     right_distance = ultrasonicright()
+        #     # print "right dist: ", right_distance
+        #     if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
+        #         control(action[num])
+        #         frame = get_threaded_frame()
+        #         what_to_do = lanedetection(frame,lower)
+        #         print "I should: ", what_to_do
+        #         action.append(what_to_do)
+        #         num =+1
+        #     else:
+        #         stop()
 
     except:
         stop()  # stop car when program is stopped
