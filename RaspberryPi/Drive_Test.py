@@ -195,12 +195,12 @@ def main():
     try:
         stop()
         while True:
-            # left_distance = ultrasonicleft()
-            # print "left dist: ", left_distance
-            # right_distance = ultrasonicright()
-            # print "right dist: ", right_distance
-            # if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
-                frame = get_frame(8)
+            # # left_distance = ultrasonicleft()
+            # # print "left dist: ", left_distance
+            # # right_distance = ultrasonicright()
+            # # print "right dist: ", right_distance
+            # # if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
+                frame = get_frame(5)
                 what_to_do = lanedetection(frame,lower)
                 print what_to_do
 
