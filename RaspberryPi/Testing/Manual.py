@@ -5,7 +5,7 @@ import sys
 import Tkinter as tk
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
-servo_center = 81
+servo_center = 82
 distance_limit = 50
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -55,35 +55,37 @@ def ultrasonicright():
     return right_distance
 
 def forward(sec):
-    ser.write(str(63) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(80) + str('m,') + str(servo_center) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def reverse(sec):
-    ser.write(str(-200) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(-120) + str('m,') + str(servo_center) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def left(sec):
-    ser.write(str(63) + str('m,') + str(servo_center-10) + str('s,'))
+    ser.write(str(80) + str('m,') + str(servo_center-10) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center-10) + str('s,'))
 
 def right(sec):
-    ser.write(str(63) + str('m,') + str(servo_center+10) + str('s,'))
+    ser.write(str(80) + str('m,') + str(servo_center+10) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center+10) + str('s,'))
 
 def right_reverse(sec):
-    ser.write(str(-200) + str('m,') + str(servo_center + 10) + str('s,'))
+    ser.write(str(-120) + str('m,') + str(servo_center + 10) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center + 10) + str('s,'))
 
 def left_reverse(sec):
-    ser.write(str(-200) + str('m,') + str(servo_center - 10) + str('s,'))
+    ser.write(str(-120) + str('m,') + str(servo_center - 10) + str('s,'))
     time.sleep(sec)
     ser.write(str(0) + str('m,') + str(servo_center - 10) + str('s,'))
 
+def stop():
+    ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
 def key_input(event):
     print "key: ", event.char
@@ -134,6 +136,7 @@ def key_input(event):
         pass
 
 def main():
+    stop()
     command = tk.Tk()
     command.bind('<KeyPress>',key_input)
     command.mainloop()
