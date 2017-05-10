@@ -157,7 +157,6 @@ def lanedetection(img,lower):
             # forward()
             return "forward"
 
-
     elif num_contours == 1:  # result if one lane lines
         m = line(img, newcontours[0])
 
