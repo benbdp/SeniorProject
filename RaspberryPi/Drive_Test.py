@@ -196,12 +196,12 @@ def control(movement):
 def main():
     # Main loop
     try:
-        action = []
-        num = 0
-        frame = get_threaded_frame()
-        what_to_do = lanedetection(frame, lower)
-        print "To start I should: ",what_to_do
-        action.append(what_to_do)
+        # action = []
+        # num = 0
+        # frame = get_threaded_frame()
+        # what_to_do = lanedetection(frame, lower)
+        # print "To start I should: ",what_to_do
+        # action.append(what_to_do)
 
         forward()
         time.sleep(5)
