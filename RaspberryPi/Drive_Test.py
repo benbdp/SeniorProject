@@ -182,6 +182,16 @@ def get_threaded_frame():
     return frame
 
 
+def control(movement):
+    if movement == "forward":
+        forward()
+    elif movement == "right":
+        right()
+    elif movement == "left":
+        left()
+    else:
+        stop()
+
 
 def main():
     # Main loop
@@ -197,11 +207,8 @@ def main():
             if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
                 frame = get_threaded_frame()
                 what_to_do = lanedetection(frame,lower)
-                print what_to_do
                 action.append(what_to_do)
-                print action
-
-                print "I should be: ",(action[num])
+                control(action[num])
                 num = num +1
 
 
