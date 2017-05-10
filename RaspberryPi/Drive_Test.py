@@ -200,17 +200,23 @@ def main():
         time.sleep(1)
         action = []
         num = 0
+        frame = get_threaded_frame()
+        what_to_do = lanedetection(frame, lower)
+        action.append(what_to_do)
+        forward()
+        time.sleep(0.3)
+
         while True:
             left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
             right_distance = ultrasonicright()
             # print "right dist: ", right_distance
             if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
+                control(action[num])
                 frame = get_threaded_frame()
                 what_to_do = lanedetection(frame,lower)
                 action.append(what_to_do)
-                control(action[num])
-                num = num +1
+                num =+1
 
 
             else:
