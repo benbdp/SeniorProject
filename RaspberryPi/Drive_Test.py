@@ -72,7 +72,7 @@ def ultrasonicright():
 
 # function to drive forward
 def forward():
-    ser.write(str(63) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(100) + str('m,') + str(servo_center) + str('s,'))
     print "forward"
 # function that will stop the car
 def stop():
