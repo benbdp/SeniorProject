@@ -202,6 +202,7 @@ def main():
         num = 0
         frame = get_threaded_frame()
         what_to_do = lanedetection(frame, lower)
+        print "To start I should: ",what_to_do
         action.append(what_to_do)
         forward()
         time.sleep(0.3)
@@ -215,10 +216,9 @@ def main():
                 control(action[num])
                 frame = get_threaded_frame()
                 what_to_do = lanedetection(frame,lower)
+                print "I should: ", what_to_do
                 action.append(what_to_do)
                 num =+1
-
-
             else:
                 stop()
 
