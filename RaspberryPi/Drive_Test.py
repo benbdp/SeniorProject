@@ -197,6 +197,7 @@ def main():
     # Main loop
     try:
         stop()
+        time.sleep(1)
         action = []
         num = 0
         while True:
