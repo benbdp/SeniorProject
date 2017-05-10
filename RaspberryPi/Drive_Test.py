@@ -202,7 +202,7 @@ def main():
                 print action
 
                 print "I should be: ",(action[num])
-                num =+ 1
+                num = num +1
 
 
             else:
