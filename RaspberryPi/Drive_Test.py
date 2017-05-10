@@ -5,7 +5,7 @@ import numpy as np
 import time
 import RPi.GPIO as GPIO
 import serial
-
+ser = serial.Serial('/dev/ttyACM0', 9600)
 
 servo_center = 95 # set the center of the servo
 distance_limit = 40  # how close an object can get to the car
@@ -195,15 +195,13 @@ def control(movement):
 def main():
     # Main loop
     try:
-        ser = serial.Serial('/dev/ttyACM0', 9600)
         # action = []
         # num = 0
         # frame = get_threaded_frame()
         # what_to_do = lanedetection(frame, lower)
         # print "To start I should: ",what_to_do
         # action.append(what_to_do)
-
-        ser.write(str(200) + str('m,') + str(servo_center) + str('s,'))
+        forward()
         time.sleep(5)
         stop()
 
