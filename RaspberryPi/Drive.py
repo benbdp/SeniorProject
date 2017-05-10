@@ -140,7 +140,7 @@ def lane_detection(img):
 
         error = center_x-center_car
 
-        print error
+        print "error",error
 
 
         if error > 5:
@@ -154,8 +154,6 @@ def lane_detection(img):
         else:
             print "forward"
             # forward()
-
-        stop()
 
 
     elif num_contours == 1:  # result if one lane lines
@@ -181,9 +179,9 @@ def main():
         while True:
             start = time.time()
             left_distance = ultrasonicleft()
-            print left_distance
+            print "left dist: ", left_distance
             right_distance = ultrasonicright()
-            print right_distance
+            print "right dist: ", right_distance
             if (right_distance > distance_limit) and (
                 left_distance > distance_limit):  # if car is safe distance from object drive!
                 lane_detection(frame(8))
