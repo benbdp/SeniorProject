@@ -206,6 +206,8 @@ def main():
 
         ser.write(str(63) + str('m,') + str(servo_center) + str('s,'))
         time.sleep(0.3)
+        ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
+
         #
         # while True:
         #     left_distance = ultrasonicleft()
