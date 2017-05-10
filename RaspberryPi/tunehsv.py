@@ -31,10 +31,10 @@ while True:
     h, w = frame.shape[:2]
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
     undistort = cv2.undistort(frame, mtx, dist, None, newcameramtx)  # undistort image
-    src_pts = np.float32([[59, 228], [568, 227], [3, 305], [625, 305]])  # source points
-    dst_pts = np.float32([[0, 0], [558, 0], [0, 154], [558, 154]])  # destination points
+    src_pts = np.float32([[87, 176], [552, 177], [4, 301], [638, 302]])  # source points
+    dst_pts = np.float32([[0, 0], [558, 0], [0, 264], [558, 264]])  # destination points
     M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-    warp = cv2.warpPerspective(undistort, M, (558, 154))  # warp the image
+    warp = cv2.warpPerspective(undistort, M, (558, 264))  # warp the image
 
     #converting to HSV
     hsv = cv2.cvtColor(warp,cv2.COLOR_BGR2HSV)
