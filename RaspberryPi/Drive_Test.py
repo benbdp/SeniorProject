@@ -71,7 +71,7 @@ def ultrasonicright():
 
 # function to drive forward
 def forward():
-    ser.write(str(63) + str('m,') + str(servo_center) + str('s,'))
+    ser.write(str(73) + str('m,') + str(servo_center) + str('s,'))
     print "forward"
 # function that will stop the car
 def stop():
@@ -79,11 +79,11 @@ def stop():
     print "stop"
 # function to turn left
 def left():
-    ser.write(str(63) + str('m,') + str(servo_center-7) + str('s,'))
+    ser.write(str(73) + str('m,') + str(servo_center-7) + str('s,'))
     print 'left'
 # function to turn right
 def right():
-    ser.write(str(63) + str('m,') + str(servo_center+7) + str('s,'))
+    ser.write(str(73) + str('m,') + str(servo_center+7) + str('s,'))
     print 'right'
 
 def center(contour):
@@ -226,7 +226,6 @@ def main():
                 frame = get_threaded_frame()
                 what_to_do = lanedetection(frame,lower)
                 queue.append(what_to_do)
-                time.sleep(0.5)
 
             else:
                 stop()
