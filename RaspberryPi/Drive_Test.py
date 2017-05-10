@@ -177,15 +177,6 @@ def lanedetection(img,lower):
         return "stop"
 
 
-# def take_image():
-#     retval, img = camera.read()
-#     return img
-#
-# def get_frame(junk_frames):  # function to discard some frames
-#     for i in xrange(junk_frames):
-#         frame = take_image()
-#         return frame
-
 def get_threaded_frame():
     frame = vs.read()
     return frame
@@ -196,16 +187,18 @@ def main():
     # Main loop
     try:
         stop()
-        # get_frame(5)
         while True:
             left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
             right_distance = ultrasonicright()
             # print "right dist: ", right_distance
+            action=[]
             if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
                 frame = get_threaded_frame()
                 what_to_do = lanedetection(frame,lower)
                 print what_to_do
+                action.append(what_to_do)
+                print action
             else:
                 stop()
 
