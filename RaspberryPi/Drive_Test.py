@@ -196,8 +196,8 @@ def control(movement):
 def main():
     # Main loop
     try:
-        stop()
-        time.sleep(1)
+        # stop()
+        # time.sleep(1)
         action = []
         num = 0
         frame = get_threaded_frame()
