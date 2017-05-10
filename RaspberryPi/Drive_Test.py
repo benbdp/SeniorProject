@@ -5,7 +5,6 @@ import numpy as np
 import time
 import RPi.GPIO as GPIO
 import serial
-ser = serial.Serial('/dev/ttyACM0', 9600)
 
 
 servo_center = 95 # set the center of the servo
@@ -196,6 +195,7 @@ def control(movement):
 def main():
     # Main loop
     try:
+        ser = serial.Serial('/dev/ttyACM0', 9600)
         # action = []
         # num = 0
         # frame = get_threaded_frame()
