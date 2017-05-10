@@ -205,7 +205,7 @@ def main():
 
 
         ser.write(str(63) + str('m,') + str(servo_center) + str('s,'))
-        time.sleep(0.3)
+        time.sleep(1)
         ser.write(str(0) + str('m,') + str(servo_center) + str('s,'))
 
         #
