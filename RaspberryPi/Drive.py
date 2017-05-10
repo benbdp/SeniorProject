@@ -148,15 +148,18 @@ def lane_detection(img):
 
         print "error",error
 
-        #
-        # if error > 12:
-        #     left()
-        #
-        # elif error < -12:
-        #     right()
-        #
-        # else:
-        #     forward()
+
+        if error > 12:
+            print "left"
+            # left()
+
+        elif error < -12:
+            print "right"
+            # right()
+
+        else:
+            print " forward"
+            # forward()
 
 
     elif num_contours == 1:  # result if one lane lines
