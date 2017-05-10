@@ -175,7 +175,10 @@ def lane_detection(img):
     else:  # result if no lines or too many lines
         stop()
 
-
+def frame(junk_frames):  # function to discard some frames
+    for i in xrange(junk_frames):
+        temp = get_image()
+    return temp
 
 def main():
     # Main loop
