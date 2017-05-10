@@ -169,11 +169,11 @@ def lanedetection(img,lower):
             # right()
             # print "right"
 
-            return "right"
+            return "left"
         if m > 0:  # result if line is right of image
             # left()
             # print "left"
-            return "left"
+            return "right"
 
     else:  # result if no lines or too many lines
         # stop()
