@@ -205,6 +205,7 @@ def main():
         get_threaded_frame()
         queue = []
         num = 0
+        start = time.time()
         frame = get_threaded_frame()
         what_to_do = lanedetection(frame, lower)
         print "To start I should: ",what_to_do
@@ -212,28 +213,28 @@ def main():
         time.sleep(1)
         print "starting"
         forward()
-        time.sleep(0.5)
+        time.sleep(0.6)
 
         while True:
-            start = time.time()
             # print queue
             left_distance = ultrasonicleft()
             # print "left dist: ", left_distance
             right_distance = ultrasonicright()
             # print "right dist: ", right_distance
             if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
+                end = time.time()
+                elapsed = end - start
+                print "took: ", elapsed
+                frame = get_threaded_frame()
                 control(queue[num])
                 num = num +1
-                frame = get_threaded_frame()
                 what_to_do = lanedetection(frame,lower)
                 queue.append(what_to_do)
 
             else:
                 stop()
 
-            end = time.time()
-            elapsed = end - start
-            print "took: ",elapsed
+
 
     except:
         stop()  # stop car when program is stopped
