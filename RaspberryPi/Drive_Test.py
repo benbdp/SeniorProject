@@ -122,7 +122,7 @@ def lanedetection(img,lower):
     newcontours = []
     for cnt in contours:
         area = cv2.contourArea(cnt)
-        print "area", area
+        # print "area", area
         if area > 400:  # run test to ensure small contours are eliminated
             newcontours.append(cnt)
 
@@ -132,29 +132,29 @@ def lanedetection(img,lower):
         height, width, channels = warp.shape
         center_x = width / 2
         center0 = center(newcontours[0])
-        print "center0: ", center0
+        # print "center0: ", center0
         center1 = center(newcontours[1])
-        print "center1: ", center1
+        # print "center1: ", center1
         center_car = (center0 + center1) / 2
 
         # calculate how far off center the car is.
         error = (center_x - center_car) - 5  # - 5 = fudge factor ...
 
-        print "error", error
+        # print "error", error
 
         if error > 12:
             # print "left"
-            left()
+            # left()
             return "left"
 
         elif error < -12:
             # print "right"
-            right()
+            # right()
             return "right"
 
         else:
             # print " forward"
-            forward()
+            # forward()
             return "forward"
 
 
@@ -162,12 +162,12 @@ def lanedetection(img,lower):
         m = line(img, newcontours[0])
 
         if m < 0:  # result if line is left of image
-            right()
+            # right()
             # print "right"
 
             return "right"
         if m > 0:  # result if line is right of image
-            left()
+            # left()
             # print "left"
             return "left"
 
