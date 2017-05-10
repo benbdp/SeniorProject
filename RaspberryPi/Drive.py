@@ -135,10 +135,14 @@ def lane_detection(img):
     num_contours = len(newcontours)
     if num_contours == 2:  # result if two lines
         center0 = center(newcontours[0])
+        print "center0: ", center0
         center1 = center(newcontours[1])
-        center_car = (center0+center1)
+        print "center1: ", center1
 
-        error = center_car-center_x
+        center_car = (center0+center1)/2
+
+
+        error = center_x-center_car
 
         print "error",error
 
