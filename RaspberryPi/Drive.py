@@ -127,6 +127,7 @@ def lane_detection(img):
     newcontours = []
     for cnt in cont:
         area = cv2.contourArea(cnt)
+        print "area", area
         if area > 100:  # run test to ensure small contours are eliminated
             newcontours.append(cnt)
     num_contours = len(newcontours)
