@@ -226,6 +226,7 @@ def main():
                 frame = get_threaded_frame()
                 what_to_do = lanedetection(frame,lower)
                 queue.append(what_to_do)
+                time.sleep(0.5)
 
             else:
                 stop()
