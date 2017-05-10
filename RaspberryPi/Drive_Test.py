@@ -209,11 +209,10 @@ def main():
         what_to_do = lanedetection(frame, lower)
         print "To start I should: ",what_to_do
         queue.append(what_to_do)
-        print "sleeping"
         time.sleep(1)
-
         print "starting"
         forward()
+        time.sleep(0.5)
 
         while True:
             print queue
