@@ -203,6 +203,8 @@ def main():
                 frame = get_frame(5)
                 what_to_do = lanedetection(frame,lower)
                 print what_to_do
+            else:
+                stop()
 
     except:
         stop()  # stop car when program is stopped
