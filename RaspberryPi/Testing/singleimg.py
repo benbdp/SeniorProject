@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-mtx = np.load('/home/pi/Cal_Imgs/cameramatrix.npy')
-dist = np.load('/home/pi/Cal_Imgs/distortioncoeff.npy')
+mtx = np.load('/home/pi/SeniorProject/RaspberryPi/cameramatrix.npy')
+dist = np.load('/home/pi/SeniorProject/RaspberryPi/distortioncoeff.npy')
 
 junk_frames = 30
 camera = cv2.VideoCapture(0)
