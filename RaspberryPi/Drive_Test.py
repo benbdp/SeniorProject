@@ -204,7 +204,7 @@ def main():
         action.append(what_to_do)
 
         forward()
-        time.sleep(1)
+        time.sleep(5)
         stop()
 
 
