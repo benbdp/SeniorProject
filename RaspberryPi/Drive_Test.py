@@ -203,7 +203,7 @@ def main():
         # print "To start I should: ",what_to_do
         # action.append(what_to_do)
 
-        forward()
+        ser.write(str(200) + str('m,') + str(servo_center) + str('s,'))
         time.sleep(5)
         stop()
 
