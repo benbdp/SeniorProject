@@ -148,17 +148,17 @@ def lanedetection(img,lower):
         if error > 30:
             # print "left"
             # left()
-            return "left"
+            return "left",erode
 
         elif error < -30:
             # print "right"
             # right()
-            return "right"
+            return "right",erode
 
         else:
             # print " forward"
             # forward()
-            return "forward"
+            return "forward",erode
 
     elif num_contours == 1:  # result if one lane lines
         m = line(img, newcontours[0])
@@ -169,15 +169,15 @@ def lanedetection(img,lower):
             # right()
             # print "right"
 
-            return "right"
+            return "right",erode
         if m > 0:  # result if line is right of image
             # left()
             # print "left"
-            return "left"
+            return "left",erode
 
     else:  # result if no lines or too many lines
         # stop()
-        return "stop"
+        return "stop",erode
 
 
 def get_threaded_frame():
@@ -204,38 +204,44 @@ def main():
         time.sleep(1)
         get_threaded_frame()
         queue = []
+        images = []
         num = 0
         frame = get_threaded_frame()
-        what_to_do = lanedetection(frame, lower)
+        what_to_do,img = lanedetection(frame, lower)
+        images.append(img)
         print "To start I should: ",what_to_do
         queue.append(what_to_do)
         forward()
 
         while True:
-            # # print queue
-            # # left_distance = ultrasonicleft()
-            # # print "left dist: ", left_distance
-            # right_distance = ultrasonicright()
-            # # print "right dist: ", right_distance
-            # if (right_distance > distance_limit):# and (left_distance > distance_limit):  # if car is safe distance from object drive!
-            #     frame = get_threaded_frame()
-            #     control(queue[num])
-            #     num = num +1
-            #     what_to_do = lanedetection(frame,lower)
-            #     queue.append(what_to_do)
-            #
-            # else:
-            #     stop()
-            frame = get_threaded_frame()
-            control(queue[num])
-            num = num + 1
-            what_to_do = lanedetection(frame, lower)
-            queue.append(what_to_do)
+            # print queue
+            left_distance = ultrasonicleft()
+            # print "left dist: ", left_distance
+            right_distance = ultrasonicright()
+            # print "right dist: ", right_distance
+            if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
+                frame = get_threaded_frame()
+                control(queue[num])
+                num =+ 1
+                what_to_do, img = lanedetection(frame, lower)
+                images.append(img)
+                queue.append(what_to_do)
+
+            else:
+                stop()
+            # frame = get_threaded_frame()
+            # control(queue[num])
+            # num = num + 1
+            # what_to_do = lanedetection(frame, lower)
+            # queue.append(what_to_do)
 
 
 
     except:
         stop()  # stop car when program is stopped
+        for i in images:
+            cv2.imshow("frame",i)
+            cv2.waitKey()
 
 if __name__ == "__main__":
 
