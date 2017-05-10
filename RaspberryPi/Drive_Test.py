@@ -186,10 +186,9 @@ def lanedetection(img,lower):
 #         frame = take_image()
 #         return frame
 
-def take_threaded_frame():
+def get_threaded_frame():
     frame = vs.read()
-    print frame.shape
-
+    return frame
 
 
 
@@ -204,10 +203,9 @@ def main():
             right_distance = ultrasonicright()
             # print "right dist: ", right_distance
             if (right_distance > distance_limit) and (left_distance > distance_limit):  # if car is safe distance from object drive!
-                # frame = get_frame(5)
-                # what_to_do = lanedetection(frame,lower)
-                # print what_to_do
-                take_threaded_frame()
+                frame = get_threaded_frame()
+                what_to_do = lanedetection(frame,lower)
+                print what_to_do
             else:
                 stop()
 
