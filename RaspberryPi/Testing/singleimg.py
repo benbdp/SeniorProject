@@ -16,7 +16,11 @@ for i in range(junk_frames):
     temp = get_image()
 
 capture = get_image()
-cv2.imwrite('/home/pi/frame.png',capture)
+
+h, w = capture.shape[:2]
+newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+undistort = cv2.undistort(capture, mtx, dist, None, newcameramtx)
+cv2.imwrite('/home/pi/frame.png',undistort)
 #
 # #cv2.imshow('frame', frame)
 # h, w = capture.shape[:2]
