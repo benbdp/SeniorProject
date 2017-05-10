@@ -193,6 +193,7 @@ def get_frame(junk_frames):  # function to discard some frames
 def main():
     # Main loop
     try:
+        stop()
         while True:
             left_distance = ultrasonicleft()
             print "left dist: ", left_distance
