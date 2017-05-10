@@ -194,6 +194,7 @@ def main():
     # Main loop
     try:
         stop()
+        get_frame(5)
         while True:
             # # left_distance = ultrasonicleft()
             # # print "left dist: ", left_distance
