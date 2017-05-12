@@ -185,7 +185,7 @@ def main():
             print "right dist: ", right_distance
             if (right_distance > distance_limit) and (
                 left_distance > distance_limit):  # if car is safe distance from object drive!
-                lane_detection(frame(6))
+                lane_detection(frame(4))
             else:
                 stop()  # if the car is not a safe distance do not move
 
