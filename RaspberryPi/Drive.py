@@ -143,7 +143,6 @@ def lane_detection(img):
 
         # calculate how far off center the car is.
         error = (center_x-center_car) - 5 # - 5 = fudge factor ...
-
         if error > 20:
             # print "left"
             left()
@@ -155,7 +154,7 @@ def lane_detection(img):
         else:
             # print " forward"
             forward()
-        forward()
+
 
     elif num_contours == 1:  # result if one lane lines
         m = line(img,newcontours[0])
