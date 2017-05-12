@@ -81,11 +81,11 @@ def stop():
     print "stop"
 # function to turn left
 def left():
-    ser.write(str(63) + str('m,') + str(servo_center-7) + str('s,'))
+    ser.write(str(63) + str('m,') + str(servo_center-9) + str('s,'))
     print 'left'
 # function to turn right
 def right():
-    ser.write(str(63) + str('m,') + str(servo_center+7) + str('s,'))
+    ser.write(str(63) + str('m,') + str(servo_center+9) + str('s,'))
     print 'right'
 
 def line(img,contours):
