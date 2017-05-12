@@ -44,7 +44,6 @@ def ultrasonicleft():
     elapsed1 = stop1 - start1
     left_distance = (elapsed1 * 34300) / 2
 
-
     return left_distance
 
 # function to return left ultrasonic distance
@@ -134,27 +133,7 @@ def lane_detection(img):
             newcontours.append(cnt)
     num_contours = len(newcontours)
     if num_contours == 2:  # result if two lines
-        # center0 = center(newcontours[0])
-        # print "center0: ", center0
-        # center1 = center(newcontours[1])
-        # print "center1: ", center1
-        #
-        # center_car = (center0+center1)/2
-        #
-        # # calculate how far off center the car is.
-        # error = (center_x-center_car) - 5 # - 5 = fudge factor ...
-        # if error > 30:
-        #     # print "left"
-        #     left()
-        #
-        # elif error < -30:
-        #     # print "right"
-        #     right()
-        #
-        # else:
-        #     # print " forward"
             forward()
-
 
     elif num_contours == 1:  # result if one lane lines
         cent = center(newcontours[0])
@@ -162,8 +141,6 @@ def lane_detection(img):
             left()
         elif cent < center_x:
             right()
-
-
 
     else:  # result if no lines or too many lines
         stop()
@@ -193,6 +170,5 @@ def main():
         stop()  # stop car when program is stopped
 
 if __name__ == "__main__":
-
     # Main loop
     main()
