@@ -81,11 +81,11 @@ def stop():
     print "stop"
 # function to turn left
 def left():
-    ser.write(str(63) + str('m,') + str(servo_center-9) + str('s,'))
+    ser.write(str(63) + str('m,') + str(servo_center-8) + str('s,'))
     print 'left'
 # function to turn right
 def right():
-    ser.write(str(63) + str('m,') + str(servo_center+9) + str('s,'))
+    ser.write(str(63) + str('m,') + str(servo_center+8) + str('s,'))
     print 'right'
 
 def line(img,contours):
@@ -134,38 +134,36 @@ def lane_detection(img):
             newcontours.append(cnt)
     num_contours = len(newcontours)
     if num_contours == 2:  # result if two lines
-        center0 = center(newcontours[0])
-        print "center0: ", center0
-        center1 = center(newcontours[1])
-        print "center1: ", center1
-
-        center_car = (center0+center1)/2
-
-        # calculate how far off center the car is.
-        error = (center_x-center_car) - 5 # - 5 = fudge factor ...
-        if error > 20:
-            # print "left"
-            left()
-
-        elif error < -20:
-            # print "right"
-            right()
-
-        else:
-            # print " forward"
+        # center0 = center(newcontours[0])
+        # print "center0: ", center0
+        # center1 = center(newcontours[1])
+        # print "center1: ", center1
+        #
+        # center_car = (center0+center1)/2
+        #
+        # # calculate how far off center the car is.
+        # error = (center_x-center_car) - 5 # - 5 = fudge factor ...
+        # if error > 30:
+        #     # print "left"
+        #     left()
+        #
+        # elif error < -30:
+        #     # print "right"
+        #     right()
+        #
+        # else:
+        #     # print " forward"
             forward()
 
 
     elif num_contours == 1:  # result if one lane lines
-        m = line(img,newcontours[0])
-        print m
-
-        if m < 0:  # result if line is left of image
-            right()
-            # print "right"
-        if m > 0:  # result if line is right of image
+        cent = center(newcontours[0])
+        if cent > center_x:
             left()
-            # print "left"
+        elif cent < center_x:
+            right()
+
+
 
     else:  # result if no lines or too many lines
         stop()
