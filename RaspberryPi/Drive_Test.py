@@ -224,6 +224,7 @@ def main():
                 control(queue[num])
                 num =+ 1
                 what_to_do, img = lanedetection(frame, lower)
+                print "next I should: ", what_to_do
                 # images.append(img)
                 queue.append(what_to_do)
 
