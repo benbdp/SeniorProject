@@ -6,7 +6,7 @@ import serial
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
 servo_center = 95 # set the center of the servo
-distance_limit = 40  # how close an object can get to the car
+distance_limit = 25  # how close an object can get to the car
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 TRIGGERRIGHT = 24
