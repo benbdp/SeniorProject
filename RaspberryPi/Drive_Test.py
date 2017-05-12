@@ -200,9 +200,9 @@ def control(movement):
 def main():
     # Main loop
     try:
-        get_threaded_frame()
+        junk = get_threaded_frame()
         time.sleep(1)
-        get_threaded_frame()
+        juck = get_threaded_frame()
         queue = []
         images = []
         num = 0
@@ -224,7 +224,7 @@ def main():
                 control(queue[num])
                 num =+ 1
                 what_to_do, img = lanedetection(frame, lower)
-                images.append(img)
+                # images.append(img)
                 queue.append(what_to_do)
 
             else:
