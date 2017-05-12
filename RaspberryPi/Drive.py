@@ -130,7 +130,6 @@ def lane_detection(img):
     newcontours = []
     for cnt in cont:
         area = cv2.contourArea(cnt)
-        print "area", area
         if area > 400:  # run test to ensure small contours are eliminated
             newcontours.append(cnt)
     num_contours = len(newcontours)
@@ -145,14 +144,11 @@ def lane_detection(img):
         # calculate how far off center the car is.
         error = (center_x-center_car) - 5 # - 5 = fudge factor ...
 
-        print "error",error
-
-
-        if error > 12:
+        if error > 20:
             # print "left"
             left()
 
-        elif error < -12:
+        elif error < -20:
             # print "right"
             right()
 
@@ -163,6 +159,7 @@ def lane_detection(img):
 
     elif num_contours == 1:  # result if one lane lines
         m = line(img,newcontours[0])
+        print m
 
         if m < 0:  # result if line is left of image
             right()
