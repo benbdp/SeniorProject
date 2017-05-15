@@ -19,10 +19,9 @@ def right(angle):
     ser.write(str(100) + str('m,') + str(servo_center+angle) + str('s,'))
 
 def p():
-    forward()
-    time.sleep(2)
-    # right(10)
-    # time.sleep(0.5)
+    forward(3)
+    right(10)
+    time.sleep(3)
     # forward()
     # time.sleep(0.5)
 
