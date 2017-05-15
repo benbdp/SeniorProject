@@ -24,9 +24,10 @@ def right(angle):
 def p():
     done = False
     while not done:
-        ser.write(str(200) + str('m,') + str(servo_center) + str('s,'))
+        ser.write(str(200) + str('m,'))
         time.sleep(2)
         done = True
+    stop()
 
 # def r():
 #     forward()
@@ -56,4 +57,3 @@ def main():
 
 if __name__ == "__main__":
     p()
-    stop()
