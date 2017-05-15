@@ -2,7 +2,7 @@ import time
 import serial
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
-servo_center = 82  # servo position to drive straight
+servo_center = 95  # servo position to drive straight
 
 def forward():
     ser.write(str(200) + str('m,') + str(servo_center) + str('s,'))
@@ -19,7 +19,7 @@ def right(angle):
 
 def p():
     forward()
-    time.sleep(2)
+    time.sleep(5)
 
 
 # def r():
@@ -42,10 +42,10 @@ def p():
 
 def main():
     p()
-    r()
-    o()
-    m()
-    stop()
+    # r()
+    # o()
+    # m()
+    # stop()
 
 
 if __name__ == "__main__":
