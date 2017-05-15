@@ -5,7 +5,11 @@ ser = serial.Serial('/dev/ttyACM0', 9600)
 servo_center = 95  # servo position to drive straight
 
 def forward():
-    ser.write(str(200) + str('m,') + str(servo_center) + str('s,'))
+    done = False
+    while not done:
+        ser.write(str(200) + str('m,') + str(servo_center) + str('s,'))
+        time.sleep(2)
+        done = True
 
 # function that will stop the car
 def stop():
