@@ -19,31 +19,26 @@ def right(angle):
 
 def p():
     forward()
-    time.sleep(3)
-    stop()
-    right(10)
-    time.sleep(3)
-    # forward()
-    # time.sleep(0.5)
+    time.sleep(2)
 
 
-def r():
-    forward()
-    time.sleep(1)
-    right(10)
-
-def o():
-    forward()
-    time.sleep(1)
-    right(12)
-    time.sleep(3)
-
-def m():
-    forward()
-    right()
-    left()
-    right()
-    forward()
+# def r():
+#     forward()
+#     time.sleep(1)
+#     right(10)
+#
+# def o():
+#     forward()
+#     time.sleep(1)
+#     right(12)
+#     time.sleep(3)
+#
+# def m():
+#     forward()
+#     right()
+#     left()
+#     right()
+#     forward()
 
 def main():
     p()
